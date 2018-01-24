@@ -844,6 +844,9 @@ namespace TomstForms
         public delegate void TOnAntivandal(evstamp aevs, antivandal avl);
         public TOnAntivandal OnAntivandal;
 
+        public delegate void TOnKeypadTouch(evstamp aevs, int keyCode);
+        public TOnKeypadTouch OnKeypadTouch;
+
         private bool parsedump(int firstfree, ref byte[] image) {
             int curcnt;    // pointer into memory blob
             byte b1, b2, b3, b4;
@@ -933,6 +936,7 @@ namespace TomstForms
                             b3 = image[curcnt];      // keypad number
                             b3 &= 0x0F;
 
+                            OnKeypadTouch?.Invoke(evs, b3);
 
                             //log.Info(String.Format("Touched keypad={0}", b3));
                             //if (processing->Active)

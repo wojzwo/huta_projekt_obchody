@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+## Additional ignores
+# Necessary dlls
+!TomstForms/bin/Debug/ftd2xx.dll
+!TomstForms/bin/Release/ftd2xx.dll
+
 # User-specific files
 *.suo
 *.user

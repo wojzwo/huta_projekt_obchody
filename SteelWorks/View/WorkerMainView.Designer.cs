@@ -1,6 +1,6 @@
-﻿namespace TomstForms
+﻿namespace works
 {
-    partial class fMain
+    partial class WorkerMainView
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkerMainView));
             this.btReadDevice = new System.Windows.Forms.Button();
             this.btOpenAdapter = new System.Windows.Forms.Button();
             this.DebugView = new System.Windows.Forms.ListView();
@@ -77,7 +77,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "fMain";
             this.Text = "Anonimowi Alkoholicy App";
-            this.Load += new System.EventHandler(this.fMain_Load);
+            this.Load += new System.EventHandler(this.BeforeLoad);
             this.ResumeLayout(false);
 
         }

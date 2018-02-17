@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TomstForms
+namespace works
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fMain());
+
+            WorkerMainView workerMainView = new WorkerMainView();
+            WorkerMainController workerMainController = new  WorkerMainController(workerMainView);
+
+            Application.Run(workerMainView);
         }
     }
 }

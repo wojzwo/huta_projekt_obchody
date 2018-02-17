@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomstForms", "TomstForms\TomstForms.csproj", "{CCC69BD3-54CB-4E34-A21A-B4751F9A63F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteelWorks", "SteelWorks\SteelWorks.csproj", "{CCC69BD3-54CB-4E34-A21A-B4751F9A63F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {66BB6641-24A8-4FF4-A02F-1876960E673F}
 	EndGlobalSection
 EndGlobal

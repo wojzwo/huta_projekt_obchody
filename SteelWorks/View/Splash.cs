@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using tomst;
 
-namespace TomstForms
+namespace works
 {
     public partial class Splash : Form
     {
@@ -78,6 +79,10 @@ namespace TomstForms
         {
             if (e.KeyChar == 27)
                 _stopLoop = true;
+        }
+
+        private void labMsg_Click(object sender, EventArgs e) {
+
         }
     }
 }

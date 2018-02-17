@@ -1,4 +1,4 @@
-﻿namespace TomstForms
+﻿namespace works
 {
     partial class Splash
     {
@@ -33,14 +33,16 @@
             // 
             // labMsg
             // 
-            this.labMsg.AutoSize = true;
+            this.labMsg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labMsg.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.labMsg.Location = new System.Drawing.Point(30, 24);
+            this.labMsg.Location = new System.Drawing.Point(12, 9);
             this.labMsg.Name = "labMsg";
-            this.labMsg.Size = new System.Drawing.Size(191, 17);
+            this.labMsg.Size = new System.Drawing.Size(314, 61);
             this.labMsg.TabIndex = 0;
             this.labMsg.Text = "Messages from outside world";
+            this.labMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labMsg.Click += new System.EventHandler(this.labMsg_Click);
             // 
             // Splash
             // 
@@ -55,7 +57,6 @@
             this.Shown += new System.EventHandler(this.Splash_Shown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Splash_KeyPress);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

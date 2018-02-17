@@ -23,7 +23,6 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -31,7 +30,7 @@ using System.Windows.Forms;
 using System.IO;
 
 
-namespace TomstForms
+namespace tomst
 {
     /// <summary>
     /// Class wrapper for FTD2XX.DLL

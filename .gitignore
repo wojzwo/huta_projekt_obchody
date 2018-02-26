@@ -5,12 +5,14 @@
 
 ## Additional ignores
 # Necessary dlls
-!TomstForms/bin/Debug/ftd2xx.dll
-!TomstForms/bin/Release/ftd2xx.dll
+!SteelWorks/bin/Debug/ftd2xx.dll
+!SteelWorks/bin/Release/ftd2xx.dll
 
 #additional extensions
 *.config
 *.manifest
+
+!SteelWorks/App.config
 
 # User-specific files
 *.suo

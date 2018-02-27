@@ -8,10 +8,7 @@
 !SteelWorks/Config/*
 
 #additional extensions
-*.config
 *.manifest
-
-!SteelWorks/App.config
 
 # User-specific files
 *.suo

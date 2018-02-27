@@ -1,0 +1,5 @@
+Dane do bazy danych:
+
+Database: hutadb
+Konto admina: huta_admin
+Has³o admina: jp2g1m3d7

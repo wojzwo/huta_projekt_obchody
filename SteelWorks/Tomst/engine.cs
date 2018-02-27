@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tomst
+namespace Tomst
 {
     public class Tengine
     {

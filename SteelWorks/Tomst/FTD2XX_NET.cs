@@ -30,7 +30,7 @@ using System.Windows.Forms;
 using System.IO;
 
 
-namespace tomst
+namespace Tomst
 {
     /// <summary>
     /// Class wrapper for FTD2XX.DLL

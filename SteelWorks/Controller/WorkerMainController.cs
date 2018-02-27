@@ -1,9 +1,10 @@
-using tomst;
+using Tomst;
 using System.Drawing;
 using System.Windows.Forms;
 using System;
+using SteelWorks.View;
 
-namespace works
+namespace SteelWorks.Controller
 {
     public class WorkerMainController
     {
@@ -24,20 +25,17 @@ namespace works
             try {
                 view_.ToggleButtons(false);
 
-                Splash sp = new Splash();
-                sp.engine = engine_;
-                if (sp.ShowDialog(null) == DialogResult.OK)
-                    view_.AddDebug("Flashlight Id:" + sp.ChipID, Color.White);
-                if (!sp.IsP3) {
-                    sp.Dispose();
+                bool bIsFlashlightRead = WaitForFlashlightTouch(out string chipId);
+                if (!bIsFlashlightRead) {
+                    view_.AddDebug("Couldn't read flashlight", Color.Red);
                     return;
                 }
-                sp.Dispose();
+
+                view_.AddDebug("Flashlight Id:" + chipId, Color.White);
 
                 // get number of events in p3 device
-                int firstfree = 0, bank = 0;
-                if (!engine_.p3_eventcount(out firstfree, out bank)) {
-                    view_.AddDebug("p3_eventcount failed", Color.Red);
+                if (!engine_.p3_eventcount(out int firstfree, out int bank)) {
+                    view_.AddDebug("Couldn't get flashlight event count", Color.Red);
                     return;
                 }
 
@@ -98,6 +96,22 @@ namespace works
 
         private void ParserStart() {
             view_.AddDebug("Start parsing", Color.White);
+        }
+
+        private bool WaitForFlashlightTouch(out string chipId) {
+            const uint MAX_LOOP_COUNT = 100;
+
+            bool bIsDetected = false;
+            bool bIsP3 = false;
+            uint loopCounter = 0;
+
+            do {
+                bIsDetected = engine_.chip_touch(out chipId, out bIsP3);
+                Application.DoEvents();
+                loopCounter++;
+            } while (!bIsDetected && !(loopCounter >= MAX_LOOP_COUNT));
+
+            return (bIsDetected && bIsP3);
         }
     }
 }

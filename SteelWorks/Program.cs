@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
+using SteelWorks.Controller;
+using SteelWorks.View;
 
-namespace works
+namespace SteelWorks
 {
     static class Program
     {

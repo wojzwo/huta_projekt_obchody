@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SteelWorks.Controller;
 
-namespace works
+namespace SteelWorks.View
 {
     public partial class WorkerMainView : Form
     {
@@ -36,6 +37,10 @@ namespace works
         }
 
         private void BeforeLoad(object sender, EventArgs e) {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
 
         }
     }

@@ -4,9 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 ## Additional ignores
-# Necessary dlls
-!SteelWorks/bin/Debug/ftd2xx.dll
-!SteelWorks/bin/Release/ftd2xx.dll
+# Necessary files
+!SteelWorks/Config/*
 
 #additional extensions
 *.config
@@ -24,14 +23,15 @@
 *.userprefs
 
 # Build results
-/[Dd]ebug/*
+[Dd]ebug/*
 [Dd]ebugPublic/
-/[Rr]elease/*
+/Rr]elease/*
 [Rr]eleases/
 x64/
 x86/
 bld/
-/[Bb]in/*
+SteelWorks/[Bb]in/*
+SteelWorks/docs/*
 [Oo]bj/
 [Ll]og/
 

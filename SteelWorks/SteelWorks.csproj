@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CCC69BD3-54CB-4E34-A21A-B4751F9A63F1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SteelWorks</RootNamespace>
     <AssemblyName>SteelWorks</AssemblyName>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.10.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
@@ -58,8 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\WorkerMainController.cs" />
+    <Compile Include="Model\Repository.cs" />
     <Compile Include="Utilities\Config.cs" />
-    <Compile Include="Utilities\DatabaseConnector.cs" />
     <Compile Include="View\WorkerMainView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,9 +113,7 @@
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)Config\* $(ProjectDir)bin\$(Configuration)</PostBuildEvent>

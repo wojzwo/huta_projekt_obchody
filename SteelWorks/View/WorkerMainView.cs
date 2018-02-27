@@ -41,7 +41,7 @@ namespace SteelWorks.View
         }
 
         private void button1_Click(object sender, EventArgs e) {
-
+            controller_.TestConnect();
         }
     }
 }

@@ -2,6 +2,7 @@ using Tomst;
 using System.Drawing;
 using System.Windows.Forms;
 using System;
+using SteelWorks.Model;
 using SteelWorks.View;
 
 namespace SteelWorks.Controller
@@ -10,8 +11,10 @@ namespace SteelWorks.Controller
     {
         private Tengine engine_ = null;
         private WorkerMainView view_ = null;
+        private Repository repo_ = null;
 
-        public WorkerMainController(WorkerMainView view) {
+        public WorkerMainController(WorkerMainView view, Repository repo) {
+            repo_ = repo;
             view_ = view;
             view_.InitController(this);
             engine_ = new Tengine();
@@ -19,6 +22,13 @@ namespace SteelWorks.Controller
 
         ~WorkerMainController() {
             engine_.closedev();
+        }
+
+        public void TestConnect() {
+            view_.AddDebug("Connected successfully to database", Color.GhostWhite);
+            foreach (string s in repo_.GetTest()) {
+                view_.AddDebug(s, Color.AliceBlue);
+            }
         }
 
         public void btReadDevice_Click() {

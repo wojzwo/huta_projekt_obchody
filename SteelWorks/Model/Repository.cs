@@ -6,9 +6,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using SteelWorks.Utilities;
+using SteelWorks_Worker.Utilities;
 
-namespace SteelWorks.Model
+namespace SteelWorks_Worker.Model
 {
     public class Repository
     {
@@ -40,7 +40,7 @@ namespace SteelWorks.Model
             connection_ = new MySqlConnection(connectionString);
 
             try {
-                connection_.Open();
+                //connection_.Open();
             } catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
             }

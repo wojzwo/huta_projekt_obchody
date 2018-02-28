@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SteelWorks.Utilities
+namespace SteelWorks_Worker.Utilities
 {
     public static class Config
     {

@@ -1,6 +1,6 @@
-﻿namespace SteelWorks_Worker.View
+﻿namespace SteelWorks_Admin.View
 {
-    partial class WorkerMainView
+    partial class MainWindowView
     {
         /// <summary>
         /// Required designer variable.
@@ -25,23 +25,33 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkerMainView));
+            this.TestButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // WorkerMainView
+            // TestButton
+            // 
+            this.TestButton.Location = new System.Drawing.Point(13, 13);
+            this.TestButton.Name = "TestButton";
+            this.TestButton.Size = new System.Drawing.Size(259, 23);
+            this.TestButton.TabIndex = 0;
+            this.TestButton.Text = "Log To File";
+            this.TestButton.UseVisualStyleBackColor = true;
+            this.TestButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // MainWindowView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(939, 516);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "WorkerMainView";
-            this.Text = "Anonimowi Alkoholicy App";
-            this.Load += new System.EventHandler(this.BeforeLoad);
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.TestButton);
+            this.Name = "MainWindowView";
+            this.Text = "MainWindowView";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button TestButton;
     }
 }
-

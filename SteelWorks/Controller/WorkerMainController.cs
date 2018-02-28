@@ -2,10 +2,11 @@ using Tomst;
 using System.Drawing;
 using System.Windows.Forms;
 using System;
-using SteelWorks.Model;
-using SteelWorks.View;
+using SteelWorks_Worker.Model;
+using SteelWorks_Worker.Utilities;
+using SteelWorks_Worker.View;
 
-namespace SteelWorks.Controller
+namespace SteelWorks_Worker.Controller
 {
     public class WorkerMainController
     {
@@ -24,33 +25,30 @@ namespace SteelWorks.Controller
             engine_.closedev();
         }
 
-        public void TestConnect() {
-            view_.AddDebug("Connected successfully to database", Color.GhostWhite);
-            foreach (string s in repo_.GetTest()) {
-                view_.AddDebug(s, Color.AliceBlue);
-            }
+        public void btReadDevice_Click() {
+
         }
 
-        public void btReadDevice_Click() {
+        private bool ReadFlashlight() {
             try {
-                view_.ToggleButtons(false);
-
                 bool bIsFlashlightRead = WaitForFlashlightTouch(out string chipId);
                 if (!bIsFlashlightRead) {
-                    view_.AddDebug("Couldn't read flashlight", Color.Red);
-                    return;
+                    Debug.Log("Couldn't read flashlight", LogType.Error);
+                    return false;
                 }
 
-                view_.AddDebug("Flashlight Id:" + chipId, Color.White);
+                Debug.Log("Flashlight Id:" + chipId, LogType.Info);
 
                 // get number of events in p3 device
                 if (!engine_.p3_eventcount(out int firstfree, out int bank)) {
-                    view_.AddDebug("Couldn't get flashlight event count", Color.Red);
-                    return;
+                    Debug.Log("Couldn't get flashlight event count", LogType.Error);
+                    return false;
                 }
 
-                if (firstfree == 0)
-                    return;
+                if (firstfree == 0) {
+                    Debug.Log("No data to be parsed in flashlight", LogType.Warning);
+                    return false;
+                }
 
                 engine_.p3_reconnect();
                 Application.DoEvents();
@@ -66,46 +64,49 @@ namespace SteelWorks.Controller
                 engine_.p3_settime();
                 // and delete sensor
                 engine_.p3_deletesensor();
+            } catch (Exception ex) {
+                Debug.Log("Exception while parsing flashlight || " + ex.ToString(), LogType.Error);
+                return false;
             } finally {
-                view_.ToggleButtons(true);
-                view_.AddDebug("----Read finished----", Color.White);
+                Debug.Log("Flashlight eead finished", LogType.Info);
             }
+
+            return true;
         }
 
-        public void btOpenAdapter_Click() {
+        private bool OpenAdapter() {
             engine_.closedev();
             if (!engine_.opendev()) {
-                view_.AddDebug("Cannot open TMD (adapter)", Color.Red);
-                return;
+                Debug.Log("Cannot open TMD (adapter)", LogType.Error);
+                return false;
             }
 
-            // get adapter number
-            string adapter;
-            if (engine_.adapternumber(out adapter)) {
-                string s = string.Format("Adapter number: {0}", adapter);
-                view_.AddDebug(s, Color.White);
+            if (!engine_.adapternumber(out string adapter)) {
+                Debug.Log("Cannot read adapter number", LogType.Error);
+                return false;
             }
 
-            view_.ToggleButtons(true);
+            Debug.Log("Opened adapter number = " + adapter, LogType.Info);
+            return true;
         }
 
         private void PrintKeypadTouch(Tengine.evstamp evs, int keyCode) {
             string ret = String.Format("{0:D4}.{1:D2}.{2:D2} {3:D2}.{4:D2}.{5:D2} || [Keypad Code = {6:D2}]", evs.year, evs.month, evs.day, evs.hour, evs.minute, evs.second, keyCode);
-            view_.AddDebug(ret, Color.LightYellow);
+            Debug.Log("Parsed keypad || " + ret, LogType.Info);
         }
 
         private void PrintAntivandal(Tengine.evstamp evs, Tengine.antivandal avl) {
             string ret = String.Format("{0:D4}.{1:D2}.{2:D2} {3:D2}.{4:D2}.{5:D2}   [AVT:{6:D2} {7}]", evs.year, evs.month, evs.day, evs.hour, evs.minute, evs.second, avl.evtype, avl.description);
-            view_.AddDebug(ret, Color.LightBlue);
+            Debug.Log("Parsed antivandal || " + ret, LogType.Info);
         }
 
         private void PrintChipTouch(Tengine.evstamp evs, string chipId) {
             string ret = String.Format("{0:D4}.{1:D2}.{2:D2} {3:D2}.{4:D2}.{5:D2} || [ChipID = {6:D2}]", evs.year, evs.month, evs.day, evs.hour, evs.minute, evs.second, chipId);
-            view_.AddDebug(ret, Color.LightGreen);
+            Debug.Log("Parsed chip || " + ret, LogType.Info);
         }
 
         private void ParserStart() {
-            view_.AddDebug("Start parsing", Color.White);
+            Debug.Log("Start parsing flashlight", LogType.Info);
         }
 
         private bool WaitForFlashlightTouch(out string chipId) {

@@ -6,6 +6,7 @@
 ## Additional ignores
 # Necessary files
 !SteelWorks/Config/*
+!SteelWorks_Admin/Config/*
 
 #additional extensions
 *.manifest
@@ -28,7 +29,9 @@ x64/
 x86/
 bld/
 SteelWorks/[Bb]in/*
+SteelWorks_Admin/[Bb]in/*
 SteelWorks/docs/*
+SteelWorks_Admin/docs/*
 [Oo]bj/
 [Ll]og/
 

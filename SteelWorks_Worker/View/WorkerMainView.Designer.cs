@@ -26,26 +26,38 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkerMainView));
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.startUserControl1 = new SteelWorks_Worker.View.StartUserControl();
+            this.startUserControl = new SteelWorks_Worker.View.StartUserControl();
+            this.loadReaderUserControl = new SteelWorks_Worker.View.LoadReaderUserControl();
             this.SuspendLayout();
             // 
-            // startUserControl1
+            // startUserControl
             // 
-            this.startUserControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.startUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.startUserControl1.Location = new System.Drawing.Point(12, 12);
-            this.startUserControl1.Name = "startUserControl1";
-            this.startUserControl1.Size = new System.Drawing.Size(1240, 657);
-            this.startUserControl1.TabIndex = 0;
+            this.startUserControl.BackColor = System.Drawing.Color.White;
+            this.startUserControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.startUserControl.Location = new System.Drawing.Point(12, 12);
+            this.startUserControl.Name = "startUserControl";
+            this.startUserControl.Size = new System.Drawing.Size(1240, 657);
+            this.startUserControl.TabIndex = 0;
+            this.startUserControl.Load += new System.EventHandler(this.startUserControl1_Load_1);
+            // 
+            // loadReaderUserControl
+            // 
+            this.loadReaderUserControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.loadReaderUserControl.Location = new System.Drawing.Point(12, 12);
+            this.loadReaderUserControl.Name = "loadReaderUserControl";
+            this.loadReaderUserControl.Size = new System.Drawing.Size(1240, 657);
+            this.loadReaderUserControl.TabIndex = 0;
             // 
             // WorkerMainView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.startUserControl1);
+            this.Controls.Add(this.startUserControl);
+            this.Controls.Add(this.loadReaderUserControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WorkerMainView";
             this.Text = "Obchody - Pracownik";
@@ -55,9 +67,8 @@
         }
 
         #endregion
-
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private StartUserControl startUserControl1;
+        private StartUserControl startUserControl;
+        private LoadReaderUserControl loadReaderUserControl;
     }
 }
 

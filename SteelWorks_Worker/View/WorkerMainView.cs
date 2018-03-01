@@ -7,14 +7,19 @@ namespace SteelWorks_Worker.View
 {
     public partial class WorkerMainView : Form
     {
-        private WorkerMainController controller_;
+        public WorkerMainController controller;
 
-        public WorkerMainView() {
-            InitializeComponent();
+        public void ChangeUserControlToLoadReader() {
+            startUserControl.Visible = false;
+            loadReaderUserControl.Visible = true;
         }
 
         public void InitController(WorkerMainController controller) {
-            controller_ = controller;
+            this.controller = controller;
+        }
+
+        public WorkerMainView() {
+            InitializeComponent();
         }
 
         private void BeforeLoad(object sender, EventArgs e) {
@@ -26,10 +31,14 @@ namespace SteelWorks_Worker.View
         }
 
         private void StartApp_Click(object sender, EventArgs e) {
-            controller_.OnStartApp();
+            controller.OnStartApp();
         }
 
         private void startUserControl1_Load(object sender, EventArgs e) {
+
+        }
+
+        private void startUserControl1_Load_1(object sender, EventArgs e) {
 
         }
     }

@@ -40,6 +40,8 @@
     <Reference Include="MySql.Data, Version=6.10.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.10.6\lib\net452\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -50,6 +52,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,11 +62,18 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\WorkerMainController.cs" />
     <Compile Include="Model\Repository.cs" />
     <Compile Include="Utilities\Config.cs" />
+    <Compile Include="View\LoadReaderUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\LoadReaderUserControl.Designer.cs">
+      <DependentUpon>LoadReaderUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\StartUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -78,6 +88,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="View\LoadReaderUserControl.resx">
+      <DependentUpon>LoadReaderUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\StartUserControl.resx">
       <DependentUpon>StartUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -120,6 +133,12 @@
     <Content Include="docs\MySqlParameter.xml" />
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
+    <None Include="Resources\loading_bar.gif" />
+    <None Include="Resources\cable-miniusb-usb1.png" />
+    <None Include="Resources\cable-miniusb-usb.png" />
+    <None Include="Resources\cable_image.png" />
+    <None Include="Resources\usb_port.png" />
+    <None Include="Resources\adapter_image.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SteelWorks_Utils\SteelWorks_Utils.csproj">

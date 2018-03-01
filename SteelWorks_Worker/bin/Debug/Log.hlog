@@ -1,0 +1,5 @@
+<TomstError> [03-01-2018 17:51] Attempting to load FTD2XX.DLL from:
+E:\Repos\HutaProjekt\SteelWorks_Worker\bin\Debug
+<TomstError> [03-01-2018 17:51] Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?
+<Error> [03-01-2018 17:51] Cannot open TMD (adapter)
+<Error> [03-01-2018 17:51] Cannot open TMD (adapter)

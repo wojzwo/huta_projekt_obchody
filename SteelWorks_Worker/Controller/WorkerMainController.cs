@@ -15,8 +15,8 @@ namespace SteelWorks_Worker.Controller
         private WorkerMainView view_ = null;
         private Repository repo_ = null;
 
-        public void OnStartApp() {
-            OpenAdapter();
+        public bool OnStartApp() {
+            return OpenAdapter();
         }
 
         public WorkerMainController(WorkerMainView view, Repository repo) {

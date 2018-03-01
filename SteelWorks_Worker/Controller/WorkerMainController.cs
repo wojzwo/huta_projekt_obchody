@@ -19,6 +19,10 @@ namespace SteelWorks_Worker.Controller
             return OpenAdapter();
         }
 
+        public bool OnLoadReader() {
+            return ReadFlashlight();
+        }
+
         public WorkerMainController(WorkerMainView view, Repository repo) {
             repo_ = repo;
             view_ = view;

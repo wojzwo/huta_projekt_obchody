@@ -56,6 +56,7 @@
             this.StartButton.TabIndex = 3;
             this.StartButton.Text = "Wciśnij, by przejść dalej...";
             this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // LoadReaderUserControl
             // 

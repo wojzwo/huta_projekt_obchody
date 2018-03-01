@@ -48,7 +48,6 @@
     <Compile Include="Controller\MainWindowController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\Debug.cs" />
     <Compile Include="View\MainWindowView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +81,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SteelWorks_Utils\SteelWorks_Utils.csproj">
+      <Project>{a2b8c2f0-0b59-490b-be1d-7986a5e3098c}</Project>
+      <Name>SteelWorks_Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

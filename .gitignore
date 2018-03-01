@@ -5,11 +5,12 @@
 
 ## Additional ignores
 # Necessary files
-!SteelWorks/Config/*
+!SteelWorks_Worker/Config/*
 !SteelWorks_Admin/Config/*
 
 #additional extensions
 *.manifest
+*.hlog
 
 # User-specific files
 *.suo
@@ -28,10 +29,12 @@
 x64/
 x86/
 bld/
-SteelWorks/[Bb]in/*
+SteelWorks_Worker/[Bb]in/*
 SteelWorks_Admin/[Bb]in/*
-SteelWorks/docs/*
+SteelWorks/[Bb]in/*
+SteelWorks_Worker/docs/*
 SteelWorks_Admin/docs/*
+SteelWorks/docs/*
 [Oo]bj/
 [Ll]og/
 

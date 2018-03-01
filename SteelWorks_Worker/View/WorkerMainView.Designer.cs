@@ -45,19 +45,21 @@
             // 
             // loadReaderUserControl
             // 
+            this.loadReaderUserControl.BackColor = System.Drawing.Color.White;
             this.loadReaderUserControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.loadReaderUserControl.Location = new System.Drawing.Point(12, 12);
             this.loadReaderUserControl.Name = "loadReaderUserControl";
             this.loadReaderUserControl.Size = new System.Drawing.Size(1240, 657);
             this.loadReaderUserControl.TabIndex = 0;
+            this.loadReaderUserControl.Visible = false;
             // 
             // WorkerMainView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.startUserControl);
             this.Controls.Add(this.loadReaderUserControl);
+            this.Controls.Add(this.startUserControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WorkerMainView";
             this.Text = "Obchody - Pracownik";

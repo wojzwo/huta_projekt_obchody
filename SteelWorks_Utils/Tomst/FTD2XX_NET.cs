@@ -26,12 +26,21 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Forms;
 using System.IO;
-
+using SteelWorks_Utils;
 
 namespace Tomst
 {
+    /// <summary>
+    /// Wrapper class for windows error message box
+    /// </summary>
+    public static class MessageBox
+    {
+        public static void Show(string message) {
+            Debug.Log(message, LogType.TomstError);
+        }
+    }
+
     /// <summary>
     /// Class wrapper for FTD2XX.DLL
     /// </summary>

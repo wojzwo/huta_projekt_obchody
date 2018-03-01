@@ -7,11 +7,12 @@
     <ProjectGuid>{CCC69BD3-54CB-4E34-A21A-B4751F9A63F1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SteelWorks</RootNamespace>
-    <AssemblyName>SteelWorks</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>SteelWorks_Worker</RootNamespace>
+    <AssemblyName>SteelWorks_Worker</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -63,7 +64,12 @@
     <Compile Include="Controller\WorkerMainController.cs" />
     <Compile Include="Model\Repository.cs" />
     <Compile Include="Utilities\Config.cs" />
-    <Compile Include="Utilities\Debug.cs" />
+    <Compile Include="View\StartUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\StartUserControl.Designer.cs">
+      <DependentUpon>StartUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\WorkerMainView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,8 +78,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tomst\engine.cs" />
-    <Compile Include="Tomst\FTD2XX_NET.cs" />
+    <EmbeddedResource Include="View\StartUserControl.resx">
+      <DependentUpon>StartUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\WorkerMainView.resx">
       <DependentUpon>WorkerMainView.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,7 +121,12 @@
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SteelWorks_Utils\SteelWorks_Utils.csproj">
+      <Project>{a2b8c2f0-0b59-490b-be1d-7986a5e3098c}</Project>
+      <Name>SteelWorks_Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)Config\* $(ProjectDir)bin\$(Configuration)</PostBuildEvent>

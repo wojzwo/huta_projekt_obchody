@@ -20,5 +20,17 @@ namespace SteelWorks_Worker.View
         private void BeforeLoad(object sender, EventArgs e) {
 
         }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e) {
+
+        }
+
+        private void StartApp_Click(object sender, EventArgs e) {
+            controller_.OnStartApp();
+        }
+
+        private void startUserControl1_Load(object sender, EventArgs e) {
+
+        }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using SteelWorks_Worker.Model;
 using SteelWorks_Worker.Utilities;
 using SteelWorks_Worker.View;
+using SteelWorks_Utils;
 
 namespace SteelWorks_Worker.Controller
 {
@@ -13,6 +14,10 @@ namespace SteelWorks_Worker.Controller
         private Tengine engine_ = null;
         private WorkerMainView view_ = null;
         private Repository repo_ = null;
+
+        public void OnStartApp() {
+            OpenAdapter();
+        }
 
         public WorkerMainController(WorkerMainView view, Repository repo) {
             repo_ = repo;
@@ -23,10 +28,6 @@ namespace SteelWorks_Worker.Controller
 
         ~WorkerMainController() {
             engine_.closedev();
-        }
-
-        public void btReadDevice_Click() {
-
         }
 
         private bool ReadFlashlight() {

@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SteelWorks_Admin.Utilities
+namespace SteelWorks_Utils
 {
     public enum LogType
     {
         Debug,
         Info,
         Warning,
-        Error
+        Error,
+        TomstError
     }
 
     public static class Debug

@@ -18,7 +18,9 @@ namespace SteelWorks_Worker
             Repository repository = new Repository();
 
             WorkerMainView workerMainView = new WorkerMainView();
-            WorkerMainController workerMainController = new  WorkerMainController(workerMainView, repository);
+            WorkerDataView workerDataView = new WorkerDataView();
+            WorkerDataController workerDataController = new WorkerDataController(repository);
+            WorkerMainController workerMainController = new  WorkerMainController(workerMainView, workerDataController);
 
             Application.Run(workerMainView);
 

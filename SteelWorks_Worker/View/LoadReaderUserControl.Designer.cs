@@ -27,6 +27,13 @@
         private void InitializeComponent() {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.StartButton = new System.Windows.Forms.Button();
+            this.ErrorBox = new System.Windows.Forms.TextBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -50,22 +57,80 @@
             this.StartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.StartButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.StartButton.Location = new System.Drawing.Point(19, 559);
+            this.StartButton.Location = new System.Drawing.Point(19, 587);
             this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(1202, 76);
+            this.StartButton.Size = new System.Drawing.Size(1202, 48);
             this.StartButton.TabIndex = 3;
-            this.StartButton.Text = "Wciśnij, by przejść dalej...";
+            this.StartButton.Text = "Wciśnij, trzymając czytnik na adapterze...\r\n";
             this.StartButton.UseVisualStyleBackColor = true;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // ErrorBox
+            // 
+            this.ErrorBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ErrorBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.ErrorBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ErrorBox.ForeColor = System.Drawing.Color.Red;
+            this.ErrorBox.Location = new System.Drawing.Point(19, 550);
+            this.ErrorBox.Name = "ErrorBox";
+            this.ErrorBox.ReadOnly = true;
+            this.ErrorBox.Size = new System.Drawing.Size(1202, 31);
+            this.ErrorBox.TabIndex = 9;
+            this.ErrorBox.Text = "Nie udało się odczytać danych. Podnieś czytnik, przyłóż go ponownie i naciśnij pr" +
+    "zycisk poniżej\r\n";
+            this.ErrorBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ErrorBox.Visible = false;
+            this.ErrorBox.TextChanged += new System.EventHandler(this.ErrorBox_TextChanged);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pictureBox4.Image = global::SteelWorks_Worker.Properties.Resources._5_2_arrow_transparent;
+            this.pictureBox4.Location = new System.Drawing.Point(547, 251);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(254, 96);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox4.TabIndex = 11;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pictureBox3.Image = global::SteelWorks_Worker.Properties.Resources.adapter_and_reader1;
+            this.pictureBox3.Location = new System.Drawing.Point(835, 91);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(331, 395);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 10;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox1.Image = global::SteelWorks_Worker.Properties.Resources.adapter_image;
+            this.pictureBox1.Location = new System.Drawing.Point(135, 91);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(374, 405);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
             // 
             // LoadReaderUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pictureBox4);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.ErrorBox);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.textBox1);
             this.Name = "LoadReaderUserControl";
             this.Size = new System.Drawing.Size(1240, 657);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -75,5 +140,9 @@
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox ErrorBox;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }

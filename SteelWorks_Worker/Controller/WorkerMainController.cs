@@ -2,6 +2,7 @@ using Tomst;
 using System.Drawing;
 using System.Windows.Forms;
 using System;
+using System.Collections.Generic;
 using SteelWorks_Worker.Model;
 using SteelWorks_Worker.Utilities;
 using SteelWorks_Worker.View;
@@ -11,9 +12,17 @@ namespace SteelWorks_Worker.Controller
 {
     public class WorkerMainController
     {
+        private List<ChipData> chips_ = new List<ChipData>();
+
         private Tengine engine_ = null;
         private WorkerMainView view_ = null;
-        private Repository repo_ = null;
+        private WorkerDataController workerDataController_ = null;
+
+        public void ChangeToDataMode() {
+            workerDataController_.Activate(view_);
+            workerDataController_.InitData();
+            view_.Hide();
+        }
 
         public bool OnStartApp() {
             return OpenAdapter();
@@ -23,8 +32,8 @@ namespace SteelWorks_Worker.Controller
             return ReadFlashlight();
         }
 
-        public WorkerMainController(WorkerMainView view, Repository repo) {
-            repo_ = repo;
+        public WorkerMainController(WorkerMainView view, WorkerDataController workerDataController) {
+            workerDataController_ = workerDataController;
             view_ = view;
             view_.InitController(this);
             engine_ = new Tengine();
@@ -62,18 +71,22 @@ namespace SteelWorks_Worker.Controller
                 engine_.OnChipTouch = PrintChipTouch;
                 engine_.OnAntivandal = PrintAntivandal;
                 engine_.OnKeypadTouch = PrintKeypadTouch;
-                if (engine_.p3_readsensor(firstfree))
-                    engine_.p3_beep_ok();
+                if (!engine_.p3_readsensor(firstfree)) {
+                    Debug.Log("Couldn't read flashlight device", LogType.Error);
+                    return false;
+                }
 
                 // set system time 
                 engine_.p3_settime();
                 // and delete sensor
                 engine_.p3_deletesensor();
+                // beep
+                engine_.p3_beep_ok();
             } catch (Exception ex) {
                 Debug.Log("Exception while parsing flashlight || " + ex.ToString(), LogType.Error);
                 return false;
             } finally {
-                Debug.Log("Flashlight eead finished", LogType.Info);
+                Debug.Log("Flashlight read finished", LogType.Info);
             }
 
             return true;

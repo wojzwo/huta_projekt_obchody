@@ -63,6 +63,36 @@ namespace SteelWorks_Worker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _5_2_arrow_transparent {
+            get {
+                object obj = ResourceManager.GetObject("5-2-arrow-transparent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap adapter_and_reader {
+            get {
+                object obj = ResourceManager.GetObject("adapter_and_reader", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap adapter_and_reader1 {
+            get {
+                object obj = ResourceManager.GetObject("adapter_and_reader1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap adapter_image {
             get {
                 object obj = ResourceManager.GetObject("adapter_image", resourceCulture);
@@ -83,16 +113,6 @@ namespace SteelWorks_Worker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap cable_miniusb_usb {
-            get {
-                object obj = ResourceManager.GetObject("cable-miniusb-usb", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap cable_miniusb_usb1 {
             get {
                 object obj = ResourceManager.GetObject("cable-miniusb-usb1", resourceCulture);
@@ -106,6 +126,16 @@ namespace SteelWorks_Worker.Properties {
         internal static System.Drawing.Bitmap loading_bar {
             get {
                 object obj = ResourceManager.GetObject("loading_bar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reader_image {
+            get {
+                object obj = ResourceManager.GetObject("reader_image", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

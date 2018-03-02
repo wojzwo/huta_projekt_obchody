@@ -735,7 +735,13 @@ namespace Tomst
             public byte second, minute, hour, day, month;
             public ushort year;
             public string chipId;
+
+            public DateTime ToDateTime() {
+                DateTime date = new DateTime(year, month, day, hour, minute, second);
+                return date;
+            }
         }
+
         public evstamp evs;   // timestamp
 
         private void clearstamp(evstamp evs) {

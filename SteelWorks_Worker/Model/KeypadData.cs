@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace SteelWorks_Worker.Model
 {
-    public class ChipData
+    public class KeypadData
     {
         public DateTime date;
-        public string id;
+        public int value;
         public bool bIsValid;
 
-        public ChipData() {
+        public KeypadData() {
             bIsValid = false;
         }
 
-        public ChipData(DateTime date, string id) {
+        public KeypadData(DateTime date, int value) {
             this.date = date;
-            this.id = id;
+            this.value = value;
             bIsValid = true;
         }
     }

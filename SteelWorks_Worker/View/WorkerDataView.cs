@@ -8,12 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SteelWorks_Worker.Controller;
+using SteelWorks_Worker.Model;
 
 namespace SteelWorks_Worker.View
 {
     public partial class WorkerDataView : Form
     {
         private WorkerDataController controller_ = null;
+
+        public void AddEmployee(ChipData data) {
+            dataUserControl.AddEmployee(data);
+        }
 
         public void AddData(DataItemUserControl control) {
             dataUserControl.AddData(control);

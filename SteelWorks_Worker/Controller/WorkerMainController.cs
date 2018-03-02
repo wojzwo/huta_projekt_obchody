@@ -12,7 +12,11 @@ namespace SteelWorks_Worker.Controller
 {
     public class WorkerMainController
     {
+        private ChipData employee_;
         private List<ChipData> chips_ = new List<ChipData>();
+        private List<KeypadData> keypads_ = new List<KeypadData>();
+        private bool bLastParsedChip = false;
+        private bool bFirstParse = true;
 
         private Tengine engine_ = null;
         private WorkerMainView view_ = null;
@@ -20,7 +24,7 @@ namespace SteelWorks_Worker.Controller
 
         public void ChangeToDataMode() {
             workerDataController_.Activate(view_);
-            workerDataController_.InitData();
+            workerDataController_.InitData(employee_, chips_, keypads_);
             view_.Hide();
         }
 
@@ -109,8 +113,16 @@ namespace SteelWorks_Worker.Controller
         }
 
         private void PrintKeypadTouch(Tengine.evstamp evs, int keyCode) {
-            string ret = String.Format("{0:D4}.{1:D2}.{2:D2} {3:D2}.{4:D2}.{5:D2} || [Keypad Code = {6:D2}]", evs.year, evs.month, evs.day, evs.hour, evs.minute, evs.second, keyCode);
-            Debug.Log("Parsed keypad || " + ret, LogType.Info);
+            DateTime date = evs.ToDateTime();
+            string log = String.Format(date.ToString("G") + " || [Keypad Code = " + keyCode.ToString() + "]");
+            Debug.Log("Parsed keypad || " + log, LogType.Info);
+
+            keypads_.Add(new KeypadData(date, keyCode));
+            if (!bLastParsedChip) {
+                chips_.Add(new ChipData());
+            }
+
+            bLastParsedChip = false;
         }
 
         private void PrintAntivandal(Tengine.evstamp evs, Tengine.antivandal avl) {
@@ -119,8 +131,21 @@ namespace SteelWorks_Worker.Controller
         }
 
         private void PrintChipTouch(Tengine.evstamp evs, string chipId) {
-            string ret = String.Format("{0:D4}.{1:D2}.{2:D2} {3:D2}.{4:D2}.{5:D2} || [ChipID = {6:D2}]", evs.year, evs.month, evs.day, evs.hour, evs.minute, evs.second, chipId);
-            Debug.Log("Parsed chip || " + ret, LogType.Info);
+            DateTime date = evs.ToDateTime();
+            string log = String.Format(date.ToString("G") + " || [Chip id = " + chipId + "]");
+            Debug.Log("Parsed chip || " + log, LogType.Info);
+
+            if (bFirstParse) {
+                employee_ = new ChipData(date, chipId);
+                bFirstParse = false;
+            } else {
+                chips_.Add(new ChipData(date, chipId));
+                if (bLastParsedChip) {
+                    keypads_.Add(new KeypadData());
+                }
+
+                bLastParsedChip = true;
+            }
         }
 
         private void ParserStart() {

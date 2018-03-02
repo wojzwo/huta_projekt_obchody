@@ -28,7 +28,7 @@
             this.Place = new System.Windows.Forms.Button();
             this.Mark = new System.Windows.Forms.Button();
             this.Comment = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.Date = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Place
@@ -66,24 +66,24 @@
             this.Comment.Text = "Komentarz";
             this.Comment.UseVisualStyleBackColor = false;
             // 
-            // button4
+            // Date
             // 
-            this.button4.BackColor = System.Drawing.Color.LightGray;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button4.Location = new System.Drawing.Point(4, 4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(142, 33);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "02/04/2018 13:58";
-            this.button4.UseVisualStyleBackColor = false;
+            this.Date.BackColor = System.Drawing.Color.LightGray;
+            this.Date.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Date.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Date.Location = new System.Drawing.Point(4, 4);
+            this.Date.Name = "Date";
+            this.Date.Size = new System.Drawing.Size(142, 33);
+            this.Date.TabIndex = 4;
+            this.Date.Text = "02/04/2018 13:58";
+            this.Date.UseVisualStyleBackColor = false;
             // 
             // DataItemUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.Date);
             this.Controls.Add(this.Comment);
             this.Controls.Add(this.Mark);
             this.Controls.Add(this.Place);
@@ -98,6 +98,6 @@
         private System.Windows.Forms.Button Place;
         private System.Windows.Forms.Button Mark;
         private System.Windows.Forms.Button Comment;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button Date;
     }
 }

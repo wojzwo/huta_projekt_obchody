@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SteelWorks_Utils;
 using SteelWorks_Worker.Model;
 using SteelWorks_Worker.View;
 
@@ -26,11 +27,34 @@ namespace SteelWorks_Worker.Controller
             view_.WindowState = view.WindowState;
         }
 
-        public void InitData() {
+        public void InitData(ChipData employee, List<ChipData> chips, List<KeypadData> keypads) {
             if (Tester.bIsInTestMode) {
+                employee = new ChipData(DateTime.Now, "TestEmployee");
+                chips = new List<ChipData>();
+                chips.Add(new ChipData(DateTime.Now, "C1"));
+                chips.Add(new ChipData());
+                chips.Add(new ChipData(DateTime.Now, "C3"));
+
+                keypads = new List<KeypadData>();
+                keypads.Add(new KeypadData(DateTime.Now, 1));
+                keypads.Add(new KeypadData(DateTime.Now, 2));
+                keypads.Add(new KeypadData());
+            }
+
+            while (chips.Count < keypads.Count) {
+                Debug.Log("Too few chips as comapred to keypads detected", LogType.Error);
+            }
+
+            while (keypads.Count < chips.Count) {
+                Debug.Log("Too few keypads as compared to chips detected", LogType.Warning);
+                keypads.Add(new KeypadData());
+            }
+
+            view_.AddEmployee(employee);
+            for (int i = 0; i < chips.Count; i++) {
                 DataItemUserControl c = new DataItemUserControl();
+                c.Init(chips[i], keypads[i]);
                 view_.AddData(c);
-                view_.AddData(new DataItemUserControl());
             }
         }
 

@@ -68,6 +68,7 @@
     <Compile Include="Controller\WorkerDataController.cs" />
     <Compile Include="Controller\WorkerMainController.cs" />
     <Compile Include="Model\ChipData.cs" />
+    <Compile Include="Model\KeypadData.cs" />
     <Compile Include="Model\Repository.cs" />
     <Compile Include="Model\Tester.cs" />
     <Compile Include="Utilities\Config.cs" />

@@ -26,9 +26,23 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkerMainView));
-            this.startUserControl = new SteelWorks_Worker.View.StartUserControl();
             this.loadReaderUserControl = new SteelWorks_Worker.View.LoadReaderUserControl();
+            this.startUserControl = new SteelWorks_Worker.View.StartUserControl();
             this.SuspendLayout();
+            // 
+            // loadReaderUserControl
+            // 
+            this.loadReaderUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loadReaderUserControl.BackColor = System.Drawing.Color.White;
+            this.loadReaderUserControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.loadReaderUserControl.Location = new System.Drawing.Point(12, 12);
+            this.loadReaderUserControl.Name = "loadReaderUserControl";
+            this.loadReaderUserControl.Size = new System.Drawing.Size(1240, 657);
+            this.loadReaderUserControl.TabIndex = 0;
+            this.loadReaderUserControl.Visible = false;
+            this.loadReaderUserControl.Load += new System.EventHandler(this.loadReaderUserControl_Load);
             // 
             // startUserControl
             // 
@@ -42,16 +56,6 @@
             this.startUserControl.Size = new System.Drawing.Size(1240, 657);
             this.startUserControl.TabIndex = 0;
             this.startUserControl.Load += new System.EventHandler(this.startUserControl1_Load_1);
-            // 
-            // loadReaderUserControl
-            // 
-            this.loadReaderUserControl.BackColor = System.Drawing.Color.White;
-            this.loadReaderUserControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.loadReaderUserControl.Location = new System.Drawing.Point(12, 12);
-            this.loadReaderUserControl.Name = "loadReaderUserControl";
-            this.loadReaderUserControl.Size = new System.Drawing.Size(1240, 657);
-            this.loadReaderUserControl.TabIndex = 0;
-            this.loadReaderUserControl.Visible = false;
             // 
             // WorkerMainView
             // 

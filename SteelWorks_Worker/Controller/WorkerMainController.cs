@@ -2,6 +2,7 @@ using Tomst;
 using System.Drawing;
 using System.Windows.Forms;
 using System;
+using System.Collections.Generic;
 using SteelWorks_Worker.Model;
 using SteelWorks_Worker.Utilities;
 using SteelWorks_Worker.View;
@@ -11,9 +12,21 @@ namespace SteelWorks_Worker.Controller
 {
     public class WorkerMainController
     {
+        private ChipData employee_;
+        private List<ChipData> chips_ = new List<ChipData>();
+        private List<KeypadData> keypads_ = new List<KeypadData>();
+        private bool bLastParsedChip = false;
+        private bool bFirstParse = true;
+
         private Tengine engine_ = null;
         private WorkerMainView view_ = null;
-        private Repository repo_ = null;
+        private WorkerDataController workerDataController_ = null;
+
+        public void ChangeToDataMode() {
+            workerDataController_.Activate(view_);
+            workerDataController_.InitData(employee_, chips_, keypads_);
+            view_.Hide();
+        }
 
         public bool OnStartApp() {
             return OpenAdapter();
@@ -23,8 +36,8 @@ namespace SteelWorks_Worker.Controller
             return ReadFlashlight();
         }
 
-        public WorkerMainController(WorkerMainView view, Repository repo) {
-            repo_ = repo;
+        public WorkerMainController(WorkerMainView view, WorkerDataController workerDataController) {
+            workerDataController_ = workerDataController;
             view_ = view;
             view_.InitController(this);
             engine_ = new Tengine();
@@ -62,18 +75,22 @@ namespace SteelWorks_Worker.Controller
                 engine_.OnChipTouch = PrintChipTouch;
                 engine_.OnAntivandal = PrintAntivandal;
                 engine_.OnKeypadTouch = PrintKeypadTouch;
-                if (engine_.p3_readsensor(firstfree))
-                    engine_.p3_beep_ok();
+                if (!engine_.p3_readsensor(firstfree)) {
+                    Debug.Log("Couldn't read flashlight device", LogType.Error);
+                    return false;
+                }
 
                 // set system time 
                 engine_.p3_settime();
                 // and delete sensor
                 engine_.p3_deletesensor();
+                // beep
+                engine_.p3_beep_ok();
             } catch (Exception ex) {
                 Debug.Log("Exception while parsing flashlight || " + ex.ToString(), LogType.Error);
                 return false;
             } finally {
-                Debug.Log("Flashlight eead finished", LogType.Info);
+                Debug.Log("Flashlight read finished", LogType.Info);
             }
 
             return true;
@@ -96,8 +113,16 @@ namespace SteelWorks_Worker.Controller
         }
 
         private void PrintKeypadTouch(Tengine.evstamp evs, int keyCode) {
-            string ret = String.Format("{0:D4}.{1:D2}.{2:D2} {3:D2}.{4:D2}.{5:D2} || [Keypad Code = {6:D2}]", evs.year, evs.month, evs.day, evs.hour, evs.minute, evs.second, keyCode);
-            Debug.Log("Parsed keypad || " + ret, LogType.Info);
+            DateTime date = evs.ToDateTime();
+            string log = String.Format(date.ToString("G") + " || [Keypad Code = " + keyCode.ToString() + "]");
+            Debug.Log("Parsed keypad || " + log, LogType.Info);
+
+            keypads_.Add(new KeypadData(date, keyCode));
+            if (!bLastParsedChip) {
+                chips_.Add(new ChipData());
+            }
+
+            bLastParsedChip = false;
         }
 
         private void PrintAntivandal(Tengine.evstamp evs, Tengine.antivandal avl) {
@@ -106,8 +131,21 @@ namespace SteelWorks_Worker.Controller
         }
 
         private void PrintChipTouch(Tengine.evstamp evs, string chipId) {
-            string ret = String.Format("{0:D4}.{1:D2}.{2:D2} {3:D2}.{4:D2}.{5:D2} || [ChipID = {6:D2}]", evs.year, evs.month, evs.day, evs.hour, evs.minute, evs.second, chipId);
-            Debug.Log("Parsed chip || " + ret, LogType.Info);
+            DateTime date = evs.ToDateTime();
+            string log = String.Format(date.ToString("G") + " || [Chip id = " + chipId + "]");
+            Debug.Log("Parsed chip || " + log, LogType.Info);
+
+            if (bFirstParse) {
+                employee_ = new ChipData(date, chipId);
+                bFirstParse = false;
+            } else {
+                chips_.Add(new ChipData(date, chipId));
+                if (bLastParsedChip) {
+                    keypads_.Add(new KeypadData());
+                }
+
+                bLastParsedChip = true;
+            }
         }
 
         private void ParserStart() {

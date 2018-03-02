@@ -9,6 +9,11 @@ namespace SteelWorks_Worker.View
     {
         public WorkerMainController controller;
 
+        public void ChangeUserControlToProcessData() {
+            loadReaderUserControl.Visible = false;
+            controller.ChangeToDataMode();
+        }
+
         public void ChangeUserControlToLoadReader() {
             startUserControl.Visible = false;
             loadReaderUserControl.Visible = true;
@@ -30,15 +35,15 @@ namespace SteelWorks_Worker.View
 
         }
 
-        private void StartApp_Click(object sender, EventArgs e) {
-            controller.OnStartApp();
-        }
-
         private void startUserControl1_Load(object sender, EventArgs e) {
 
         }
 
         private void startUserControl1_Load_1(object sender, EventArgs e) {
+
+        }
+
+        private void loadReaderUserControl_Load(object sender, EventArgs e) {
 
         }
     }

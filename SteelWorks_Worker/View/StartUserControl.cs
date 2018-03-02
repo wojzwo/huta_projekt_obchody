@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SteelWorks_Utils;
+using SteelWorks_Worker.Model;
 
 namespace SteelWorks_Worker.View
 {
@@ -23,6 +24,11 @@ namespace SteelWorks_Worker.View
             WorkerMainView view = (WorkerMainView) this.ParentForm;
             if (view == null) {
                 Debug.Log("Couldn't retrieve WorkerMainView", LogType.Error);
+                return;
+            }
+
+            if (Tester.bIsInTestMode) {
+                view.ChangeUserControlToLoadReader();
                 return;
             }
 

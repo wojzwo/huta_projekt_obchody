@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SteelWorks_Utils.Model;
 using SteelWorks_Worker.Model;
 
 namespace SteelWorks_Worker.View
@@ -44,6 +45,11 @@ namespace SteelWorks_Worker.View
             InitializeComponent();
         }
 
-
+        private void button1_Click(object sender, EventArgs e) {
+            DB_Chip c = new DB_Chip();
+            c.chipId = "ART";
+            c.bIsEmployee = true;
+            Repository.instance.InsertChip(c);
+        }
     }
 }

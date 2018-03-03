@@ -53,6 +53,8 @@ namespace SteelWorks_Worker.View
             this.Panel.Controls.Add(this.Mark);
             this.Panel.Controls.Add(this.Place);
             this.Panel.ExpandedHeight = 103;
+            //            this.Panel.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Panel.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Panel.IsExpanded = true;
             this.Panel.Location = new System.Drawing.Point(4, 3);
             this.Panel.Name = "Panel";

@@ -37,9 +37,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.10.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.10.6\lib\net452\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -69,9 +66,7 @@
     <Compile Include="Controller\WorkerMainController.cs" />
     <Compile Include="Model\ChipData.cs" />
     <Compile Include="Model\KeypadData.cs" />
-    <Compile Include="Model\Repository.cs" />
     <Compile Include="Model\Tester.cs" />
-    <Compile Include="Utilities\Config.cs" />
     <Compile Include="View\DataItemUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,7 +134,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\SteelWorks_Worker.Controller.WorkerMainController.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -177,6 +171,10 @@
     <None Include="Resources\adapter_image.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MakarovDev.ExpandCollapsePanel\MakarovDev.ExpandCollapsePanel.csproj">
       <Project>{be76a6fe-225f-4287-9ca0-231f5af4cdc1}</Project>
       <Name>MakarovDev.ExpandCollapsePanel</Name>

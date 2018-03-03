@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SteelWorks_Utils;
+using SteelWorks_Utils.Model;
 using SteelWorks_Worker.Model;
 using SteelWorks_Worker.View;
 

@@ -28,7 +28,7 @@ namespace SteelWorks_Worker.View
         /// </summary>
         private void InitializeComponent() {
             this.WorkerName = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SendButton = new System.Windows.Forms.Button();
             this.ErrorBox = new System.Windows.Forms.TextBox();
             this.MainTable = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
@@ -50,20 +50,21 @@ namespace SteelWorks_Worker.View
             this.WorkerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.WorkerName.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // SendButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.SendButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button1.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Location = new System.Drawing.Point(15, 604);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(1202, 40);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.SendButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.SendButton.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
+            this.SendButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SendButton.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.SendButton.Location = new System.Drawing.Point(15, 604);
+            this.SendButton.Name = "SendButton";
+            this.SendButton.Size = new System.Drawing.Size(1202, 40);
+            this.SendButton.TabIndex = 5;
+            this.SendButton.Text = "Wyślij raport";
+            this.SendButton.UseVisualStyleBackColor = false;
+            this.SendButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // ErrorBox
             // 
@@ -106,7 +107,7 @@ namespace SteelWorks_Worker.View
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Controls.Add(this.MainTable);
             this.Controls.Add(this.ErrorBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.SendButton);
             this.Controls.Add(this.WorkerName);
             this.Name = "ProcessDataUserControl";
             this.Size = new System.Drawing.Size(1240, 657);
@@ -117,7 +118,7 @@ namespace SteelWorks_Worker.View
 
         #endregion
         private System.Windows.Forms.Button WorkerName;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.TextBox ErrorBox;
         private System.Windows.Forms.TableLayoutPanel MainTable;
     }

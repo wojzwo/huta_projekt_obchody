@@ -21,7 +21,7 @@ namespace MasterServer
 	            cmd.ExecuteNonQuery();
 	            Logger.Append("Inserting chip...", true);
             } catch (MySqlException ex) {
-	            Logger.Append("Couldn't insert chip\n" + ex.Message, true);
+	            Logger.Append("Couldn't insert chip || " + ex.Message, true);
 	        }
 	    }
 

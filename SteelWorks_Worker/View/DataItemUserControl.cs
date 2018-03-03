@@ -22,8 +22,15 @@ namespace SteelWorks_Worker.View
 
         private ProcessDataUserControl control_= null;
 
+        public void Expand() {
+            control_.CollapsePrevious(this);
+            Panel.IsExpanded = true;
+            Size = new Size(Size.Width, EXPANDED_HEIGHT);
+        }
+
         public void Collapse() {
             Panel.IsExpanded = false;
+            Size = new Size(Size.Width, COLLAPSED_HEIGHT);
         }
 
         public void SetParent(ProcessDataUserControl control) {

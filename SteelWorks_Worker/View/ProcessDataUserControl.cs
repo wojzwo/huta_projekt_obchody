@@ -45,7 +45,28 @@ namespace SteelWorks_Worker.View
             InitializeComponent();
         }
 
+        private void ExpandError(DataItemUserControl toExpand) {
+            toExpand.Expand();
+        }
+
+        private bool ValidatePanel() {
+            foreach (DataItemUserControl c in MainTable.Controls) {
+                if (!c.bIsValid) {
+                    ExpandError(c);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void button1_Click(object sender, EventArgs e) {
+            bool isValid = ValidatePanel();
+            if (!isValid) {
+                ErrorBox.Visible = true;
+                return;
+            }
+
             DB_Chip c = new DB_Chip();
             c.chipId = "ART";
             c.bIsEmployee = true;

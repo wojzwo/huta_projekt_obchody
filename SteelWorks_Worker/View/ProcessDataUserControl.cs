@@ -13,17 +13,28 @@ namespace SteelWorks_Worker.View
 {
     public partial class ProcessDataUserControl : UserControl
     {
+        private DataItemUserControl currentExpanded_ = null;
+
+        public void CollapsePrevious(DataItemUserControl newExpanded) {
+            if (currentExpanded_ != newExpanded) {
+                currentExpanded_?.Collapse();
+            }
+
+            currentExpanded_ = newExpanded;
+        }
+
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
                 WorkerName.Text = "Pracownik: " + data.id;
-                WorkerName.FlatAppearance.BorderColor = Color.Green;
+                WorkerName.BackColor = Color.Green;
             } else {
                 WorkerName.Text = "Pracownik: ???";
-                WorkerName.FlatAppearance.BorderColor = Color.Red;
+                WorkerName.BackColor = Color.Red;
             }
         }
 
         public void AddData(DataItemUserControl control) {
+            control.SetParent(this);
             MainTable.RowCount++;
             MainTable.Controls.Add(control, 0, MainTable.RowCount - 1);
             MainTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));

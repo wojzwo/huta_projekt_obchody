@@ -165,6 +165,7 @@
     <Content Include="docs\MySqlParameter.xml" />
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
+    <None Include="Resources\Button.png" />
     <None Include="Resources\5-2-arrow-transparent.png" />
     <None Include="Resources\adapter_and_reader.png" />
     <None Include="Resources\adapter_and_reader.jpg" />
@@ -176,6 +177,10 @@
     <None Include="Resources\adapter_image.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MakarovDev.ExpandCollapsePanel\MakarovDev.ExpandCollapsePanel.csproj">
+      <Project>{be76a6fe-225f-4287-9ca0-231f5af4cdc1}</Project>
+      <Name>MakarovDev.ExpandCollapsePanel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SteelWorks_Utils\SteelWorks_Utils.csproj">
       <Project>{a2b8c2f0-0b59-490b-be1d-7986a5e3098c}</Project>
       <Name>SteelWorks_Utils</Name>

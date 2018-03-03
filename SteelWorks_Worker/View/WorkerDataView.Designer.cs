@@ -34,7 +34,7 @@
             this.dataUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataUserControl.BackColor = System.Drawing.Color.White;
+            this.dataUserControl.BackColor = System.Drawing.SystemColors.ControlLight;
             this.dataUserControl.Location = new System.Drawing.Point(12, 12);
             this.dataUserControl.Name = "dataUserControl";
             this.dataUserControl.Size = new System.Drawing.Size(1240, 657);

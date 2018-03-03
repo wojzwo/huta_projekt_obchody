@@ -7,23 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SteelWorks_Utils.Model;
 using SteelWorks_Worker.Model;
 
 namespace SteelWorks_Worker.View
 {
     public partial class ProcessDataUserControl : UserControl
     {
+        private DataItemUserControl currentExpanded_ = null;
+
+        public void CollapsePrevious(DataItemUserControl newExpanded) {
+            if (currentExpanded_ != newExpanded) {
+                currentExpanded_?.Collapse();
+            }
+
+            currentExpanded_ = newExpanded;
+        }
+
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
                 WorkerName.Text = "Pracownik: " + data.id;
-                WorkerName.FlatAppearance.BorderColor = Color.Green;
+                WorkerName.BackColor = Color.Green;
             } else {
                 WorkerName.Text = "Pracownik: ???";
-                WorkerName.FlatAppearance.BorderColor = Color.Red;
+                WorkerName.BackColor = Color.Red;
             }
         }
 
         public void AddData(DataItemUserControl control) {
+            control.SetParent(this);
             MainTable.RowCount++;
             MainTable.Controls.Add(control, 0, MainTable.RowCount - 1);
             MainTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));
@@ -33,6 +45,11 @@ namespace SteelWorks_Worker.View
             InitializeComponent();
         }
 
-
+        private void button1_Click(object sender, EventArgs e) {
+            DB_Chip c = new DB_Chip();
+            c.chipId = "ART";
+            c.bIsEmployee = true;
+            Repository.instance.InsertChip(c);
+        }
     }
 }

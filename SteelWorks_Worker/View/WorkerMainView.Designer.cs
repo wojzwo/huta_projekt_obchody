@@ -35,7 +35,7 @@
             this.loadReaderUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.loadReaderUserControl.BackColor = System.Drawing.Color.White;
+            this.loadReaderUserControl.BackColor = System.Drawing.SystemColors.Control;
             this.loadReaderUserControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.loadReaderUserControl.Location = new System.Drawing.Point(12, 12);
             this.loadReaderUserControl.Name = "loadReaderUserControl";
@@ -49,7 +49,7 @@
             this.startUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.startUserControl.BackColor = System.Drawing.Color.White;
+            this.startUserControl.BackColor = System.Drawing.SystemColors.Control;
             this.startUserControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.startUserControl.Location = new System.Drawing.Point(12, 12);
             this.startUserControl.Name = "startUserControl";

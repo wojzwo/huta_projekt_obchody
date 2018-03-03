@@ -40,7 +40,7 @@
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BackColor = System.Drawing.Color.Gainsboro;
+            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox1.Font = new System.Drawing.Font("Calibri", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox1.Location = new System.Drawing.Point(20, 20);
@@ -56,26 +56,30 @@
             // 
             this.StartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.StartButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.StartButton.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
+            this.StartButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.StartButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.StartButton.Location = new System.Drawing.Point(19, 587);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(1202, 48);
             this.StartButton.TabIndex = 3;
             this.StartButton.Text = "Wciśnij, trzymając czytnik na adapterze...\r\n";
-            this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.UseVisualStyleBackColor = false;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // ErrorBox
             // 
             this.ErrorBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ErrorBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.ErrorBox.BackColor = System.Drawing.SystemColors.Control;
+            this.ErrorBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ErrorBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ErrorBox.ForeColor = System.Drawing.Color.Red;
             this.ErrorBox.Location = new System.Drawing.Point(19, 550);
             this.ErrorBox.Name = "ErrorBox";
             this.ErrorBox.ReadOnly = true;
-            this.ErrorBox.Size = new System.Drawing.Size(1202, 31);
+            this.ErrorBox.Size = new System.Drawing.Size(1202, 24);
             this.ErrorBox.TabIndex = 9;
             this.ErrorBox.Text = "Nie udało się odczytać danych. Podnieś czytnik, przyłóż go ponownie i naciśnij pr" +
     "zycisk poniżej\r\n";

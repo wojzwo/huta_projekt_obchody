@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using SteelWorks_Utils.Model;
 using SteelWorks_Worker.Controller;
 using SteelWorks_Worker.Model;
-using SteelWorks_Worker.Utilities;
 using SteelWorks_Worker.View;
 
 namespace SteelWorks_Worker
@@ -23,8 +23,6 @@ namespace SteelWorks_Worker
             WorkerMainController workerMainController = new  WorkerMainController(workerMainView, workerDataController);
 
             Application.Run(workerMainView);
-
-            repository.CloseConnection();
         }
     }
 }

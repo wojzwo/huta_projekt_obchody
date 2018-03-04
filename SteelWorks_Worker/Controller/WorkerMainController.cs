@@ -28,16 +28,28 @@ namespace SteelWorks_Worker.Controller
         }
 
         public bool EraseReader() {
-            // set system time 
-            engine_.p3_settime();
-            // and delete sensor
-            bool success = engine_.p3_deletesensor();
-            if (success) {
-                engine_.p3_beep_ok();
-                return true;
-            } else {
-                return false;
+            try {
+                bool bIsFlashlightRead = WaitForFlashlightTouch(out string chipId);
+                if (!bIsFlashlightRead) {
+                    Debug.Log("Couldn't read flashlight", LogType.Error);
+                    return false;
+                }
+
+                Debug.Log("Flashlight Id:" + chipId, LogType.Info);
+
+                // set system time 
+                engine_.p3_settime();
+                // and delete sensor
+                bool success = engine_.p3_deletesensor();
+                if (success) {
+                    engine_.p3_beep_ok();
+                    return true;
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while erasing data\n" + ex.ToString(), LogType.TomstError);
             }
+
+            return false;
         }
 
         public bool OnStartApp() {

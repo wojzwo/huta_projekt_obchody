@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using SteelWorks_Utils;
 using SteelWorks_Utils.Model;
 using SteelWorks_Worker.Controller;
 using SteelWorks_Worker.Model;
@@ -15,6 +16,7 @@ namespace SteelWorks_Worker
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Debug.Log("Program start", LogType.Info);
             Repository repository = new Repository();
 
             WorkerMainView workerMainView = new WorkerMainView();

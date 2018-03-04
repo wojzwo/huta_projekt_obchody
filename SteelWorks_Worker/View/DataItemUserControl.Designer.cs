@@ -27,6 +27,7 @@ namespace SteelWorks_Worker.View
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataItemUserControl));
             this.Panel = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Date = new System.Windows.Forms.Button();
@@ -53,14 +54,12 @@ namespace SteelWorks_Worker.View
             this.Panel.Controls.Add(this.Mark);
             this.Panel.Controls.Add(this.Place);
             this.Panel.ExpandedHeight = 103;
-            //            this.Panel.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Panel.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Panel.IsExpanded = true;
             this.Panel.Location = new System.Drawing.Point(4, 3);
             this.Panel.Name = "Panel";
             this.Panel.Size = new System.Drawing.Size(1189, 200);
             this.Panel.TabIndex = 0;
-            this.Panel.Text = "Miejsce [Ocena]";
+            this.Panel.Text = resources.GetString("Panel.Text");
             this.Panel.UseAnimation = false;
             this.Panel.ExpandCollapse += new System.EventHandler<MakarovDev.ExpandCollapsePanel.ExpandCollapseEventArgs>(this.Panel_ExpandCollapse);
             this.Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel_Paint);
@@ -74,6 +73,7 @@ namespace SteelWorks_Worker.View
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(568, 138);
             this.textBox1.TabIndex = 10;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // Date
             // 
@@ -93,6 +93,7 @@ namespace SteelWorks_Worker.View
             this.Date.TabIndex = 9;
             this.Date.Text = "Data";
             this.Date.UseVisualStyleBackColor = false;
+            this.Date.Click += new System.EventHandler(this.Date_Click);
             // 
             // label4
             // 
@@ -155,6 +156,7 @@ namespace SteelWorks_Worker.View
             this.Mark.TabIndex = 4;
             this.Mark.Text = "Ocena";
             this.Mark.UseVisualStyleBackColor = false;
+            this.Mark.Click += new System.EventHandler(this.Mark_Click);
             // 
             // Place
             // 
@@ -173,6 +175,7 @@ namespace SteelWorks_Worker.View
             this.Place.TabIndex = 1;
             this.Place.Text = "Miejsce";
             this.Place.UseVisualStyleBackColor = false;
+            this.Place.Click += new System.EventHandler(this.Place_Click);
             // 
             // DataItemUserControl
             // 

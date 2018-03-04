@@ -27,44 +27,11 @@ namespace SteelWorks_Worker.View
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.WorkerName = new System.Windows.Forms.Button();
-            this.SendButton = new System.Windows.Forms.Button();
             this.ErrorBox = new System.Windows.Forms.TextBox();
             this.MainTable = new System.Windows.Forms.TableLayoutPanel();
+            this.SendButton = new System.Windows.Forms.Button();
+            this.WorkerName = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // WorkerName
-            // 
-            this.WorkerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.WorkerName.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.WorkerName.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
-            this.WorkerName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.WorkerName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.WorkerName.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.WorkerName.Location = new System.Drawing.Point(15, 13);
-            this.WorkerName.Name = "WorkerName";
-            this.WorkerName.Size = new System.Drawing.Size(1202, 31);
-            this.WorkerName.TabIndex = 4;
-            this.WorkerName.Text = "Pracownik: ";
-            this.WorkerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.WorkerName.UseVisualStyleBackColor = false;
-            // 
-            // SendButton
-            // 
-            this.SendButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SendButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.SendButton.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
-            this.SendButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.SendButton.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.SendButton.Location = new System.Drawing.Point(15, 604);
-            this.SendButton.Name = "SendButton";
-            this.SendButton.Size = new System.Drawing.Size(1202, 40);
-            this.SendButton.TabIndex = 5;
-            this.SendButton.Text = "Wyślij raport";
-            this.SendButton.UseVisualStyleBackColor = false;
-            this.SendButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // ErrorBox
             // 
@@ -80,8 +47,7 @@ namespace SteelWorks_Worker.View
             this.ErrorBox.ReadOnly = true;
             this.ErrorBox.Size = new System.Drawing.Size(1202, 24);
             this.ErrorBox.TabIndex = 9;
-            this.ErrorBox.Text = "Wykonana trasa odbiega od zakładanej; Naciśnij na oznaczone czerwoną ramką pola i" +
-    " wybierz poprawne wartości";
+            this.ErrorBox.Text = "Wykonana trasa odbiega od zakładanej";
             this.ErrorBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.ErrorBox.Visible = false;
             // 
@@ -100,6 +66,40 @@ namespace SteelWorks_Worker.View
             this.MainTable.Size = new System.Drawing.Size(1202, 518);
             this.MainTable.TabIndex = 10;
             // 
+            // SendButton
+            // 
+            this.SendButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SendButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.SendButton.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
+            this.SendButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SendButton.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.SendButton.Location = new System.Drawing.Point(15, 604);
+            this.SendButton.Name = "SendButton";
+            this.SendButton.Size = new System.Drawing.Size(1202, 40);
+            this.SendButton.TabIndex = 5;
+            this.SendButton.Text = "Wyślij raport";
+            this.SendButton.UseVisualStyleBackColor = false;
+            this.SendButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // WorkerName
+            // 
+            this.WorkerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.WorkerName.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.WorkerName.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
+            this.WorkerName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.WorkerName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.WorkerName.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.WorkerName.Location = new System.Drawing.Point(15, 13);
+            this.WorkerName.Name = "WorkerName";
+            this.WorkerName.Size = new System.Drawing.Size(1202, 31);
+            this.WorkerName.TabIndex = 4;
+            this.WorkerName.Text = "Pracownik: ";
+            this.WorkerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.WorkerName.UseVisualStyleBackColor = false;
+            this.WorkerName.Click += new System.EventHandler(this.WorkerName_Click);
+            // 
             // ProcessDataUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,6 +111,7 @@ namespace SteelWorks_Worker.View
             this.Controls.Add(this.WorkerName);
             this.Name = "ProcessDataUserControl";
             this.Size = new System.Drawing.Size(1240, 657);
+            this.Load += new System.EventHandler(this.ProcessDataUserControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

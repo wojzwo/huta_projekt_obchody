@@ -30,7 +30,7 @@ namespace SteelWorks_Worker.Controller
 
         public void InitData(ChipData employee, List<ChipData> chips, List<KeypadData> keypads) {
             if (Tester.bIsInTestMode) {
-                employee = new ChipData(DateTime.Now, "TestEmployee");
+                employee = new ChipData(DateTime.Now, "ART");
                 chips = new List<ChipData>();
                 chips.Add(new ChipData(DateTime.Now, "C1"));
                 chips.Add(new ChipData());
@@ -53,9 +53,7 @@ namespace SteelWorks_Worker.Controller
 
             view_.AddEmployee(employee);
             for (int i = 0; i < chips.Count; i++) {
-                DataItemUserControl c = new DataItemUserControl();
-                c.Init(chips[i], keypads[i]);
-                view_.AddData(c);
+                view_.AddData(chips[i], keypads[i]);
             }
         }
 

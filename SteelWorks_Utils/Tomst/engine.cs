@@ -477,6 +477,9 @@ namespace Tomst
 
         public bool p3_deletesensor() {
             bool ret = false;
+            const int MAX_TRIALS = 20;
+            int trials = 0;
+
             int ffcount = 0, firstfree = 0, bank = 0;
             do {
                 ret = p3_delete();
@@ -487,7 +490,8 @@ namespace Tomst
                     ffcount++;
                 }
 
-            } while ((ffcount < 10) && (!ret));
+                trials++;
+            } while ((ffcount < 10) && (!ret) && (trials < MAX_TRIALS));
 
             return (ret);
         }

@@ -13,7 +13,8 @@ namespace SteelWorks_Utils
         Info,
         Warning,
         Error,
-        TomstError
+        TomstError,
+        DatabaseError
     }
 
     public static class Debug

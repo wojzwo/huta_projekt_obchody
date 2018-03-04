@@ -37,6 +37,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -66,6 +69,7 @@
     <Compile Include="Controller\WorkerMainController.cs" />
     <Compile Include="Model\ChipData.cs" />
     <Compile Include="Model\KeypadData.cs" />
+    <Compile Include="Model\Report.cs" />
     <Compile Include="Model\Tester.cs" />
     <Compile Include="View\DataItemUserControl.cs">
       <SubType>UserControl</SubType>
@@ -73,17 +77,53 @@
     <Compile Include="View\DataItemUserControl.Designer.cs">
       <DependentUpon>DataItemUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\DataRemoveOrLoadSelectionUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DataRemoveOrLoadSelectionUserControl.Designer.cs">
+      <DependentUpon>DataRemoveOrLoadSelectionUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataRemoveSuccessUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DataRemoveSuccessUserControl.Designer.cs">
+      <DependentUpon>DataRemoveSuccessUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataRemoveUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DataRemoveUserControl.Designer.cs">
+      <DependentUpon>DataRemoveUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\LoadReaderUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="View\LoadReaderUserControl.Designer.cs">
       <DependentUpon>LoadReaderUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\PopupView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PopupView.Designer.cs">
+      <DependentUpon>PopupView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProcessDataUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="View\ProcessDataUserControl.Designer.cs">
       <DependentUpon>ProcessDataUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectableButtonUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\SelectableButtonUserControl.Designer.cs">
+      <DependentUpon>SelectableButtonUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SendReportUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\SendReportUserControl.Designer.cs">
+      <DependentUpon>SendReportUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="View\StartUserControl.cs">
       <SubType>UserControl</SubType>
@@ -108,11 +148,29 @@
     <EmbeddedResource Include="View\DataItemUserControl.resx">
       <DependentUpon>DataItemUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\DataRemoveOrLoadSelectionUserControl.resx">
+      <DependentUpon>DataRemoveOrLoadSelectionUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DataRemoveSuccessUserControl.resx">
+      <DependentUpon>DataRemoveSuccessUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DataRemoveUserControl.resx">
+      <DependentUpon>DataRemoveUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\LoadReaderUserControl.resx">
       <DependentUpon>LoadReaderUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\PopupView.resx">
+      <DependentUpon>PopupView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ProcessDataUserControl.resx">
       <DependentUpon>ProcessDataUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SelectableButtonUserControl.resx">
+      <DependentUpon>SelectableButtonUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SendReportUserControl.resx">
+      <DependentUpon>SendReportUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\StartUserControl.resx">
       <DependentUpon>StartUserControl.cs</DependentUpon>
@@ -159,6 +217,9 @@
     <Content Include="docs\MySqlParameter.xml" />
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
+    <None Include="Resources\loading.gif" />
+    <None Include="Resources\koperta.png" />
+    <None Include="Resources\koperta.jpg" />
     <None Include="Resources\Button.png" />
     <None Include="Resources\5-2-arrow-transparent.png" />
     <None Include="Resources\adapter_and_reader.png" />
@@ -171,10 +232,6 @@
     <None Include="Resources\adapter_image.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
-      <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
-      <Name>Lidgren.Network</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MakarovDev.ExpandCollapsePanel\MakarovDev.ExpandCollapsePanel.csproj">
       <Project>{be76a6fe-225f-4287-9ca0-231f5af4cdc1}</Project>
       <Name>MakarovDev.ExpandCollapsePanel</Name>

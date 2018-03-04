@@ -102,12 +102,14 @@ namespace SteelWorks_Worker.View
                 DB_Place place = Repository.instance.GetPlaceByChip(chip.id);
                 if (place.id != -1) {
                     Place.Text = place.name;
+                    Place.BackColor = System.Drawing.Color.Green;
+                    Place.Enabled = false;
                 } else {
-                    Place.Text = chip.id.ToString();
+                    Place.Text = "--Chip pracownika--";
+                    Place.BackColor = System.Drawing.Color.Red;
+                    Place.Enabled = true;
+                    bIsValid = false;
                 }
-
-                Place.BackColor = System.Drawing.Color.Green;
-                Place.Enabled = false;
             } else {
                 Place.Text = "???";
                 Place.BackColor = System.Drawing.Color.Red;
@@ -148,8 +150,8 @@ namespace SteelWorks_Worker.View
                          "                                                                                             ";
             if (bIsValid && !bCommentRequired) {
                 Panel.BackColor = System.Drawing.Color.FromArgb(190, 220, 190);
-            } else if (bIsValid && bCommentRequired) {
-                Panel.BackColor = System.Drawing.Color.FromArgb(220, 220, 190);
+            } else if (bIsValid && bCommentRequired ) {
+                Panel.BackColor = System.Drawing.Color.FromArgb(220, 190, 190);
             } else {
                 Panel.BackColor = System.Drawing.Color.FromArgb(220, 190, 190);
             }
@@ -183,9 +185,9 @@ namespace SteelWorks_Worker.View
 
         private void textBox1_TextChanged(object sender, EventArgs e) {
             if (textBox1.Text.Length < 2 && bIsValid && bCommentRequired) {
-                Panel.BackColor = System.Drawing.Color.FromArgb(220, 220, 190);
+                Panel.BackColor = System.Drawing.Color.FromArgb(220, 190, 190);
             } else if (textBox1.Text.Length >= 2 && bIsValid && bCommentRequired) {
-                Panel.BackColor = System.Drawing.Color.FromArgb(190, 220, 190);
+                Panel.BackColor = System.Drawing.Color.FromArgb(220, 220, 190);
             }
         }
 

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using SteelWorks_Utils;
 using SteelWorks_Utils.Model;
 using SteelWorks_Worker.Model;
 
@@ -20,8 +21,11 @@ namespace SteelWorks_Worker.View
     {
         private const string EMAIL_NAME = "huta.raporty@gmail.com";
         private const string EMAIL_PASSWORD = "zX2eKod6";
+        private ReportProcessData lastData_;
+        private bool bIsFinished_ = false;
 
         public void GenerateReport(ReportProcessData data) {
+            lastData_ = data;
             FileStream stream = new FileStream("TestReport.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
 
             Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
@@ -91,22 +95,32 @@ namespace SteelWorks_Worker.View
 
             doc.Close();
 
+            try {
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                client.Timeout = 10000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential(EMAIL_NAME, EMAIL_PASSWORD);
 
-            SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.Host = "smtp.gmail.com";
-            client.EnableSsl = true;
-            client.Timeout = 10000;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(EMAIL_NAME, EMAIL_PASSWORD);
+                MailMessage mm = new MailMessage(EMAIL_NAME, EMAIL_NAME, "Huta", "fff");
+                mm.Attachments.Add(new Attachment("TestReport.pdf"));
+                mm.BodyEncoding = UTF8Encoding.UTF8;
+                mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
-            MailMessage mm = new MailMessage(EMAIL_NAME, EMAIL_NAME, "Huta", "fff");
-            mm.Attachments.Add(new Attachment("TestReport.pdf"));
-            mm.BodyEncoding = UTF8Encoding.UTF8;
-            mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                client.Send(mm);
+            } catch (Exception ex) {
+                Debug.Log("Couldn't send mail\n" + ex.ToString(), LogType.Error);
+                StartButton.Text = "Wyślij ponownie";
+                StartButton.Enabled = true;
+                return;
+            }
 
-            client.Send(mm);
+            StartButton.Text = "Wysłano poprawnie. Zakończ program";
+            StartButton.Enabled = true;
+            bIsFinished_ = true;
         }
 
         public SendReportUserControl() {
@@ -114,7 +128,12 @@ namespace SteelWorks_Worker.View
         }
 
         private void StartButton_Click(object sender, EventArgs e) {
-
+            if (!bIsFinished_) {
+                StartButton.Enabled = false;
+                GenerateReport(lastData_);
+            } else {
+                Application.Restart();
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e) {

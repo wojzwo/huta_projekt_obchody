@@ -9,6 +9,13 @@ using SteelWorks_Utils;
 
 namespace SteelWorks_Worker.Controller
 {
+    public enum FlashlightLoadState
+    {
+        EmptySet,
+        LoadingError,
+        Success
+    }
+
     public class WorkerMainController
     {
         private ChipData employee_;
@@ -29,14 +36,6 @@ namespace SteelWorks_Worker.Controller
 
         public bool EraseReader() {
             try {
-                bool bIsFlashlightRead = WaitForFlashlightTouch(out string chipId);
-                if (!bIsFlashlightRead) {
-                    Debug.Log("Couldn't read flashlight", LogType.Error);
-                    return false;
-                }
-
-                Debug.Log("Flashlight Id:" + chipId, LogType.Info);
-
                 // set system time 
                 engine_.p3_settime();
                 // and delete sensor
@@ -56,7 +55,7 @@ namespace SteelWorks_Worker.Controller
             return OpenAdapter();
         }
 
-        public bool OnLoadReader() {
+        public FlashlightLoadState OnLoadReader() {
             return ReadFlashlight();
         }
 
@@ -71,12 +70,12 @@ namespace SteelWorks_Worker.Controller
             engine_.closedev();
         }
 
-        private bool ReadFlashlight() {
+        private FlashlightLoadState ReadFlashlight() {
             try {
                 bool bIsFlashlightRead = WaitForFlashlightTouch(out string chipId);
                 if (!bIsFlashlightRead) {
                     Debug.Log("Couldn't read flashlight", LogType.Error);
-                    return false;
+                    return FlashlightLoadState.LoadingError;
                 }
 
                 Debug.Log("Flashlight Id:" + chipId, LogType.Info);
@@ -84,12 +83,12 @@ namespace SteelWorks_Worker.Controller
                 // get number of events in p3 device
                 if (!engine_.p3_eventcount(out int firstfree, out int bank)) {
                     Debug.Log("Couldn't get flashlight event count", LogType.Error);
-                    return false;
+                    return FlashlightLoadState.LoadingError;
                 }
 
                 if (firstfree == 0) {
                     Debug.Log("No data to be parsed in flashlight", LogType.Warning);
-                    return false;
+                    return FlashlightLoadState.EmptySet;
                 }
 
                 engine_.p3_reconnect();
@@ -101,19 +100,19 @@ namespace SteelWorks_Worker.Controller
                 engine_.OnKeypadTouch = PrintKeypadTouch;
                 if (!engine_.p3_readsensor(firstfree)) {
                     Debug.Log("Couldn't read flashlight device", LogType.Error);
-                    return false;
+                    return FlashlightLoadState.LoadingError;
                 }
 
                 // beep
                 engine_.p3_beep_ok();
             } catch (Exception ex) {
                 Debug.Log("Exception while parsing flashlight || " + ex.ToString(), LogType.Error);
-                return false;
+                return FlashlightLoadState.LoadingError;
             } finally {
                 Debug.Log("Flashlight read finished", LogType.Info);
             }
 
-            return true;
+            return FlashlightLoadState.Success;
         }
 
         private bool OpenAdapter() {

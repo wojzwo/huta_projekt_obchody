@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SteelWorks_Utils;
+using SteelWorks_Worker.Controller;
 using SteelWorks_Worker.Model;
 
 namespace SteelWorks_Worker.View
@@ -36,11 +37,16 @@ namespace SteelWorks_Worker.View
                 return;
             }
 
-            bool bSuccess = view.controller.OnLoadReader();
-            if (bSuccess) {
+            FlashlightLoadState bSuccess = view.controller.OnLoadReader();
+            if (bSuccess == FlashlightLoadState.Success) {
                 view.ChangeUserControlToProcessData();
+            } else if (bSuccess == FlashlightLoadState.EmptySet) {
+                ErrorBox.Visible = true;
+                ErrorBox.Text = "Czytnik jest pusty. Wczytaj chipy przed wysyłaniem raportu";
+                StartButton.Text = START_BUTTON_ERROR_MESSAGE;
             } else {
                 ErrorBox.Visible = true;
+                ErrorBox.Text = "Nie udało się odczytać danych. Podnieś czytnik, przyłóż go ponownie i naciśnij przycisk poniżej";
                 StartButton.Text = START_BUTTON_ERROR_MESSAGE;
             }
         }

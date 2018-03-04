@@ -9,6 +9,10 @@ create table Place(
 	name varchar(64),
 	chipId varchar(64)
 );
+insert into Place(name, chipId)  values ('Walcownia', 'F0E0EE');
+insert into Place(name, chipId)  values ('Odlewnia', 'F06516');
+insert into Place(name, chipId)  values ('Biuro', 'F0DFC9');
+
 
 create table Mark(
 	id int PRIMARY KEY,
@@ -33,6 +37,10 @@ create table Employee(
 	name varchar(64),
 	chipId varchar(64)
 );
+insert into Employee(name, chipId)  values ('Tomasz Nowak', 'EFD576');
+insert into Employee(name, chipId)  values ('Jakub Dominikan', 'EFA62D');
+insert into Employee(name, chipId)  values ('Mariusz Ostrowski', 'F0D8B4');
+
 
 create table Track(
 	id int AUTO_INCREMENT PRIMARY KEY,
@@ -62,3 +70,5 @@ create table ReportPlace(
 	comment varchar(256),
 	visitDate date
 );
+
+

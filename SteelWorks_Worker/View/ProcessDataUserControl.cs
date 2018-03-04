@@ -49,7 +49,7 @@ namespace SteelWorks_Worker.View
             if (data.bIsValid) {
                 DB_Employee employee = Repository.instance.GetEmployeeByChip(data.id);
                 if (employee.id != -1) {
-                    WorkerName.Text = "Pracownik: " + data.id;
+                    WorkerName.Text = "Pracownik: " + employee.name;
                     WorkerName.BackColor = Color.Green;
                     WorkerName.Enabled = false;
                     bIsEmployeeValid_ = true;

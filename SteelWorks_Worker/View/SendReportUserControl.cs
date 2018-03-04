@@ -101,7 +101,7 @@ namespace SteelWorks_Worker.View
             client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential(EMAIL_NAME, EMAIL_PASSWORD);
 
-            MailMessage mm = new MailMessage(EMAIL_NAME, "thirrasch@gmail.com", "Huta", "fff");
+            MailMessage mm = new MailMessage(EMAIL_NAME, EMAIL_NAME, "Huta", "fff");
             mm.Attachments.Add(new Attachment("TestReport.pdf"));
             mm.BodyEncoding = UTF8Encoding.UTF8;
             mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;

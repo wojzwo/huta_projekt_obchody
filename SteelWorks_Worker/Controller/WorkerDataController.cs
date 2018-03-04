@@ -30,11 +30,11 @@ namespace SteelWorks_Worker.Controller
 
         public void InitData(ChipData employee, List<ChipData> chips, List<KeypadData> keypads) {
             if (Tester.bIsInTestMode) {
-                employee = new ChipData(DateTime.Now, "ART");
+                employee = new ChipData(DateTime.Now, "EFD576");
                 chips = new List<ChipData>();
-                chips.Add(new ChipData(DateTime.Now, "C1"));
+                chips.Add(new ChipData(DateTime.Now, "F06516"));
                 chips.Add(new ChipData());
-                chips.Add(new ChipData(DateTime.Now, "C3"));
+                chips.Add(new ChipData(DateTime.Now, "F0DFC9"));
 
                 keypads = new List<KeypadData>();
                 keypads.Add(new KeypadData(DateTime.Now, 1));

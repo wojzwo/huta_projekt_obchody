@@ -1,0 +1,63 @@
+use hutadb; 
+create table Chip(
+	chipId varchar(64) PRIMARY KEY,
+	isEmployee bit(1)
+);
+
+create table Place(
+	id int AUTO_INCREMENT PRIMARY KEY,
+	name varchar(64),
+	chipId varchar(64)
+);
+
+create table Mark(
+	id int PRIMARY KEY,
+	name varchar(64),
+	isCommentRequired bit(1)
+);
+insert into Mark values (1, "Ocena: 1", 0);
+insert into Mark values (2, "Ocena: 2", 1);
+insert into Mark values (3, "Ocena: 3", 1);
+insert into Mark values (4, "Ocena: 4", 1);
+insert into Mark values (5, "Ocena: 5", 1);
+insert into Mark values (6, "Ocena: 6", 1);
+insert into Mark values (7, "Ocena: 7", 1);
+insert into Mark values (8, "Ocena: 8", 1);
+insert into Mark values (9, "Ocena: 9", 1);
+insert into Mark values (0, "Ocena: 0", 1);
+insert into Mark values (12, "Ocena: C", 1);
+insert into Mark values (14, "Ocena: E", 1);
+
+create table Employee(
+	id int AUTO_INCREMENT PRIMARY KEY,
+	name varchar(64),
+	chipId varchar(64)
+);
+
+create table Track(
+	id int AUTO_INCREMENT PRIMARY KEY,
+	name varchar(64),
+	creationDate date
+);
+
+create table TrackPlace(
+	trackId int,
+	placeId int,
+	PRIMARY KEY(trackId, placeId)
+);
+
+create table Report(
+	id int AUTO_INCREMENT PRIAMRY KEY,
+	trackId int,
+	employeeId int,
+	assignmentDate date,
+	isFinished bit(1)
+);
+
+create table ReportPlace(
+	reportId int,
+	placeId int,
+	status varchar(64),
+	mark int,
+	comment varchar(256)
+);

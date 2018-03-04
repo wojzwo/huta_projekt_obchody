@@ -9,6 +9,26 @@ namespace SteelWorks_Worker.View
     {
         public WorkerMainController controller;
 
+        public void ChangeUserControlToMenuFromSuccess() {
+            dataRemoveSuccessUserControl_.Visible = false;
+            dataRemoveOrLoadSelectionUserControl.Visible = true;
+        }
+
+        public void ChangeUserControlToRemoveDataSuccess() {
+            dataRemoveUserControl_.Visible = false;
+            dataRemoveSuccessUserControl_.Visible = true;
+        }
+
+        public void ChangeUserControlToSendReport() {
+            dataRemoveOrLoadSelectionUserControl.Visible = false;
+            startUserControl.Visible = true;
+        }
+
+        public void ChangeUserControlToRemoveData() {
+            dataRemoveOrLoadSelectionUserControl.Visible = false;
+            dataRemoveUserControl_.Visible = true;
+        }
+
         public void ChangeUserControlToProcessData() {
             loadReaderUserControl.Visible = false;
             controller.ChangeToDataMode();
@@ -44,6 +64,10 @@ namespace SteelWorks_Worker.View
         }
 
         private void loadReaderUserControl_Load(object sender, EventArgs e) {
+
+        }
+
+        private void dataRemoveOrLoadSelectionUserControl_Load(object sender, EventArgs e) {
 
         }
     }

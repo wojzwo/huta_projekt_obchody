@@ -27,6 +27,7 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkerDataView));
             this.dataUserControl = new SteelWorks_Worker.View.ProcessDataUserControl();
+            this.sendReportUserControl_ = new SteelWorks_Worker.View.SendReportUserControl();
             this.SuspendLayout();
             // 
             // dataUserControl
@@ -39,6 +40,16 @@
             this.dataUserControl.Name = "dataUserControl";
             this.dataUserControl.Size = new System.Drawing.Size(1240, 657);
             this.dataUserControl.TabIndex = 0;
+            this.dataUserControl.Load += new System.EventHandler(this.dataUserControl_Load);
+            // 
+            // sendReportUserControl_
+            // 
+            this.sendReportUserControl_.BackColor = System.Drawing.SystemColors.Control;
+            this.sendReportUserControl_.Location = new System.Drawing.Point(12, 12);
+            this.sendReportUserControl_.Name = "sendReportUserControl_";
+            this.sendReportUserControl_.Size = new System.Drawing.Size(1240, 657);
+            this.sendReportUserControl_.TabIndex = 1;
+            this.sendReportUserControl_.Visible = false;
             // 
             // WorkerDataView
             // 
@@ -47,6 +58,7 @@
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.dataUserControl);
+            this.Controls.Add(this.sendReportUserControl_);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WorkerDataView";
             this.Text = "Obchody - Pracownik";
@@ -58,5 +70,6 @@
         #endregion
 
         private ProcessDataUserControl dataUserControl;
+        private SendReportUserControl sendReportUserControl_;
     }
 }

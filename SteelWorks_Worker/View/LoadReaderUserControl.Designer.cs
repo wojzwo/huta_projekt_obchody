@@ -26,11 +26,12 @@
         /// </summary>
         private void InitializeComponent() {
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.StartButton = new System.Windows.Forms.Button();
             this.ErrorBox = new System.Windows.Forms.TextBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.StartButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -51,22 +52,6 @@
             this.textBox1.Text = "Przyłóż czytnik do adaptera";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // StartButton
-            // 
-            this.StartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.StartButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.StartButton.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
-            this.StartButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.StartButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.StartButton.Location = new System.Drawing.Point(19, 587);
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(1202, 48);
-            this.StartButton.TabIndex = 3;
-            this.StartButton.Text = "Wciśnij, trzymając czytnik na adapterze...\r\n";
-            this.StartButton.UseVisualStyleBackColor = false;
-            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // ErrorBox
             // 
@@ -120,10 +105,36 @@
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
+            // StartButton
+            // 
+            this.StartButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.StartButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.StartButton.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
+            this.StartButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.StartButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.StartButton.Location = new System.Drawing.Point(19, 587);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(1202, 48);
+            this.StartButton.TabIndex = 3;
+            this.StartButton.Text = "Wciśnij, trzymając czytnik na adapterze...\r\n";
+            this.StartButton.UseVisualStyleBackColor = false;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(228, 606);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // LoadReaderUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.ErrorBox);
@@ -148,5 +159,6 @@
         private System.Windows.Forms.TextBox ErrorBox;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Button button1;
     }
 }

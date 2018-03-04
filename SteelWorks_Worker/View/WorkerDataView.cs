@@ -16,12 +16,17 @@ namespace SteelWorks_Worker.View
     {
         private WorkerDataController controller_ = null;
 
+        public void ChangeUserControlToSending() {
+            dataUserControl.Visible = false;
+            sendReportUserControl_.Visible = true;
+        }
+
         public void AddEmployee(ChipData data) {
             dataUserControl.AddEmployee(data);
         }
 
-        public void AddData(DataItemUserControl control) {
-            dataUserControl.AddData(control);
+        public void AddData(ChipData chip, KeypadData mark) {
+            dataUserControl.AddData(chip, mark);
         }
 
         public void InitController(WorkerDataController controller) {
@@ -34,6 +39,10 @@ namespace SteelWorks_Worker.View
 
         private void WorkerDataView_FormClosed(object sender, FormClosedEventArgs e) {
             Application.Exit();
+        }
+
+        private void dataUserControl_Load(object sender, EventArgs e) {
+
         }
     }
 }

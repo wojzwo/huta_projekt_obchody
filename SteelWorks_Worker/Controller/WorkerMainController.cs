@@ -27,6 +27,19 @@ namespace SteelWorks_Worker.Controller
             view_.Hide();
         }
 
+        public bool EraseReader() {
+            // set system time 
+            engine_.p3_settime();
+            // and delete sensor
+            bool success = engine_.p3_deletesensor();
+            if (success) {
+                engine_.p3_beep_ok();
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         public bool OnStartApp() {
             return OpenAdapter();
         }
@@ -79,10 +92,6 @@ namespace SteelWorks_Worker.Controller
                     return false;
                 }
 
-                // set system time 
-                engine_.p3_settime();
-                // and delete sensor
-                engine_.p3_deletesensor();
                 // beep
                 engine_.p3_beep_ok();
             } catch (Exception ex) {

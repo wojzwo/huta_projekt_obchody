@@ -140,6 +140,7 @@ namespace MakarovDev.ExpandCollapsePanel
         /// <summary>
         /// Font used for displays header text
         /// </summary>
+        [Browsable(true)]
         public override Font Font
         {
             get
@@ -155,6 +156,7 @@ namespace MakarovDev.ExpandCollapsePanel
         /// <summary>
         /// Foreground color used for displays header text
         /// </summary>
+        [Browsable(true)]
         public override Color ForeColor
         {
             get
@@ -467,5 +469,9 @@ namespace MakarovDev.ExpandCollapsePanel
         }
 
         #endregion Animation Code
+
+        private void _btnExpandCollapse_Load(object sender, EventArgs e) {
+
+        }
     }
 }

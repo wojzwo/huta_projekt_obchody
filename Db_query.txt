@@ -12,21 +12,21 @@ create table Place(
 
 create table Mark(
 	id int PRIMARY KEY,
-	name varchar(64),
+	name varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
 	isCommentRequired bit(1)
 );
-insert into Mark values (1, "Ocena: 1", 0);
-insert into Mark values (2, "Ocena: 2", 1);
-insert into Mark values (3, "Ocena: 3", 1);
-insert into Mark values (4, "Ocena: 4", 1);
-insert into Mark values (5, "Ocena: 5", 1);
-insert into Mark values (6, "Ocena: 6", 1);
-insert into Mark values (7, "Ocena: 7", 1);
-insert into Mark values (8, "Ocena: 8", 1);
-insert into Mark values (9, "Ocena: 9", 1);
-insert into Mark values (0, "Ocena: 0", 1);
-insert into Mark values (12, "Ocena: C", 1);
-insert into Mark values (14, "Ocena: E", 1);
+insert into Mark values (1, "Wszystko w porz¹dku", 0);
+insert into Mark values (2, "Problem 2", 1);
+insert into Mark values (3, "Problem 3", 1);
+insert into Mark values (4, "Problem 4", 1);
+insert into Mark values (5, "Problem 5", 1);
+insert into Mark values (6, "Problem 6", 1);
+insert into Mark values (7, "Problem 7", 1);
+insert into Mark values (8, "Problem 8", 1);
+insert into Mark values (9, "Problem 9", 1);
+insert into Mark values (0, "Problem 0", 1);
+insert into Mark values (12, "Problem C", 1);
+insert into Mark values (14, "Problem E", 1);
 
 create table Employee(
 	id int AUTO_INCREMENT PRIMARY KEY,
@@ -47,7 +47,7 @@ create table TrackPlace(
 );
 
 create table Report(
-	id int AUTO_INCREMENT PRIAMRY KEY,
+	id int AUTO_INCREMENT PRIMARY KEY,
 	trackId int,
 	employeeId int,
 	assignmentDate date,
@@ -59,5 +59,6 @@ create table ReportPlace(
 	placeId int,
 	status varchar(64),
 	mark int,
-	comment varchar(256)
+	comment varchar(256),
+	visitDate date
 );

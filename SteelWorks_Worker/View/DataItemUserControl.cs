@@ -40,6 +40,16 @@ namespace SteelWorks_Worker.View
         private ProcessDataUserControl control_= null;
         private DataItemStatus status = DataItemStatus.ProperlyLoaded;
 
+        public ReportDataItem GetReportInfo() {
+            return new ReportDataItem() {
+                placeName = Place.Text,
+                placeComment = textBox1.Text,
+                placeMark = Mark.Text,
+                placeStatus = status,
+                placeVisitDate = DateTime.Parse(Date.Text)
+            };
+        }
+
         public string GetComment() {
             return textBox1.Text;
         }

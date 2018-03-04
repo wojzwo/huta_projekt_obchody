@@ -18,7 +18,9 @@ namespace SteelWorks_Worker.View
 
         public void ChangeUserControlToSending() {
             dataUserControl.Visible = false;
+
             sendReportUserControl_.Visible = true;
+            sendReportUserControl_.GenerateReport(dataUserControl.GetReportInfo());
         }
 
         public void AddEmployee(ChipData data) {

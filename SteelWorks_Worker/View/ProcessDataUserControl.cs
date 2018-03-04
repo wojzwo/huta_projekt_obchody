@@ -18,6 +18,18 @@ namespace SteelWorks_Worker.View
         private bool bIsEmployeeValid_;
         private DataItemUserControl currentExpanded_ = null;
 
+        public ReportProcessData GetReportInfo() {
+            List<ReportDataItem> items = new List<ReportDataItem>();
+            foreach (DataItemUserControl c in MainTable.Controls) {
+                items.Add(c.GetReportInfo());
+            }
+
+            return new ReportProcessData() {
+                employeeName = WorkerName.Text,
+                items = items
+            };
+        }
+
         public void OnSelectedEmployee(PopupView popupView, int id, string name) {
             popupView.Close();
             WorkerName.Text = name;

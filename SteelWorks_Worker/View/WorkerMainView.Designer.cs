@@ -43,6 +43,7 @@
             this.dataRemoveOrLoadSelectionUserControl.Name = "dataRemoveOrLoadSelectionUserControl";
             this.dataRemoveOrLoadSelectionUserControl.Size = new System.Drawing.Size(1240, 657);
             this.dataRemoveOrLoadSelectionUserControl.TabIndex = 1;
+            this.dataRemoveOrLoadSelectionUserControl.Visible = false;
             this.dataRemoveOrLoadSelectionUserControl.Load += new System.EventHandler(this.dataRemoveOrLoadSelectionUserControl_Load);
             // 
             // loadReaderUserControl
@@ -70,7 +71,6 @@
             this.startUserControl.Name = "startUserControl";
             this.startUserControl.Size = new System.Drawing.Size(1240, 657);
             this.startUserControl.TabIndex = 0;
-            this.startUserControl.Visible = false;
             this.startUserControl.Load += new System.EventHandler(this.startUserControl1_Load_1);
             // 
             // dataRemoveUserControl_

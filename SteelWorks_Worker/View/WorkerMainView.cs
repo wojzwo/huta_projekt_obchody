@@ -21,7 +21,7 @@ namespace SteelWorks_Worker.View
 
         public void ChangeUserControlToSendReport() {
             dataRemoveOrLoadSelectionUserControl.Visible = false;
-            startUserControl.Visible = true;
+            loadReaderUserControl.Visible = true;
         }
 
         public void ChangeUserControlToRemoveData() {
@@ -36,7 +36,7 @@ namespace SteelWorks_Worker.View
 
         public void ChangeUserControlToLoadReader() {
             startUserControl.Visible = false;
-            loadReaderUserControl.Visible = true;
+            dataRemoveOrLoadSelectionUserControl.Visible = true;
         }
 
         public void InitController(WorkerMainController controller) {

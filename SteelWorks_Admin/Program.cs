@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SteelWorks_Admin.Controller;
 using SteelWorks_Admin.View;
 
 namespace SteelWorks_Admin
@@ -18,10 +17,9 @@ namespace SteelWorks_Admin
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MainWindowView view = new MainWindowView();
-            MainWindowController controller = new MainWindowController(view);
+			AdminMainView adminMainView = new AdminMainView();
 
-            Application.Run(view);
+            Application.Run(adminMainView);
         }
     }
 }

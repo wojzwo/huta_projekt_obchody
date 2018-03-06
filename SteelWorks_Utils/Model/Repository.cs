@@ -12,11 +12,54 @@ using SteelWorks_Utils;
 
 namespace SteelWorks_Utils.Model
 {
+    public enum EChipType
+    {
+        None = 0,
+        Employee,
+        Place
+    }
+
     public class Repository
     {
         public static Repository instance;
-
         private MySqlConnection connection_;
+
+        /// <summary> 
+        /// DB_Mark mark = Repository.instance.GetMark(3); 
+        /// mark.name = "Inna nazwa na ocene";
+        /// Repository.instance.UpdateMark(mark);
+        /// </summary>
+        public bool UpdateMark(DB_Mark newMark) {
+            connection_.Open();
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "UPDATE Mark SET name = @name, isCommentRequired = @isCommentRequired WHERE id = @id";
+            query.Parameters.AddWithValue("@name", newMark.name);
+            query.Parameters.AddWithValue("@isCommentRequired", newMark.bCommentRequired);
+            query.Parameters.AddWithValue("@id", newMark.id);
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while updating Mark\n" + ex.ToString(), LogType.DatabaseError);
+            } finally {
+                connection_.Close();
+            }
+
+            return (rowsAffected == 1);
+        }
+
+        public EChipType CheckChipType(string chipId) {
+            DB_Employee employee = GetEmployeeByChip(chipId);
+            if (employee != null)
+                return EChipType.Employee;
+
+            DB_Place place = GetPlaceByChip(chipId);
+            if (place != null)
+                return EChipType.Place;
+
+            return EChipType.None;
+        }
 
         public DB_Employee GetEmployeeByChip(string chipId) {
             connection_.Open();
@@ -41,7 +84,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Close();
             }
 
-            return new DB_Employee();
+            return null;
         }
 
         public DB_Place GetPlaceByChip(string chipId) {
@@ -67,7 +110,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Close();
             }
 
-            return new DB_Place();
+            return null;
         }
 
         public DB_Mark GetMark(int number) {
@@ -93,7 +136,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Close();
             }
 
-            return new DB_Mark();
+            return null;
         }
 
         public List<DB_Employee> GetAllEmployees() {
@@ -177,18 +220,73 @@ namespace SteelWorks_Utils.Model
             return places;
         }
 
-        public bool InsertChip(DB_Chip chip) {
+        public bool InsertEmployee(DB_Employee employee) {
             connection_.Open();
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "INSERT INTO Chip VALUES(@chipId, @isEmployee)";
-            query.Parameters.AddWithValue("@chipId", chip.chipId);
-            query.Parameters.AddWithValue("@isEmployee", chip.bIsEmployee);
+            query.CommandText = "INSERT INTO Employee(name, chipId) VALUES(@name, @chipId)";
+            query.Parameters.AddWithValue("@name", employee.name);
+            query.Parameters.AddWithValue("@chipId", employee.chipId);
 
             int rowsAffected = 0;
             try {
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
-                Debug.Log("Error while inserting chip\n" + ex.ToString(), LogType.DatabaseError);
+                Debug.Log("Error while inserting Employee\n" + ex.ToString(), LogType.DatabaseError);
+            } finally {
+                connection_.Close();
+            }
+
+            return (rowsAffected == 1);
+        }
+
+        public bool InsertPlace(DB_Place place) {
+            connection_.Open();
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "INSERT INTO Place(name, chipId) VALUES(@name, @chipId)";
+            query.Parameters.AddWithValue("@name", place.name);
+            query.Parameters.AddWithValue("@chipId", place.chipId);
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while inserting Place\n" + ex.ToString(), LogType.DatabaseError);
+            } finally {
+                connection_.Close();
+            }
+
+            return (rowsAffected == 1);
+        }
+
+        public bool DeleteEmployee(string chipId) {
+            connection_.Open();
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "DELETE FROM Employee WHERE chipId = @chipId";
+            query.Parameters.AddWithValue("@chipId", chipId);
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting Employee\n" + ex.ToString(), LogType.DatabaseError);
+            } finally {
+                connection_.Close();
+            }
+
+            return (rowsAffected == 1);
+        }
+
+        public bool DeletePlace(string chipId) {
+            connection_.Open();
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "DELETE FROM Place WHERE chipId = @chipId";
+            query.Parameters.AddWithValue("@chipId", chipId);
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting Place\n" + ex.ToString(), LogType.DatabaseError);
             } finally {
                 connection_.Close();
             }

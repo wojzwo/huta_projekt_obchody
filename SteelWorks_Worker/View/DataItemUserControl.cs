@@ -100,7 +100,7 @@ namespace SteelWorks_Worker.View
 
             if (chip.bIsValid) {
                 DB_Place place = Repository.instance.GetPlaceByChip(chip.id);
-                if (place.id != -1) {
+                if (place != null) {
                     Place.Text = place.name;
                     Place.BackColor = System.Drawing.Color.Green;
                     Place.Enabled = false;
@@ -119,7 +119,7 @@ namespace SteelWorks_Worker.View
 
             if (keypad.bIsValid) {
                 DB_Mark mark = Repository.instance.GetMark(keypad.value);
-                if (mark.id != -1) {
+                if (mark != null) {
                     Mark.Text = mark.name;
                     bCommentRequired = mark.bCommentRequired;
                 } else {

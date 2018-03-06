@@ -48,7 +48,7 @@ namespace SteelWorks_Worker.View
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
                 DB_Employee employee = Repository.instance.GetEmployeeByChip(data.id);
-                if (employee.id != -1) {
+                if (employee != null) {
                     WorkerName.Text = "Pracownik: " + employee.name;
                     WorkerName.BackColor = Color.Green;
                     WorkerName.Enabled = false;

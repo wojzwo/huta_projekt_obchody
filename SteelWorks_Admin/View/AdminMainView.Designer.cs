@@ -62,7 +62,7 @@
 			this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.MainPanel.Location = new System.Drawing.Point(0, 0);
 			this.MainPanel.Name = "MainPanel";
-			this.MainPanel.Size = new System.Drawing.Size(2164, 1229);
+			this.MainPanel.Size = new System.Drawing.Size(1982, 944);
 			this.MainPanel.TabIndex = 3;
 			// 
 			// ButtonPanel
@@ -76,7 +76,7 @@
 			this.ButtonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ButtonPanel.Location = new System.Drawing.Point(0, 0);
 			this.ButtonPanel.Name = "ButtonPanel";
-			this.ButtonPanel.Size = new System.Drawing.Size(2164, 138);
+			this.ButtonPanel.Size = new System.Drawing.Size(1982, 106);
 			this.ButtonPanel.TabIndex = 4;
 			// 
 			// button2
@@ -144,15 +144,15 @@
 			// splitContainer.Panel2
 			// 
 			this.splitContainer.Panel2.Controls.Add(this.MainPanel);
-			this.splitContainer.Size = new System.Drawing.Size(2164, 1371);
-			this.splitContainer.SplitterDistance = 138;
+			this.splitContainer.Size = new System.Drawing.Size(1982, 1054);
+			this.splitContainer.SplitterDistance = 106;
 			this.splitContainer.TabIndex = 5;
 			// 
 			// AdminMainView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(2164, 1371);
+			this.ClientSize = new System.Drawing.Size(1982, 1054);
 			this.Controls.Add(this.splitContainer);
 			this.Name = "AdminMainView";
 			this.Text = "AdminMainView";

@@ -79,6 +79,12 @@
     <Compile Include="View\ChipListUserControl.Designer.cs">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\WelcomeUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\WelcomeUserControl.Designer.cs">
+      <DependentUpon>WelcomeUserControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -103,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ChipListUserControl.resx">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\WelcomeUserControl.resx">
+      <DependentUpon>WelcomeUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

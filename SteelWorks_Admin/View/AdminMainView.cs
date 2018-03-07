@@ -19,12 +19,20 @@ namespace SteelWorks_Admin.View
 		UserControl LoadChipUC = null;
 		UserControl ChipListUC = null;
 		UserControl KeypadSettingUC = null;
+		UserControl WelcomeUC = null;
 
 
 		public AdminMainView()
         {
             InitializeComponent();
-        }
+			if (WelcomeUC == null)
+			{
+				WelcomeUC = new WelcomeUserControl();
+				WelcomeUC.Dock = DockStyle.Fill;
+			}
+			MainPanel.Controls.Clear();
+			MainPanel.Controls.Add(WelcomeUC);
+		}
 
 
 		private void LoadChipButton_Click(object sender, EventArgs e)

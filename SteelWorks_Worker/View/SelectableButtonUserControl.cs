@@ -12,14 +12,12 @@ namespace SteelWorks_Worker.View
 {
     public partial class SelectableButtonUserControl : UserControl
     {
-        private int id_;
         private string text_;
         private bool requireComment_;
         private PopupView view_;
         private PopupSelectionType type_;
 
-        public void InitButton(PopupView view, PopupSelectionType type, int id, string text, bool requireComment = false) {
-            id_ = id;
+        public void InitButton(PopupView view, PopupSelectionType type, string text, bool requireComment = false) {
             text_ = text;
             view_ = view;
             type_ = type;
@@ -34,11 +32,11 @@ namespace SteelWorks_Worker.View
 
         private void button1_Click(object sender, EventArgs e) {
             if (type_ == PopupSelectionType.Place) {
-                view_.OnSelectedPlace(id_, text_);
+                view_.OnSelectedPlace(text_);
             } else if (type_ == PopupSelectionType.Mark) {
-                view_.OnSelectedMark(id_, text_, requireComment_);
+                view_.OnSelectedMark(text_, requireComment_);
             } else if (type_ == PopupSelectionType.Employee) {
-                view_.OnSelectedEmployee(id_, text_);
+                view_.OnSelectedEmployee(text_);
             }
         }
     }

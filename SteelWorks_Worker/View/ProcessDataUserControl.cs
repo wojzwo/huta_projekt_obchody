@@ -30,7 +30,7 @@ namespace SteelWorks_Worker.View
             };
         }
 
-        public void OnSelectedEmployee(PopupView popupView, int id, string name) {
+        public void OnSelectedEmployee(PopupView popupView, string name) {
             popupView.Close();
             WorkerName.Text = name;
             WorkerName.BackColor = Color.GreenYellow;

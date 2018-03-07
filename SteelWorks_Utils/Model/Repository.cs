@@ -8,30 +8,18 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Utilities.IO;
 using SteelWorks_Utils;
 
 namespace SteelWorks_Utils.Model
 {
     public enum EChipType
     {
+        ErrorLoading = -1,
         None = 0,
         Employee,
         Place
     }
-
-	public class Chip
-	{
-		public String chipId;
-		public EChipType chipType;
-		public String chipString;
-
-		public Chip()
-		{
-			chipId = null;
-			chipType = 0;
-			chipString = null;
-		}
-	}
 
 	public class Repository
     {
@@ -44,7 +32,13 @@ namespace SteelWorks_Utils.Model
         /// Repository.instance.UpdateMark(mark);
         /// </summary>
         public bool UpdateMark(DB_Mark newMark) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return false;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "UPDATE Mark SET name = @name, isCommentRequired = @isCommentRequired WHERE id = @id";
             query.Parameters.AddWithValue("@name", newMark.name);
@@ -64,19 +58,44 @@ namespace SteelWorks_Utils.Model
         }
 
         public EChipType CheckChipType(string chipId) {
-            DB_Employee employee = GetEmployeeByChip(chipId);
-            if (employee != null)
-                return EChipType.Employee;
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return EChipType.ErrorLoading;
+            }
 
-            DB_Place place = GetPlaceByChip(chipId);
-            if (place != null)
-                return EChipType.Place;
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT * FROM Chip WHERE chipId = @chipId";
+            query.Parameters.AddWithValue("@chipId", chipId);
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    DB_Chip chip = new DB_Chip() {
+                        chipId = reader.GetString("chipId"),
+                        bIsEmployee = reader.GetBoolean("isEmployee")
+                    };
+
+                    return (chip.bIsEmployee) ? EChipType.Employee : EChipType.Place;
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while checking chip type\n" + ex.ToString(), LogType.DatabaseError);
+            } finally {
+                connection_.Close();
+            }
 
             return EChipType.None;
         }
 
         public DB_Employee GetEmployeeByChip(string chipId) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return null;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "SELECT * FROM Employee WHERE chipId = @chipId";
             query.Parameters.AddWithValue("@chipId", chipId);
@@ -85,7 +104,6 @@ namespace SteelWorks_Utils.Model
                 MySqlDataReader reader = query.ExecuteReader();
                 while (reader.Read()) {
                     DB_Employee employee = new DB_Employee() {
-                        id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         chipId = reader.GetString("chipId")
                     };
@@ -102,7 +120,13 @@ namespace SteelWorks_Utils.Model
         }
 
         public DB_Place GetPlaceByChip(string chipId) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return null;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "SELECT * FROM Place WHERE chipId = @chipId";
             query.Parameters.AddWithValue("@chipId", chipId);
@@ -111,7 +135,6 @@ namespace SteelWorks_Utils.Model
                 MySqlDataReader reader = query.ExecuteReader();
                 while (reader.Read()) {
                     DB_Place place = new DB_Place() {
-                        id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         chipId = reader.GetString("chipId"),
                     };
@@ -128,7 +151,13 @@ namespace SteelWorks_Utils.Model
         }
 
         public DB_Mark GetMark(int number) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return null;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "SELECT * FROM Mark WHERE id = @id";
             query.Parameters.AddWithValue("@id", number);
@@ -156,7 +185,13 @@ namespace SteelWorks_Utils.Model
         public List<DB_Employee> GetAllEmployees() {
             List<DB_Employee> employees = new List<DB_Employee>();
 
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return employees;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "SELECT * FROM Employee";
 
@@ -164,7 +199,6 @@ namespace SteelWorks_Utils.Model
                 MySqlDataReader reader = query.ExecuteReader();
                 while (reader.Read()) {
                     DB_Employee employee = new DB_Employee() {
-                        id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         chipId = reader.GetString("chipId")
                     };
@@ -183,7 +217,13 @@ namespace SteelWorks_Utils.Model
         public List<DB_Mark> GetAllMarks() {
             List<DB_Mark> marks = new List<DB_Mark>();
 
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return marks;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "SELECT * FROM Mark";
 
@@ -210,7 +250,13 @@ namespace SteelWorks_Utils.Model
         public List<DB_Place> GetAllPlaces() {
             List<DB_Place> places = new List<DB_Place>();
 
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return places;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "SELECT * FROM Place";
 
@@ -218,7 +264,6 @@ namespace SteelWorks_Utils.Model
                 MySqlDataReader reader = query.ExecuteReader();
                 while (reader.Read()) {
                     DB_Place place = new DB_Place() {
-                        id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         chipId = reader.GetString("chipId"),
                     };
@@ -235,7 +280,13 @@ namespace SteelWorks_Utils.Model
         }
 
         public bool InsertEmployee(DB_Employee employee) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return false;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "INSERT INTO Employee(name, chipId) VALUES(@name, @chipId)";
             query.Parameters.AddWithValue("@name", employee.name);
@@ -246,15 +297,33 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while inserting Employee\n" + ex.ToString(), LogType.DatabaseError);
+            }
+
+            query = connection_.CreateCommand();
+            query.CommandText = "INSERT INTO Chip(chipId, isEmployee) VALUES(@chipId, @isEmployee)";
+            query.Parameters.AddWithValue("@chipId", employee.chipId);
+            query.Parameters.AddWithValue("@isEmployee", 1);
+
+            int rowsAffected2 = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while inserting Chip\n" + ex.ToString(), LogType.DatabaseError);
             } finally {
                 connection_.Close();
             }
 
-            return (rowsAffected == 1);
+            return (rowsAffected == 1 && rowsAffected2 == 1);
         }
 
         public bool InsertPlace(DB_Place place) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return false;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "INSERT INTO Place(name, chipId) VALUES(@name, @chipId)";
             query.Parameters.AddWithValue("@name", place.name);
@@ -265,15 +334,33 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while inserting Place\n" + ex.ToString(), LogType.DatabaseError);
+            }
+
+            query = connection_.CreateCommand();
+            query.CommandText = "INSERT INTO Chip(chipId, isEmployee) VALUES(@chipId, @isEmployee)";
+            query.Parameters.AddWithValue("@chipId", place.chipId);
+            query.Parameters.AddWithValue("@isEmployee", 0);
+
+            int rowsAffected2 = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while inserting Chip\n" + ex.ToString(), LogType.DatabaseError);
             } finally {
                 connection_.Close();
             }
 
-            return (rowsAffected == 1);
+            return (rowsAffected == 1 && rowsAffected2 == 1);
         }
 
         public bool DeleteEmployee(string chipId) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return false;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "DELETE FROM Employee WHERE chipId = @chipId";
             query.Parameters.AddWithValue("@chipId", chipId);
@@ -283,15 +370,32 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while deleting Employee\n" + ex.ToString(), LogType.DatabaseError);
+            }
+
+            query = connection_.CreateCommand();
+            query.CommandText = "DELETE FROM Chip WHERE chipId = @chipId)";
+            query.Parameters.AddWithValue("@chipId", chipId);
+
+            int rowsAffected2 = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting Chip\n" + ex.ToString(), LogType.DatabaseError);
             } finally {
                 connection_.Close();
             }
 
-            return (rowsAffected == 1);
+            return (rowsAffected == 1 && rowsAffected2 == 1);
         }
 
         public bool DeletePlace(string chipId) {
-            connection_.Open();
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                return false;
+            }
+
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "DELETE FROM Place WHERE chipId = @chipId";
             query.Parameters.AddWithValue("@chipId", chipId);
@@ -301,11 +405,22 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while deleting Place\n" + ex.ToString(), LogType.DatabaseError);
+            }
+
+            query = connection_.CreateCommand();
+            query.CommandText = "DELETE FROM Chip WHERE chipId = @chipId)";
+            query.Parameters.AddWithValue("@chipId", chipId);
+
+            int rowsAffected2 = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting Chip\n" + ex.ToString(), LogType.DatabaseError);
             } finally {
                 connection_.Close();
             }
 
-            return (rowsAffected == 1);
+            return (rowsAffected == 1 && rowsAffected2 == 1);
         }
 
         public Repository() {

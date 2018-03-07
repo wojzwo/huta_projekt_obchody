@@ -54,7 +54,7 @@ namespace SteelWorks_Worker.View
             return textBox1.Text;
         }
 
-        public void OnSelectedMark(PopupView view, int id, string name, bool requireComment) {
+        public void OnSelectedMark(PopupView view, string name, bool requireComment) {
             view.Close();
             Mark.Text = name;
             Mark.BackColor = System.Drawing.Color.GreenYellow;
@@ -67,7 +67,7 @@ namespace SteelWorks_Worker.View
             ChangeItemHeader();
         }
 
-        public void OnSelectedPlace(PopupView view, int id, string name) {
+        public void OnSelectedPlace(PopupView view, string name) {
             view.Close();
             Place.Text = name;
             Place.BackColor = System.Drawing.Color.GreenYellow;

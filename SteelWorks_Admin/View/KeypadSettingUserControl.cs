@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SteelWorks_Utils.Model;
 
 namespace SteelWorks_Admin.View
 {
 	public partial class KeypadSettingUserControl : UserControl
 	{
 		int selectedNumber = -1;
+		DB_Mark mark = new DB_Mark();
+
+
 		public KeypadSettingUserControl()
 		{
 			InitializeComponent();
@@ -21,17 +25,27 @@ namespace SteelWorks_Admin.View
 
 		private void reloadKeypadFromDB()
 		{
-
+			mark = Repository.instance.GetMark(selectedNumber);
+			markStringTextBox.Text = mark.name;
+			bCommentRequieredCheckBox.Checked = mark.bCommentRequired;
 		}
 
 		private void SaveToDBButton_Click(object sender, EventArgs e)
 		{
-
+			if(selectedNumber == -1)
+			{
+				noSelectionLabel.Visible = true;
+				return;
+			}
+			mark.name = markStringTextBox.Text;
+			mark.bCommentRequired = bCommentRequieredCheckBox.Checked;
+			Repository.instance.UpdateMark(mark);
 		}
 
 
 		private void uncolor_buttons()
 		{
+			noSelectionLabel.Visible = false;
 			button1.BackColor = Color.WhiteSmoke;
 			button2.BackColor = Color.WhiteSmoke;
 			button3.BackColor = Color.WhiteSmoke;

@@ -19,7 +19,21 @@ namespace SteelWorks_Utils.Model
         Place
     }
 
-    public class Repository
+	public class Chip
+	{
+		public String chipId;
+		public EChipType chipType;
+		public String chipString;
+
+		public Chip()
+		{
+			chipId = null;
+			chipType = 0;
+			chipString = null;
+		}
+	}
+
+	public class Repository
     {
         public static Repository instance;
         private MySqlConnection connection_;

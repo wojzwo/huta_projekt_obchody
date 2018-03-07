@@ -12,5 +12,13 @@ namespace SteelWorks_Utils.Model
         public int id = -1;
         public string name;
         public string chipId;
-    }
+
+		public DB_Place() { }
+
+		public DB_Place(string chipIDN, string nameN)
+		{
+			this.chipId = chipIDN;
+			this.name = nameN;
+		}
+	}
 }

@@ -7,20 +7,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SteelWorks_Utils.Model;
 
 namespace SteelWorks_Admin.View
 {
 	public partial class ChipListUserControl : UserControl
 	{
+
+		private List<DB_Employee>  employees = null;
+		private List<DB_Place> places = null;
 		public ChipListUserControl()
 		{
 			InitializeComponent();
 			chipStateComboBox.SelectedIndex = 0;
+			this.editChipUserControl1.RemoveButton.Click += new System.EventHandler(ReloadChipFromDBButton_Click);
+			this.editChipUserControl1.addChangeButton.Click += new System.EventHandler(ReloadChipFromDBButton_Click);
 		}
 
 		private void listView1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			/*editChipUserControl1.updateChip(listView1.SelectedItems[0]);*/
+			if (listView1.SelectedItems.Count == 1)
+			{
+				editChipUserControl1.updateChip(listView1.SelectedItems[0].SubItems[0].Text);
+			}
+		}
+
+		private void chipStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			reloadListFromDB();
+		}
+
+		private void ReloadChipFromDBButton_Click(object sender, EventArgs e)
+		{
+			reloadListFromDB();
+
+		}
+
+		private void reloadListFromDB()
+		{
+			listView1.Items.Clear();
+			string[] row = { "", "" };
+			if (chipStateComboBox.SelectedIndex == 0)
+			{
+				places = Repository.instance.GetAllPlaces();
+				foreach (DB_Place place in places)
+				{
+					row[0] = place.chipId;
+					row[1] = place.name;
+					listView1.Items.Add(new ListViewItem(row));
+				}
+			}
+
+			if (chipStateComboBox.SelectedIndex == 1)
+			{
+				employees = Repository.instance.GetAllEmployees();
+				foreach (DB_Employee emp in employees)
+				{
+					row[0] = emp.chipId;
+					row[1] = emp.name;
+					listView1.Items.Add(new ListViewItem(row));
+				}
+			}
 		}
 	}
 }

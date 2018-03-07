@@ -32,22 +32,23 @@
 			this.chipTypeName = new System.Windows.Forms.Label();
 			this.ReloadChipFromDBButton = new System.Windows.Forms.Button();
 			this.listView1 = new System.Windows.Forms.ListView();
-			this.chipID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.Nazwa = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.editChipUserControl1 = new SteelWorks_Admin.View.EditChipUserControl();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
 			// chipStateComboBox
 			// 
+			this.chipStateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.chipStateComboBox.FormattingEnabled = true;
 			this.chipStateComboBox.Items.AddRange(new object[] {
-            "Wszystkie",
             "Miejsce",
             "Pracownik"});
 			this.chipStateComboBox.Location = new System.Drawing.Point(106, 19);
 			this.chipStateComboBox.Name = "chipStateComboBox";
 			this.chipStateComboBox.Size = new System.Drawing.Size(266, 39);
 			this.chipStateComboBox.TabIndex = 5;
+			this.chipStateComboBox.SelectedIndexChanged += new System.EventHandler(this.chipStateComboBox_SelectedIndexChanged);
 			// 
 			// chipTypeName
 			// 
@@ -66,33 +67,39 @@
 			this.ReloadChipFromDBButton.TabIndex = 7;
 			this.ReloadChipFromDBButton.Text = "Wczytaj Dane z Bazy";
 			this.ReloadChipFromDBButton.UseVisualStyleBackColor = true;
+			this.ReloadChipFromDBButton.Click += new System.EventHandler(this.ReloadChipFromDBButton_Click);
 			// 
 			// listView1
 			// 
 			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Nazwa,
-            this.chipID});
-			this.listView1.Location = new System.Drawing.Point(29, 111);
+            this.columnHeader1,
+            this.columnHeader2});
+			this.listView1.FullRowSelect = true;
+			this.listView1.GridLines = true;
+			this.listView1.Location = new System.Drawing.Point(29, 92);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(577, 988);
+			this.listView1.Size = new System.Drawing.Size(704, 988);
 			this.listView1.TabIndex = 8;
 			this.listView1.UseCompatibleStateImageBehavior = false;
+			this.listView1.View = System.Windows.Forms.View.Details;
 			this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-			// 
-			// chipID
-			// 
-			this.chipID.DisplayIndex = 0;
-			// 
-			// Nazwa
-			// 
-			this.Nazwa.DisplayIndex = 1;
 			// 
 			// editChipUserControl1
 			// 
-			this.editChipUserControl1.Location = new System.Drawing.Point(654, 121);
+			this.editChipUserControl1.Location = new System.Drawing.Point(770, 116);
 			this.editChipUserControl1.Name = "editChipUserControl1";
 			this.editChipUserControl1.Size = new System.Drawing.Size(835, 344);
 			this.editChipUserControl1.TabIndex = 9;
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "ChipID";
+			this.columnHeader1.Width = 154;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "Nazwa";
+			this.columnHeader2.Width = 539;
 			// 
 			// ChipListUserControl
 			// 
@@ -104,7 +111,7 @@
 			this.Controls.Add(this.chipTypeName);
 			this.Controls.Add(this.chipStateComboBox);
 			this.Name = "ChipListUserControl";
-			this.Size = new System.Drawing.Size(1547, 1223);
+			this.Size = new System.Drawing.Size(1628, 1223);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -116,8 +123,8 @@
 		private System.Windows.Forms.Label chipTypeName;
 		private System.Windows.Forms.Button ReloadChipFromDBButton;
 		private System.Windows.Forms.ListView listView1;
-		private System.Windows.Forms.ColumnHeader chipID;
-		private System.Windows.Forms.ColumnHeader Nazwa;
 		private EditChipUserControl editChipUserControl1;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
+		private System.Windows.Forms.ColumnHeader columnHeader2;
 	}
 }

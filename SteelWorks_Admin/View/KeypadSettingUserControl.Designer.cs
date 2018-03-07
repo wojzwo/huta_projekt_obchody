@@ -43,9 +43,10 @@
 			this.button11 = new System.Windows.Forms.Button();
 			this.button12 = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.markStringTextBox = new System.Windows.Forms.TextBox();
+			this.bCommentRequieredCheckBox = new System.Windows.Forms.CheckBox();
 			this.SaveToDBButton = new System.Windows.Forms.Button();
+			this.noSelectionLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -194,22 +195,22 @@
 			this.label2.TabIndex = 15;
 			this.label2.Text = "Znaczenie";
 			// 
-			// textBox1
+			// markStringTextBox
 			// 
-			this.textBox1.Location = new System.Drawing.Point(515, 88);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(359, 38);
-			this.textBox1.TabIndex = 16;
+			this.markStringTextBox.Location = new System.Drawing.Point(515, 88);
+			this.markStringTextBox.Name = "markStringTextBox";
+			this.markStringTextBox.Size = new System.Drawing.Size(359, 38);
+			this.markStringTextBox.TabIndex = 16;
 			// 
-			// checkBox1
+			// bCommentRequieredCheckBox
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(367, 161);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(653, 36);
-			this.checkBox1.TabIndex = 18;
-			this.checkBox1.Text = "Raport z tym oznaczeniem wymaga komentarza";
-			this.checkBox1.UseVisualStyleBackColor = true;
+			this.bCommentRequieredCheckBox.AutoSize = true;
+			this.bCommentRequieredCheckBox.Location = new System.Drawing.Point(367, 161);
+			this.bCommentRequieredCheckBox.Name = "bCommentRequieredCheckBox";
+			this.bCommentRequieredCheckBox.Size = new System.Drawing.Size(653, 36);
+			this.bCommentRequieredCheckBox.TabIndex = 18;
+			this.bCommentRequieredCheckBox.Text = "Raport z tym oznaczeniem wymaga komentarza";
+			this.bCommentRequieredCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// SaveToDBButton
 			// 
@@ -221,13 +222,25 @@
 			this.SaveToDBButton.UseVisualStyleBackColor = true;
 			this.SaveToDBButton.Click += new System.EventHandler(this.SaveToDBButton_Click);
 			// 
+			// noSelectionLabel
+			// 
+			this.noSelectionLabel.AutoSize = true;
+			this.noSelectionLabel.ForeColor = System.Drawing.Color.Red;
+			this.noSelectionLabel.Location = new System.Drawing.Point(358, 388);
+			this.noSelectionLabel.Name = "noSelectionLabel";
+			this.noSelectionLabel.Size = new System.Drawing.Size(379, 32);
+			this.noSelectionLabel.TabIndex = 20;
+			this.noSelectionLabel.Text = "Brak wybranego oznaczenia!";
+			this.noSelectionLabel.Visible = false;
+			// 
 			// KeypadSettingUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.noSelectionLabel);
 			this.Controls.Add(this.SaveToDBButton);
-			this.Controls.Add(this.checkBox1);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.bCommentRequieredCheckBox);
+			this.Controls.Add(this.markStringTextBox);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.button12);
 			this.Controls.Add(this.button11);
@@ -266,8 +279,9 @@
 		private System.Windows.Forms.Button button11;
 		private System.Windows.Forms.Button button12;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.TextBox markStringTextBox;
+		private System.Windows.Forms.CheckBox bCommentRequieredCheckBox;
 		private System.Windows.Forms.Button SaveToDBButton;
+		private System.Windows.Forms.Label noSelectionLabel;
 	}
 }

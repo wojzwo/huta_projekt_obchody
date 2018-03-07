@@ -67,6 +67,7 @@
 			// 
 			// chipStateComboBox
 			// 
+			this.chipStateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.chipStateComboBox.FormattingEnabled = true;
 			this.chipStateComboBox.Items.AddRange(new object[] {
             "",
@@ -151,8 +152,8 @@
 		private System.Windows.Forms.Label chipTypeName;
 		private System.Windows.Forms.Label chipStringName;
 		private System.Windows.Forms.TextBox chipStringText;
-		private System.Windows.Forms.Button addChangeButton;
-		private System.Windows.Forms.Button RemoveButton;
 		private System.Windows.Forms.TextBox chipIdText;
+		public System.Windows.Forms.Button addChangeButton;
+		public System.Windows.Forms.Button RemoveButton;
 	}
 }

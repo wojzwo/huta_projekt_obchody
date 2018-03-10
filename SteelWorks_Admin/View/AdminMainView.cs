@@ -17,21 +17,12 @@ namespace SteelWorks_Admin.View
     public partial class AdminMainView : Form
     {
 		UserControl LoadChipUC = null;
-		UserControl ChipListUC = null;
-		UserControl KeypadSettingUC = null;
-		UserControl WelcomeUC = null;
-
 
 		public AdminMainView()
         {
             InitializeComponent();
-			if (WelcomeUC == null)
-			{
-				WelcomeUC = new WelcomeUserControl();
-				WelcomeUC.Dock = DockStyle.Fill;
-			}
 			MainPanel.Controls.Clear();
-			MainPanel.Controls.Add(WelcomeUC);
+			MainPanel.Controls.Add(new WelcomeUserControl());
 		}
 
 
@@ -49,24 +40,20 @@ namespace SteelWorks_Admin.View
 
 		private void chipListButton_Click(object sender, EventArgs e)
 		{
-			if (ChipListUC == null)
-			{
-				ChipListUC = new ChipListUserControl();
-				ChipListUC.Dock = DockStyle.Fill;
-			}
 			MainPanel.Controls.Clear();
-			MainPanel.Controls.Add(ChipListUC);
+			MainPanel.Controls.Add(new ChipListUserControl());
 		}
 
 		private void keyPadSettingButton_Click(object sender, EventArgs e)
 		{
-			if (KeypadSettingUC == null)
-			{
-				KeypadSettingUC = new KeypadSettingUserControl();
-				KeypadSettingUC.Dock = DockStyle.Fill;
-			}
 			MainPanel.Controls.Clear();
-			MainPanel.Controls.Add(KeypadSettingUC);
+			MainPanel.Controls.Add(new KeypadSettingUserControl());
+		}
+
+		private void trackButton_Click(object sender, EventArgs e)
+		{
+			MainPanel.Controls.Clear();
+			MainPanel.Controls.Add(new TrackUserControl());
 		}
 	}
 }

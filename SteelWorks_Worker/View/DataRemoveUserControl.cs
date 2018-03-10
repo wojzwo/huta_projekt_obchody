@@ -24,10 +24,14 @@ namespace SteelWorks_Worker.View
                 return;
             }
 
+            StartButton.Text = "Proszę czekać...";
+            StartButton.Enabled = false;
             if (view.controller.EraseReader()) {
                 view.ChangeUserControlToRemoveDataSuccess();
             } else {
                 ErrorBox.Visible = true;
+                StartButton.Text = "Spróbuj jeszcze raz, trzymając czytnik na adapterze";
+                StartButton.Enabled = true;
             }
         }
     }

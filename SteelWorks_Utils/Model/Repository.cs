@@ -25,6 +25,8 @@ namespace SteelWorks_Utils.Model
         public static Repository instance;
         private MySqlConnection connection_;
 
+
+
         /// <summary> 
         /// DB_Mark mark = Repository.instance.GetMark(3); 
         /// mark.name = "Inna nazwa na ocene";

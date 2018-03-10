@@ -14,6 +14,6 @@ namespace SteelWorks_Utils.Model
         public DateTime dueDate;
         public bool isFinished;
         public bool isRepeating;
-        public bool isCorrectlyAssigned;
+        public bool isEmployeeAdded;
     }
 }

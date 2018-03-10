@@ -12,6 +12,7 @@ namespace SteelWorks_Utils.Model
         public int trackId;
         public int employeeId;
         public DateTime dayStart;
-        public int dayOffset;
+        public int repeatLength;
+        public Int64 repeatMask;
     }
 }

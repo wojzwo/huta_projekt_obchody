@@ -4,6 +4,8 @@
 -- ------------------------------------------------------
 -- Server version	10.1.26-MariaDB-0+deb9u1
 
+USE hutadb;
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -72,7 +74,7 @@ DROP TABLE IF EXISTS `Mark`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Mark` (
   `id` int(11) NOT NULL,
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `isCommentRequired` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -97,7 +99,7 @@ DROP TABLE IF EXISTS `Place`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Place` (
   `chipId` varchar(64) NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`chipId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -122,9 +124,11 @@ DROP TABLE IF EXISTS `Report`;
 CREATE TABLE `Report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `trackId` int(11) DEFAULT NULL,
-  `employeeId` int(11) DEFAULT NULL,
-  `assignmentDate` date DEFAULT NULL,
+  `employeeId` varchar(64) DEFAULT NULL,
+  `dueDate` date DEFAULT NULL,
   `isFinished` bit(1) DEFAULT NULL,
+  `isRepeating` bit(1) DEFAULT NULL,
+  `isEmployeeAdded` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -173,7 +177,7 @@ DROP TABLE IF EXISTS `Track`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Track` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) DEFAULT NULL,
+  `name` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `creationDate` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -210,6 +214,33 @@ LOCK TABLES `TrackPlace` WRITE;
 /*!40000 ALTER TABLE `TrackPlace` DISABLE KEYS */;
 /*!40000 ALTER TABLE `TrackPlace` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `TrackRepeating`
+--
+
+DROP TABLE IF EXISTS `TrackRepeating`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TrackRepeating` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `trackId` int(11) DEFAULT NULL,
+  `employeeId` varchar(64) DEFAULT NULL,
+  `dayStart` date DEFAULT NULL,
+  `repeatLength` int(11) DEFAULT NULL,
+  `repeatMask` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TrackRepeating`
+--
+
+LOCK TABLES `TrackRepeating` WRITE;
+/*!40000 ALTER TABLE `TrackRepeating` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TrackRepeating` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -220,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-07 18:24:43
+-- Dump completed on 2018-03-10 16:10:52

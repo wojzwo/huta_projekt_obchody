@@ -33,7 +33,7 @@
 			this.MainPanel = new System.Windows.Forms.Panel();
 			this.ButtonPanel = new System.Windows.Forms.Panel();
 			this.button2 = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
+			this.trackButton = new System.Windows.Forms.Button();
 			this.keyPadSettingButton = new System.Windows.Forms.Button();
 			this.chipListButton = new System.Windows.Forms.Button();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
@@ -69,7 +69,7 @@
 			// 
 			this.ButtonPanel.BackColor = System.Drawing.SystemColors.Control;
 			this.ButtonPanel.Controls.Add(this.button2);
-			this.ButtonPanel.Controls.Add(this.button1);
+			this.ButtonPanel.Controls.Add(this.trackButton);
 			this.ButtonPanel.Controls.Add(this.keyPadSettingButton);
 			this.ButtonPanel.Controls.Add(this.chipListButton);
 			this.ButtonPanel.Controls.Add(this.LoadChipButton);
@@ -91,17 +91,18 @@
 			this.button2.Text = "Trasy";
 			this.button2.UseVisualStyleBackColor = false;
 			// 
-			// button1
+			// trackButton
 			// 
-			this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-			this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.button1.Location = new System.Drawing.Point(1230, 12);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(400, 100);
-			this.button1.TabIndex = 5;
-			this.button1.Text = "Trasy";
-			this.button1.UseVisualStyleBackColor = false;
+			this.trackButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.trackButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("trackButton.BackgroundImage")));
+			this.trackButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.trackButton.Location = new System.Drawing.Point(1230, 12);
+			this.trackButton.Name = "trackButton";
+			this.trackButton.Size = new System.Drawing.Size(400, 100);
+			this.trackButton.TabIndex = 5;
+			this.trackButton.Text = "Trasy";
+			this.trackButton.UseVisualStyleBackColor = false;
+			this.trackButton.Click += new System.EventHandler(this.trackButton_Click);
 			// 
 			// keyPadSettingButton
 			// 
@@ -173,7 +174,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer;
 		private System.Windows.Forms.Button chipListButton;
 		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button trackButton;
 		private System.Windows.Forms.Button keyPadSettingButton;
 	}
 }

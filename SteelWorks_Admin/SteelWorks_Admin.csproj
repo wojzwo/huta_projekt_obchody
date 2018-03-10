@@ -50,6 +50,12 @@
     <Compile Include="Model\Chip.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\addTrackUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\addTrackUserControl.Designer.cs">
+      <DependentUpon>addTrackUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\AdminMainView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,12 @@
     <Compile Include="View\ChipListUserControl.Designer.cs">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\TrackUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TrackUserControl.Designer.cs">
+      <DependentUpon>TrackUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\WelcomeUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,6 +108,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\addTrackUserControl.resx">
+      <DependentUpon>addTrackUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\AdminMainView.resx">
       <DependentUpon>AdminMainView.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ChipListUserControl.resx">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TrackUserControl.resx">
+      <DependentUpon>TrackUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\WelcomeUserControl.resx">
       <DependentUpon>WelcomeUserControl.cs</DependentUpon>

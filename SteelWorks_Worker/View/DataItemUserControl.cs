@@ -101,7 +101,7 @@ namespace SteelWorks_Worker.View
             if (chip.bIsValid) {
                 DB_Place place = null;
                 try {
-                    place = Repository.instance.GetPlaceByChip(chip.id);
+                    place = Repository.instance.GetPlace(chip.id);
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }

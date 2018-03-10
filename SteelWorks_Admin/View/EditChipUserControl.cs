@@ -129,7 +129,7 @@ namespace SteelWorks_Admin.View
 			{
 				chipStateComboBox.SelectedIndex = 1;
 			    try {
-			        chip.chipString = Repository.instance.GetPlaceByChip(chip.chipId).name;
+			        chip.chipString = Repository.instance.GetPlace(chip.chipId).name;
 			    } catch (Exception ex) {
                     //TODO: Exception handling code
 			    }
@@ -138,7 +138,7 @@ namespace SteelWorks_Admin.View
 			{
 				chipStateComboBox.SelectedIndex = 2;
 			    try {
-			        chip.chipString = Repository.instance.GetEmployeeByChip(chip.chipId).name;
+			        chip.chipString = Repository.instance.GetEmployee(chip.chipId).name;
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }

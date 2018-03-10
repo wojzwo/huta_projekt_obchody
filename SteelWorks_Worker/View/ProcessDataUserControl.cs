@@ -49,7 +49,7 @@ namespace SteelWorks_Worker.View
             if (data.bIsValid) {
                 DB_Employee employee = null;
                 try {
-                    employee = Repository.instance.GetEmployeeByChip(data.id);
+                    employee = Repository.instance.GetEmployee(data.id);
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }

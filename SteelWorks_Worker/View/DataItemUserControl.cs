@@ -99,7 +99,13 @@ namespace SteelWorks_Worker.View
             Date.Text = validTime.ToString("g");
 
             if (chip.bIsValid) {
-                DB_Place place = Repository.instance.GetPlaceByChip(chip.id);
+                DB_Place place = null;
+                try {
+                    place = Repository.instance.GetPlaceByChip(chip.id);
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+
                 if (place != null) {
                     Place.Text = place.name;
                     Place.BackColor = System.Drawing.Color.Green;

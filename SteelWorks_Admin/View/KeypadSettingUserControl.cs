@@ -25,8 +25,13 @@ namespace SteelWorks_Admin.View
 
 		private void reloadKeypadFromDB()
 		{
-			mark = Repository.instance.GetMark(selectedNumber);
-			markStringTextBox.Text = mark.name;
+		    try {
+		        mark = Repository.instance.GetMark(selectedNumber);
+		    } catch (Exception ex) {
+		        //TODO: Exception handling code
+            }
+
+            markStringTextBox.Text = mark.name;
 			bCommentRequieredCheckBox.Checked = mark.bCommentRequired;
 		}
 
@@ -39,8 +44,13 @@ namespace SteelWorks_Admin.View
 			}
 			mark.name = markStringTextBox.Text;
 			mark.bCommentRequired = bCommentRequieredCheckBox.Checked;
-			Repository.instance.UpdateMark(mark);
-		}
+
+		    try {
+		        Repository.instance.UpdateMark(mark);
+		    } catch (Exception ex) {
+		        //TODO: Exception handling code
+            }
+        }
 
 
 		private void uncolor_buttons()

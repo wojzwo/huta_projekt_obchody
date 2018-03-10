@@ -14,7 +14,6 @@ namespace SteelWorks_Utils.Model
 {
     public enum EChipType
     {
-        ErrorLoading = -1,
         None = 0,
         Employee,
         Place
@@ -24,8 +23,6 @@ namespace SteelWorks_Utils.Model
     {
         public static Repository instance;
         private MySqlConnection connection_;
-
-
 
         /// <summary> 
         /// DB_Mark mark = Repository.instance.GetMark(3); 
@@ -37,7 +34,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return false;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -51,6 +48,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while updating Mark\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -63,7 +61,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return EChipType.ErrorLoading;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -82,6 +80,7 @@ namespace SteelWorks_Utils.Model
                 }
             } catch (Exception ex) {
                 Debug.Log("Error while checking chip type\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -94,7 +93,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return null;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -113,6 +112,7 @@ namespace SteelWorks_Utils.Model
                 }
             } catch (Exception ex) {
                 Debug.Log("Error while getting employee\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -125,7 +125,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return null;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -144,6 +144,7 @@ namespace SteelWorks_Utils.Model
                 }
             } catch (Exception ex) {
                 Debug.Log("Error while getting place\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -156,7 +157,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return null;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -176,6 +177,7 @@ namespace SteelWorks_Utils.Model
                 }
             } catch (Exception ex) {
                 Debug.Log("Error while getting mark\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -190,7 +192,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return employees;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -208,6 +210,7 @@ namespace SteelWorks_Utils.Model
                 }
             } catch (Exception ex) {
                 Debug.Log("Error while getting all employees\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -222,7 +225,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return marks;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -241,6 +244,7 @@ namespace SteelWorks_Utils.Model
                 }
             } catch (Exception ex) {
                 Debug.Log("Error while getting all marks\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -255,7 +259,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return places;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -273,6 +277,7 @@ namespace SteelWorks_Utils.Model
                 }
             } catch (Exception ex) {
                 Debug.Log("Error while getting all places\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -285,7 +290,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return false;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -298,6 +303,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while inserting Employee\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             }
 
             query = connection_.CreateCommand();
@@ -310,6 +316,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while inserting Chip\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -317,12 +324,13 @@ namespace SteelWorks_Utils.Model
             return (rowsAffected == 1 && rowsAffected2 == 1);
         }
 
+
         public bool InsertPlace(DB_Place place) {
             try {
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return false;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -335,6 +343,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while inserting Place\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             }
 
             query = connection_.CreateCommand();
@@ -347,6 +356,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while inserting Chip\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -359,7 +369,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return false;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -371,6 +381,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while deleting Employee\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             }
 
             query = connection_.CreateCommand();
@@ -382,6 +393,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while deleting Chip\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -394,7 +406,7 @@ namespace SteelWorks_Utils.Model
                 connection_.Open();
             } catch (Exception ex) {
                 Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
-                return false;
+                throw new NoInternetConnectionException();
             }
 
             MySqlCommand query = connection_.CreateCommand();
@@ -406,6 +418,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while deleting Place\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             }
 
             query = connection_.CreateCommand();
@@ -417,6 +430,7 @@ namespace SteelWorks_Utils.Model
                 rowsAffected = query.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while deleting Chip\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
             } finally {
                 connection_.Close();
             }
@@ -450,5 +464,19 @@ namespace SteelWorks_Utils.Model
 
             return ret;
         }
+    }
+
+    public class QueryExecutionException : Exception
+    {
+        public QueryExecutionException() { }
+        public QueryExecutionException(string message) : base(message) { }
+        public QueryExecutionException(string message, Exception innerException) : base(message, innerException) { }
+    }
+
+    public class NoInternetConnectionException : Exception
+    {
+        public NoInternetConnectionException() { }
+        public NoInternetConnectionException(string message) : base(message) { }
+        public NoInternetConnectionException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

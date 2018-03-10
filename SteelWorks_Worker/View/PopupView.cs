@@ -47,21 +47,39 @@ namespace SteelWorks_Worker.View
 
         private void Fill() {
             if (type_ == PopupSelectionType.Place) {
-                List<DB_Place> places = Repository.instance.GetAllPlaces();
+                List<DB_Place> places = new List<DB_Place>();
+                try {
+                    places = Repository.instance.GetAllPlaces();
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+
                 foreach (DB_Place place in places) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();
                     s.InitButton(this, type_, place.name);
                     tableLayoutPanel1.Controls.Add(s);
                 }
             } else if (type_ == PopupSelectionType.Mark) {
-                List<DB_Mark> marks = Repository.instance.GetAllMarks();
+                List<DB_Mark> marks = new List<DB_Mark>();
+                try {
+                    marks = Repository.instance.GetAllMarks();
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+
                 foreach (DB_Mark mark in marks) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();
                     s.InitButton(this, type_, mark.name, mark.bCommentRequired);
                     tableLayoutPanel1.Controls.Add(s);
                 }
             } else if (type_ == PopupSelectionType.Employee) {
-                List<DB_Employee> employees = Repository.instance.GetAllEmployees();
+                List<DB_Employee> employees = new List<DB_Employee>();
+                try {
+                    employees = Repository.instance.GetAllEmployees();
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+
                 foreach (DB_Employee employee in employees) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();
                     s.InitButton(this, type_, employee.name);

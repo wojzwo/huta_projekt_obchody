@@ -59,16 +59,31 @@ namespace SteelWorks_Admin.View
 		private void removeFromDb()
 		{
 			chipIdText.Enabled = false;
-			EChipType chipType= Repository.instance.CheckChipType(chipIdText.Text);
-			if(chipType == EChipType.Place)
+		    EChipType chipType = EChipType.None;
+
+            try {
+		        chipType = Repository.instance.CheckChipType(chipIdText.Text);
+		    } catch (Exception ex) {
+		        //TODO: Exception handling code
+            }
+
+            if (chipType == EChipType.Place)
 			{
-				Repository.instance.DeletePlace(chipIdText.Text);
-			}
+			    try {
+			        Repository.instance.DeletePlace(chipIdText.Text);
+			    } catch (Exception ex) {
+			        //TODO: Exception handling code
+                }
+            }
 
 			if (chipType == EChipType.Employee)
 			{
-				Repository.instance.DeleteEmployee(chipIdText.Text);
-			}
+			    try {
+			        Repository.instance.DeleteEmployee(chipIdText.Text);
+			    } catch (Exception ex) {
+			        //TODO: Exception handling code
+                }
+            }
 			chipIdText.Enabled = true ;
 		}
 
@@ -78,12 +93,20 @@ namespace SteelWorks_Admin.View
 			chipStateComboBox.Enabled = false;
 			if (chipStateComboBox.SelectedIndex == 1)
 			{
-				Repository.instance.InsertPlace(new DB_Place(chipIdText.Text, chipStringText.Text));
-			}
+			    try {
+			        Repository.instance.InsertPlace(new DB_Place(chipIdText.Text, chipStringText.Text));
+			    } catch (Exception ex) {
+			        //TODO: Exception handling code
+                }
+            }
 			if (chipStateComboBox.SelectedIndex == 2)
 			{
-				Repository.instance.InsertEmployee(new DB_Employee(chipIdText.Text, chipStringText.Text));
-			}
+			    try {
+			        Repository.instance.InsertEmployee(new DB_Employee(chipIdText.Text, chipStringText.Text));
+			    } catch (Exception ex) {
+			        //TODO: Exception handling code
+                }
+            }
 			chipStateComboBox.Enabled = true;
 			chipIdText.Enabled = true;
 		}
@@ -95,18 +118,31 @@ namespace SteelWorks_Admin.View
 			Chip chip = new Chip();
 			chip.chipId= chipIdText.Text;
 			/*Chip chip = QueryFromDb(queriedId)*/
-			chip.chipType= Repository.instance.CheckChipType(chip.chipId);
-			chipStateComboBox.SelectedIndex = 0;
+		    try {
+		        chip.chipType = Repository.instance.CheckChipType(chip.chipId);
+		    } catch (Exception ex) {
+		        //TODO: Exception handling code
+            }
+
+            chipStateComboBox.SelectedIndex = 0;
 			if (chip.chipType == EChipType.Place)
 			{
 				chipStateComboBox.SelectedIndex = 1;
-				chip.chipString = Repository.instance.GetPlaceByChip(chip.chipId).name;
+			    try {
+			        chip.chipString = Repository.instance.GetPlace(chip.chipId).name;
+			    } catch (Exception ex) {
+                    //TODO: Exception handling code
+			    }
 			}
 			if (chip.chipType == EChipType.Employee)
 			{
 				chipStateComboBox.SelectedIndex = 2;
-				chip.chipString = Repository.instance.GetEmployeeByChip(chip.chipId).name;
-			}
+			    try {
+			        chip.chipString = Repository.instance.GetEmployee(chip.chipId).name;
+			    } catch (Exception ex) {
+			        //TODO: Exception handling code
+                }
+            }
 			refreshChipStateName();
 			if(chip.chipString == null)
 			{

@@ -47,7 +47,13 @@ namespace SteelWorks_Worker.View
 
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
-                DB_Employee employee = Repository.instance.GetEmployeeByChip(data.id);
+                DB_Employee employee = null;
+                try {
+                    employee = Repository.instance.GetEmployee(data.id);
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+
                 if (employee != null) {
                     WorkerName.Text = "Pracownik: " + employee.name;
                     WorkerName.BackColor = Color.Green;

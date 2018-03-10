@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace SteelWorks_Utils.Model
 {
-    public class DB_Report
+    public class DB_TrackRepeating
     {
         public int id = -1;
         public int trackId;
         public int employeeId;
-        public DateTime dueDate;
-        public bool isFinished;
-        public bool isRepeating;
-        public bool isEmployeeAdded;
+        public DateTime dayStart;
+        public int repeatLength;
+        public Int64 repeatMask;
     }
 }

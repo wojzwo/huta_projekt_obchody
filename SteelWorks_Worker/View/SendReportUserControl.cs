@@ -49,7 +49,13 @@ namespace SteelWorks_Worker.View
             p2.Alignment = Element.ALIGN_LEFT;
             doc.Add(p2);
 
-            List<DB_Mark> marks = Repository.instance.GetAllMarks();
+            List<DB_Mark> marks = new List<DB_Mark>();
+            try {
+                marks = Repository.instance.GetAllMarks();
+            } catch (Exception ex) {
+                //TODO: Exception handling code
+            }
+
             List<ReportDataItem> crucialItems = new List<ReportDataItem>();
             string crucialString = "";
             List<ReportDataItem> changedItems = new List<ReportDataItem>();

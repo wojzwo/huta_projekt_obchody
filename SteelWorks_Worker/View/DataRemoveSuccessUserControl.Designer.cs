@@ -37,9 +37,9 @@
             this.StartButton.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
             this.StartButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.StartButton.Font = new System.Drawing.Font("Calibri", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.StartButton.Location = new System.Drawing.Point(18, 503);
+            this.StartButton.Location = new System.Drawing.Point(18, 569);
             this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(1202, 136);
+            this.StartButton.Size = new System.Drawing.Size(1202, 70);
             this.StartButton.TabIndex = 14;
             this.StartButton.Text = "Powrót do menu\r\n";
             this.StartButton.UseVisualStyleBackColor = false;

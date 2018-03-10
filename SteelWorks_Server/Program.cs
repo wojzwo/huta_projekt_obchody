@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SteelWorks_Worker.Model
+namespace SteelWorks_Server
 {
-    public static class Tester
+    class Program
     {
-		public static bool bIsInTestMode = true;
+        static void Main(string[] args) {
 
+        }
     }
 }

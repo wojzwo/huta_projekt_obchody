@@ -14,5 +14,6 @@ namespace SteelWorks_Utils.Model
         public DateTime reportDay;
         public string employeeName;
         public bool isFinished;
+        public bool isRepeating;
     }
 }

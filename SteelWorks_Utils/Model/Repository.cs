@@ -219,6 +219,47 @@ namespace SteelWorks_Utils.Model
             return null;
         }
 
+        public List<DB_Report> GetAllTodaysReports(bool bIncludeFinished) {
+            List<DB_Report> reports = new List<DB_Report>();
+
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            if (bIncludeFinished)
+                query.CommandText = "SELECT * FROM Report WHERE DATE(reportDay) = DATE(NOW())";
+            else 
+                query.CommandText = "SELECT * FROM Report WHERE DATE(reportDay) = DATE(NOW()) AND isFinished = 0";
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    DB_Report report = new DB_Report() {
+                        id = reader.GetInt64("id"),
+                        employeeName = reader.GetString("employeeName"),
+                        isFinished = reader.GetBoolean("isFinished"),
+                        isRepeating = reader.GetBoolean("isRepeating"),
+                        reportDay = reader.GetDateTime("reportDay"),
+                        shift = reader.GetInt32("shift"),
+                        trackName = reader.GetString("trackName")
+                    };
+
+                    reports.Add(report);
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting all todays Reports\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return reports;
+        }
+
         public List<DB_Place> GetAllPlacesInTrack(int trackId) {
             List<DB_Place> places = new List<DB_Place>();
 
@@ -386,6 +427,37 @@ namespace SteelWorks_Utils.Model
             }
 
             return places;
+        }
+
+
+        public bool InsertReportManual(DB_Report report) {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "INSERT INTO Report(trackName, shift, reportDay, employeeName, isFinished, isRepeating) VALUES(@trackName, @shift, @reportDay, @employeeName, @isFinished, @isRepeating)";
+            query.Parameters.AddWithValue("@trackName", report.trackName);
+            query.Parameters.AddWithValue("@shift", report.shift);
+            query.Parameters.AddWithValue("@reportDay", report.reportDay);
+            query.Parameters.AddWithValue("@employeeName", report.employeeName);
+            query.Parameters.AddWithValue("@isFinished", report.isFinished);
+            query.Parameters.AddWithValue("@isRepeating", 0);
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while inserting Report manual\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return (rowsAffected == 1);
         }
 
         public bool InsertTrackPlace(DB_TrackPlace trackPlace) {

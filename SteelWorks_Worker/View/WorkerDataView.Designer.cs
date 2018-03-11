@@ -28,6 +28,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkerDataView));
             this.dataUserControl = new SteelWorks_Worker.View.ProcessDataUserControl();
             this.sendReportUserControl_ = new SteelWorks_Worker.View.SendReportUserControl();
+            this.trackSelectionUserControl_ = new SteelWorks_Worker.View.TrackSelectionUserControl();
             this.SuspendLayout();
             // 
             // dataUserControl
@@ -51,6 +52,14 @@
             this.sendReportUserControl_.TabIndex = 1;
             this.sendReportUserControl_.Visible = false;
             // 
+            // trackSelectionUserControl_
+            // 
+            this.trackSelectionUserControl_.Location = new System.Drawing.Point(12, 12);
+            this.trackSelectionUserControl_.Name = "trackSelectionUserControl_";
+            this.trackSelectionUserControl_.Size = new System.Drawing.Size(1240, 657);
+            this.trackSelectionUserControl_.TabIndex = 2;
+            this.trackSelectionUserControl_.Visible = false;
+            // 
             // WorkerDataView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -59,6 +68,7 @@
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.dataUserControl);
             this.Controls.Add(this.sendReportUserControl_);
+            this.Controls.Add(this.trackSelectionUserControl_);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WorkerDataView";
             this.Text = "Obchody - Pracownik";
@@ -71,5 +81,6 @@
 
         private ProcessDataUserControl dataUserControl;
         private SendReportUserControl sendReportUserControl_;
+        private TrackSelectionUserControl trackSelectionUserControl_;
     }
 }

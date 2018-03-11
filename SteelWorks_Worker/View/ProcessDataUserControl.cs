@@ -125,7 +125,7 @@ namespace SteelWorks_Worker.View
                 return;
             }
 
-            view.ChangeUserControlToSending();
+            view.ChangeUserControlToTrackSelection();
         }
 
         private void WorkerName_Click(object sender, EventArgs e) {

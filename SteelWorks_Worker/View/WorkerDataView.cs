@@ -19,11 +19,12 @@ namespace SteelWorks_Worker.View
         public void ChangeUserControlToTrackSelection() {
             dataUserControl.Visible = false;
 
-
+            trackSelectionUserControl_.Visible = true;
+            trackSelectionUserControl_.GetTracks();
         }
 
         public void ChangeUserControlToSending() {
-            dataUserControl.Visible = false;
+            trackSelectionUserControl_.Visible = false;
 
             sendReportUserControl_.Visible = true;
             sendReportUserControl_.GenerateReport(dataUserControl.GetReportInfo());

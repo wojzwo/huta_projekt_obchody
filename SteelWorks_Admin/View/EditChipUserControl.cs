@@ -30,11 +30,15 @@ namespace SteelWorks_Admin.View
 			if (chipStateComboBox.SelectedIndex == 1)
 			{
 				chipStringName.Text = "Nazwa miejsca";
+			    chipAreaName.Visible = true;
+			    chipAreaString.Visible = true;
 				return;
 			}
 			if (chipStateComboBox.SelectedIndex == 2)
 			{
 				chipStringName.Text = "Imię i nazwisko";
+			    chipAreaName.Visible = false;
+			    chipAreaString.Visible = false;
 				return;
 			}
 			chipStringName.Text = "Nazwa";
@@ -94,7 +98,7 @@ namespace SteelWorks_Admin.View
 			if (chipStateComboBox.SelectedIndex == 1)
 			{
 			    try {
-			        Repository.instance.InsertPlace(new DB_Place(chipIdText.Text, chipStringText.Text));
+			        Repository.instance.InsertPlace(new DB_Place(chipIdText.Text, chipStringText.Text, chipAreaString.Text));
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }
@@ -129,7 +133,9 @@ namespace SteelWorks_Admin.View
 			{
 				chipStateComboBox.SelectedIndex = 1;
 			    try {
-			        chip.chipString = Repository.instance.GetPlace(chip.chipId).name;
+			        DB_Place place = Repository.instance.GetPlace(chip.chipId);
+                    chip.chipString = place.name;
+			        chipAreaString.Text = place.areaName;
 			    } catch (Exception ex) {
                     //TODO: Exception handling code
 			    }

@@ -171,6 +171,7 @@ namespace SteelWorks_Utils.Model
                     DB_Place place = new DB_Place() {
                         name = reader.GetString("name"),
                         chipId = reader.GetString("chipId"),
+                        areaName = reader.GetString("areaName")
                     };
 
                     return place;
@@ -372,6 +373,7 @@ namespace SteelWorks_Utils.Model
                     DB_Place place = new DB_Place() {
                         name = reader.GetString("name"),
                         chipId = reader.GetString("chipId"),
+                        areaName = reader.GetString("areaName")
                     };
 
                     places.Add(place);
@@ -486,9 +488,10 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "INSERT INTO Place(name, chipId) VALUES(@name, @chipId)";
+            query.CommandText = "INSERT INTO Place(name, chipId, areaName) VALUES(@name, @chipId, @areaName)";
             query.Parameters.AddWithValue("@name", place.name);
             query.Parameters.AddWithValue("@chipId", place.chipId);
+            query.Parameters.AddWithValue("@areaName", place.areaName);
 
             int rowsAffected = 0;
             try {
@@ -637,7 +640,7 @@ namespace SteelWorks_Utils.Model
             }
 
             query = connection_.CreateCommand();
-            query.CommandText = "DELETE FROM Chip WHERE chipId = @chipId)";
+            query.CommandText = "DELETE FROM Chip WHERE chipId = @chipId";
             query.Parameters.AddWithValue("@chipId", chipId);
 
             int rowsAffected2 = 0;
@@ -670,7 +673,7 @@ namespace SteelWorks_Utils.Model
                         string database = reader.ReadLine().Split('=')[1];
                         string user = reader.ReadLine().Split('=')[1];
                         string password = reader.ReadLine().Split('=')[1];
-                        ret = "Server=" + serverName + ";Port=" + portNr + ";Database=" + database + ";Uid=" + user + ";Pwd=" + password + ";";
+                        ret = "Server=" + serverName + ";Port=" + portNr + ";Database=" + database + ";Uid=" + user + ";Pwd=" + password + ";CharSet=utf8";
                     }
                 }
             } catch (Exception ex) {

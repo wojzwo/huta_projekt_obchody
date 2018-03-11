@@ -16,6 +16,12 @@ namespace SteelWorks_Worker.View
     {
         private WorkerDataController controller_ = null;
 
+        public void ChangeUserControlToTrackSelection() {
+            dataUserControl.Visible = false;
+
+
+        }
+
         public void ChangeUserControlToSending() {
             dataUserControl.Visible = false;
 

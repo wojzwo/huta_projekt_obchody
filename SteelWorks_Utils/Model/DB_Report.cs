@@ -8,12 +8,12 @@ namespace SteelWorks_Utils.Model
 {
     public class DB_Report
     {
-        public int id = -1;
-        public int trackId;
-        public int employeeId;
-        public DateTime dueDate;
+        public Int64 id = -1;
+        public string trackName;
+        public int shift;
+        public DateTime reportDay;
+        public string employeeName;
         public bool isFinished;
         public bool isRepeating;
-        public bool isEmployeeAdded;
     }
 }

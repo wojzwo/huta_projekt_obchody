@@ -4,8 +4,6 @@
 -- ------------------------------------------------------
 -- Server version	10.1.26-MariaDB-0+deb9u1
 
-USE hutadb;
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -37,7 +35,7 @@ CREATE TABLE `Chip` (
 
 LOCK TABLES `Chip` WRITE;
 /*!40000 ALTER TABLE `Chip` DISABLE KEYS */;
-INSERT INTO `Chip` VALUES ('EFA62D',''),('EFD576',''),('F06516','\0'),('F0D8B4',''),('F0DFC9','\0'),('F0E0EE','\0');
+INSERT INTO `Chip` VALUES ('asd','\0'),('dsad',''),('EFA62D',''),('EFD576',''),('F06516','\0'),('F0D8B4',''),('F0DFC9','\0'),('F0E0EE','\0'),('saddas','\0');
 /*!40000 ALTER TABLE `Chip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +59,7 @@ CREATE TABLE `Employee` (
 
 LOCK TABLES `Employee` WRITE;
 /*!40000 ALTER TABLE `Employee` DISABLE KEYS */;
-INSERT INTO `Employee` VALUES ('EFA62D','Jakub Dominikanin'),('EFD576','Stanislaw Nowak'),('F0D8B4','Piotr Kowalski');
+INSERT INTO `Employee` VALUES ('dsad','xD'),('EFA62D','Jakub Dominikanin'),('EFD576','Stanislaw Nowak'),('F0D8B4','Piotr Kowalski');
 /*!40000 ALTER TABLE `Employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +108,7 @@ CREATE TABLE `Place` (
 
 LOCK TABLES `Place` WRITE;
 /*!40000 ALTER TABLE `Place` DISABLE KEYS */;
-INSERT INTO `Place` VALUES ('F06516','Odlewnia'),('F0DFC9','Biuro'),('F0E0EE','Walcownia');
+INSERT INTO `Place` VALUES ('F06516','Odlewnia', "Dział_1"),('F0DFC9','Biuro', "Dział2"),('F0E0EE','Walcownia', "Dział1"),('saddas','dfsfsd', "Dział1");
 /*!40000 ALTER TABLE `Place` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,13 +120,12 @@ DROP TABLE IF EXISTS `Report`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Report` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `trackId` int(11) DEFAULT NULL,
-  `employeeId` varchar(64) DEFAULT NULL,
-  `dueDate` date DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `trackName` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `shift` int(11) DEFAULT NULL,
+  `reportDay` date DEFAULT NULL,
+  `employeeName` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `isFinished` bit(1) DEFAULT NULL,
-  `isRepeating` bit(1) DEFAULT NULL,
-  `isEmployeeAdded` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -150,12 +147,13 @@ DROP TABLE IF EXISTS `ReportPlace`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ReportPlace` (
-  `reportId` int(11) DEFAULT NULL,
-  `placeId` int(11) DEFAULT NULL,
-  `status` varchar(64) DEFAULT NULL,
-  `mark` int(11) DEFAULT NULL,
-  `comment` varchar(256) DEFAULT NULL,
-  `visitDate` date DEFAULT NULL
+  `reportId` bigint(20) NOT NULL,
+  `placeName` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `areaName` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `markName` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comment` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`reportId`,`placeName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -228,7 +226,8 @@ CREATE TABLE `TrackRepeating` (
   `employeeId` varchar(64) DEFAULT NULL,
   `dayStart` date DEFAULT NULL,
   `repeatLength` int(11) DEFAULT NULL,
-  `repeatMask` bigint DEFAULT NULL,
+  `repeatMask` bigint(20) DEFAULT NULL,
+  `shift` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -251,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-10 16:10:52
+-- Dump completed on 2018-03-11 12:00:53

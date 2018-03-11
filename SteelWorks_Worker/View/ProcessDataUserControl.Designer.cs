@@ -78,7 +78,7 @@ namespace SteelWorks_Worker.View
             this.SendButton.Name = "SendButton";
             this.SendButton.Size = new System.Drawing.Size(1202, 40);
             this.SendButton.TabIndex = 5;
-            this.SendButton.Text = "Wyślij raport";
+            this.SendButton.Text = "Przejdź do wyboru trasy...";
             this.SendButton.UseVisualStyleBackColor = false;
             this.SendButton.Click += new System.EventHandler(this.button1_Click);
             // 

@@ -131,6 +131,12 @@
     <Compile Include="View\StartUserControl.Designer.cs">
       <DependentUpon>StartUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\TrackSelectionUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TrackSelectionUserControl.Designer.cs">
+      <DependentUpon>TrackSelectionUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\WorkerDataView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\StartUserControl.resx">
       <DependentUpon>StartUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TrackSelectionUserControl.resx">
+      <DependentUpon>TrackSelectionUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\WorkerDataView.resx">
       <DependentUpon>WorkerDataView.cs</DependentUpon>

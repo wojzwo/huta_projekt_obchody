@@ -11,9 +11,9 @@ namespace SteelWorks_Utils.Model
     {
         public Int64 reportId = -1;
         public string placeName;
-        public string areaName;
+        public string department;
         public string status;
-        public string markName;
+        public string markDescription;
         public string comment;
     }
 

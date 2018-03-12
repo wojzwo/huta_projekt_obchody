@@ -22,6 +22,9 @@ namespace SteelWorks_Utils.Model
         public static RepositoryReportPlace reportPlace { get; }
         public static RepositoryTrack track { get; }
         public static RepositoryTrackPlace trackPlace { get; }
+        public static RepositoryRoutine routine { get; }
+        public static RepositoryTeam team { get; }
+        public static RepositoryTeamEmployee teamEmployee { get; }
 
         private static MySqlConnection connection_;
 
@@ -36,6 +39,9 @@ namespace SteelWorks_Utils.Model
             reportPlace = new RepositoryReportPlace(connection_);
             track = new RepositoryTrack(connection_);
             trackPlace = new RepositoryTrackPlace(connection_);
+            routine = new RepositoryRoutine(connection_);
+            team = new RepositoryTeam(connection_);
+            teamEmployee = new RepositoryTeamEmployee(connection_);
         }
 
         private static string ParseDatabaseConfig() {

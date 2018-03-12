@@ -39,9 +39,9 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(35, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(186, 32);
+			this.label1.Size = new System.Drawing.Size(109, 32);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Nazwa Trasy:";
+			this.label1.Text = "Nazwa:";
 			// 
 			// TrackNameTextBox
 			// 
@@ -56,7 +56,7 @@
 			this.addButton.Name = "addButton";
 			this.addButton.Size = new System.Drawing.Size(449, 86);
 			this.addButton.TabIndex = 2;
-			this.addButton.Text = "Dodaj Trase";
+			this.addButton.Text = "Dodaj";
 			this.addButton.UseVisualStyleBackColor = true;
 			this.addButton.Click += new System.EventHandler(this.addButton_Click);
 			// 

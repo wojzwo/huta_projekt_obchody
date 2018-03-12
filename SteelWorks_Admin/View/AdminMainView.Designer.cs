@@ -32,7 +32,7 @@
 			this.LoadChipButton = new System.Windows.Forms.Button();
 			this.MainPanel = new System.Windows.Forms.Panel();
 			this.ButtonPanel = new System.Windows.Forms.Panel();
-			this.button2 = new System.Windows.Forms.Button();
+			this.teamButton = new System.Windows.Forms.Button();
 			this.trackButton = new System.Windows.Forms.Button();
 			this.keyPadSettingButton = new System.Windows.Forms.Button();
 			this.chipListButton = new System.Windows.Forms.Button();
@@ -68,7 +68,7 @@
 			// ButtonPanel
 			// 
 			this.ButtonPanel.BackColor = System.Drawing.SystemColors.Control;
-			this.ButtonPanel.Controls.Add(this.button2);
+			this.ButtonPanel.Controls.Add(this.teamButton);
 			this.ButtonPanel.Controls.Add(this.trackButton);
 			this.ButtonPanel.Controls.Add(this.keyPadSettingButton);
 			this.ButtonPanel.Controls.Add(this.chipListButton);
@@ -79,17 +79,18 @@
 			this.ButtonPanel.Size = new System.Drawing.Size(1982, 106);
 			this.ButtonPanel.TabIndex = 4;
 			// 
-			// button2
+			// teamButton
 			// 
-			this.button2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
-			this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.button2.Location = new System.Drawing.Point(1636, 12);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(400, 100);
-			this.button2.TabIndex = 6;
-			this.button2.Text = "Trasy";
-			this.button2.UseVisualStyleBackColor = false;
+			this.teamButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.teamButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("teamButton.BackgroundImage")));
+			this.teamButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.teamButton.Location = new System.Drawing.Point(1636, 12);
+			this.teamButton.Name = "teamButton";
+			this.teamButton.Size = new System.Drawing.Size(400, 100);
+			this.teamButton.TabIndex = 6;
+			this.teamButton.Text = "Grupy Pracowników";
+			this.teamButton.UseVisualStyleBackColor = false;
+			this.teamButton.Click += new System.EventHandler(this.teamButton_Click);
 			// 
 			// trackButton
 			// 
@@ -173,7 +174,7 @@
 		private System.Windows.Forms.Panel ButtonPanel;
 		private System.Windows.Forms.SplitContainer splitContainer;
 		private System.Windows.Forms.Button chipListButton;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button teamButton;
 		private System.Windows.Forms.Button trackButton;
 		private System.Windows.Forms.Button keyPadSettingButton;
 	}

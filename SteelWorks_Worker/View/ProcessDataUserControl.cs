@@ -15,8 +15,18 @@ namespace SteelWorks_Worker.View
 {
     public partial class ProcessDataUserControl : UserControl
     {
+        public bool bCorrectionMode = false;
+
         private bool bIsEmployeeValid_;
         private DataItemUserControl currentExpanded_ = null;
+
+        public void DeleteAllDataItems() {
+            MainTable.Controls.Clear();
+        }
+
+        public void DeleteDataItem(DataItemUserControl c) {
+            MainTable.Controls.Remove(c);
+        }
 
         public ReportProcessData GetReportInfo() {
             List<ReportDataItem> items = new List<ReportDataItem>();
@@ -25,7 +35,7 @@ namespace SteelWorks_Worker.View
             }
 
             return new ReportProcessData() {
-                employeeName = WorkerName.Text,
+                employeeName = WorkerName.Text.Substring(11),
                 items = items
             };
         }
@@ -45,11 +55,21 @@ namespace SteelWorks_Worker.View
             currentExpanded_ = newExpanded;
         }
 
+        public void AddEmployee(string employeeName) {
+            WorkerName.Text = "Pracownik: " + employeeName;
+            WorkerName.BackColor = Color.Green;
+            WorkerName.Enabled = false;
+            bIsEmployeeValid_ = true;
+
+            textBox1.Text = "Nieodwiedzone miejsca";
+            SendButton.Text = "Przejdź do czyszczenia czytnika";
+        }
+
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
-                DB_Employee employee = null;
+                DbEmployee employee = null;
                 try {
-                    employee = Repository.instance.GetEmployee(data.id);
+                    employee = Repository.employee.Get(data.id);
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }
@@ -68,6 +88,16 @@ namespace SteelWorks_Worker.View
             WorkerName.Text = "Pracownik: ???";
             WorkerName.BackColor = Color.Red;
             bIsEmployeeValid_ = false;
+        }
+
+        public void AddData(DbPlace place) {
+            DataItemUserControl control = new DataItemUserControl();
+            control.Init(place);
+
+            control.SetParent(this);
+            MainTable.RowCount++;
+            MainTable.Controls.Add(control, 0, MainTable.RowCount - 1);
+            MainTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         }
 
         public void AddData(ChipData chip, KeypadData mark) {
@@ -101,7 +131,7 @@ namespace SteelWorks_Worker.View
             }
 
             foreach (DataItemUserControl c in MainTable.Controls) {
-                if (c.bCommentRequired && c.GetComment().Length < 2) {
+                if ((c.bCommentRequired || c.bNotVisited) && c.GetComment().Length < 2) {
                     ExpandError(c);
                     ErrorBox.Text = "Nie wszystkie miejsca z negatywną oceną mają komentarz; Naciśnij na oznaczone żółtą ramką pola i dopisz komentarze";
                     return false;
@@ -125,7 +155,10 @@ namespace SteelWorks_Worker.View
                 return;
             }
 
-            view.ChangeUserControlToTrackSelection();
+            if (!bCorrectionMode)
+                view.ChangeUserControlToTrackSelection();
+            else 
+                view.ChangeUserControlToDeleteReader();
         }
 
         private void WorkerName_Click(object sender, EventArgs e) {
@@ -135,6 +168,10 @@ namespace SteelWorks_Worker.View
         }
 
         private void ProcessDataUserControl_Load(object sender, EventArgs e) {
+
+        }
+
+        private void MainTable_Paint(object sender, PaintEventArgs e) {
 
         }
     }

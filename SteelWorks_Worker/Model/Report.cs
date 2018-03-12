@@ -18,7 +18,8 @@ namespace SteelWorks_Worker.Model
 
     public class ReportProcessData
     {
+        public Int64 reportId;
         public string employeeName;
-        public List<ReportDataItem> items;
+        public List<ReportDataItem> items = new List<ReportDataItem>();
     }
 }

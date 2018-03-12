@@ -66,7 +66,7 @@ namespace SteelWorks_Admin.View
 		    EChipType chipType = EChipType.None;
 
             try {
-		        chipType = Repository.instance.CheckChipType(chipIdText.Text);
+		        chipType = Repository.chip.CheckType(chipIdText.Text);
 		    } catch (Exception ex) {
 		        //TODO: Exception handling code
             }
@@ -74,7 +74,7 @@ namespace SteelWorks_Admin.View
             if (chipType == EChipType.Place)
 			{
 			    try {
-			        Repository.instance.DeletePlace(chipIdText.Text);
+			        Repository.place.Delete(chipIdText.Text);
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }
@@ -83,7 +83,7 @@ namespace SteelWorks_Admin.View
 			if (chipType == EChipType.Employee)
 			{
 			    try {
-			        Repository.instance.DeleteEmployee(chipIdText.Text);
+			        Repository.employee.Delete(chipIdText.Text);
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }
@@ -98,7 +98,13 @@ namespace SteelWorks_Admin.View
 			if (chipStateComboBox.SelectedIndex == 1)
 			{
 			    try {
-			        Repository.instance.InsertPlace(new DB_Place(chipIdText.Text, chipStringText.Text, chipAreaString.Text));
+			        DbPlace place = new DbPlace() {
+			            chipId = chipIdText.Text,
+			            name = chipStringText.Text,
+			            department = chipAreaString.Text
+			        };
+
+			        Repository.place.Insert(place);
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }
@@ -106,7 +112,12 @@ namespace SteelWorks_Admin.View
 			if (chipStateComboBox.SelectedIndex == 2)
 			{
 			    try {
-			        Repository.instance.InsertEmployee(new DB_Employee(chipIdText.Text, chipStringText.Text));
+			        DbEmployee employee = new DbEmployee() {
+			            chipId = chipIdText.Text,
+			            name = chipStringText.Text
+			        };
+
+			        Repository.employee.Insert(employee);
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }
@@ -123,7 +134,7 @@ namespace SteelWorks_Admin.View
 			chip.chipId= chipIdText.Text;
 			/*Chip chip = QueryFromDb(queriedId)*/
 		    try {
-		        chip.chipType = Repository.instance.CheckChipType(chip.chipId);
+		        chip.chipType = Repository.chip.CheckType(chip.chipId);
 		    } catch (Exception ex) {
 		        //TODO: Exception handling code
             }
@@ -133,9 +144,9 @@ namespace SteelWorks_Admin.View
 			{
 				chipStateComboBox.SelectedIndex = 1;
 			    try {
-			        DB_Place place = Repository.instance.GetPlace(chip.chipId);
+			        DbPlace place = Repository.place.Get(chip.chipId);
                     chip.chipString = place.name;
-			        chipAreaString.Text = place.areaName;
+			        chipAreaString.Text = place.department;
 			    } catch (Exception ex) {
                     //TODO: Exception handling code
 			    }
@@ -144,7 +155,7 @@ namespace SteelWorks_Admin.View
 			{
 				chipStateComboBox.SelectedIndex = 2;
 			    try {
-			        chip.chipString = Repository.instance.GetEmployee(chip.chipId).name;
+			        chip.chipString = Repository.employee.Get(chip.chipId).name;
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }

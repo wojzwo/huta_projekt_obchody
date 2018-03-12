@@ -8,7 +8,7 @@ namespace SteelWorks_Worker.Model
 {
     public class KeypadData
     {
-        public DateTime date;
+        public DateTime date = DateTime.Now;
         public int value;
         public bool bIsValid;
 

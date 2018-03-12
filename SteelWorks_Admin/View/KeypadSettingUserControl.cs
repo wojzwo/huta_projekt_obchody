@@ -14,7 +14,7 @@ namespace SteelWorks_Admin.View
 	public partial class KeypadSettingUserControl : UserControl
 	{
 		int selectedNumber = -1;
-		DB_Mark mark = new DB_Mark();
+		DbMark mark = new DbMark();
 
 
 		public KeypadSettingUserControl()
@@ -26,13 +26,13 @@ namespace SteelWorks_Admin.View
 		private void reloadKeypadFromDB()
 		{
 		    try {
-		        mark = Repository.instance.GetMark(selectedNumber);
+		        mark = Repository.mark.Get(selectedNumber);
 		    } catch (Exception ex) {
 		        //TODO: Exception handling code
             }
 
-            markStringTextBox.Text = mark.name;
-			bCommentRequieredCheckBox.Checked = mark.bCommentRequired;
+            markStringTextBox.Text = mark.description;
+			bCommentRequieredCheckBox.Checked = mark.requiresComment;
 		}
 
 		private void SaveToDBButton_Click(object sender, EventArgs e)
@@ -42,11 +42,11 @@ namespace SteelWorks_Admin.View
 				noSelectionLabel.Visible = true;
 				return;
 			}
-			mark.name = markStringTextBox.Text;
-			mark.bCommentRequired = bCommentRequieredCheckBox.Checked;
+			mark.description = markStringTextBox.Text;
+			mark.requiresComment = bCommentRequieredCheckBox.Checked;
 
 		    try {
-		        Repository.instance.UpdateMark(mark);
+		        Repository.mark.Update(mark);
 		    } catch (Exception ex) {
 		        //TODO: Exception handling code
             }

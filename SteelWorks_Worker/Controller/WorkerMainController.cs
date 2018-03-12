@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using SteelWorks_Worker.Model;
 using SteelWorks_Worker.View;
 using SteelWorks_Utils;
+using SteelWorks_Utils.Model;
 
 namespace SteelWorks_Worker.Controller
 {
@@ -18,7 +19,7 @@ namespace SteelWorks_Worker.Controller
 
     public class WorkerMainController
     {
-        private ChipData employee_;
+        private ChipData employee_ = null;
         private List<ChipData> chips_ = new List<ChipData>();
         private List<KeypadData> keypads_ = new List<KeypadData>();
         private bool bLastParsedChip = false;
@@ -29,7 +30,7 @@ namespace SteelWorks_Worker.Controller
         private WorkerDataController workerDataController_ = null;
 
         public void ChangeToDataMode() {
-            workerDataController_.Activate(view_);
+            workerDataController_.Activate(view_, this);
             workerDataController_.InitData(employee_, chips_, keypads_);
             view_.Hide();
         }
@@ -154,17 +155,23 @@ namespace SteelWorks_Worker.Controller
             string log = String.Format(date.ToString("G") + " || [Chip id = " + chipId + "]");
             Debug.Log("Parsed chip || " + log, LogType.Info);
 
-            if (bFirstParse) {
-                employee_ = new ChipData(date, chipId);
-                bFirstParse = false;
-            } else {
-                chips_.Add(new ChipData(date, chipId));
-                if (bLastParsedChip) {
-                    keypads_.Add(new KeypadData());
+            try {
+                EChipType type = Repository.chip.CheckType(chipId);
+                if (type == EChipType.Employee) {
+                    employee_ = new ChipData(date, chipId);
+                    return;
                 }
-
-                bLastParsedChip = true;
+            } catch (Exception ex) {
+                PopupNoInternetView view = new PopupNoInternetView();
+                view.Show();
             }
+
+            chips_.Add(new ChipData(date, chipId));
+            if (bLastParsedChip) {
+                keypads_.Add(new KeypadData());
+            }
+
+            bLastParsedChip = true;
         }
 
         private void ParserStart() {

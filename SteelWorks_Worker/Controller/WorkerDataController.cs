@@ -15,11 +15,10 @@ namespace SteelWorks_Worker.Controller
     public class WorkerDataController
     {
         private WorkerDataView view_ = null;
-        private Repository repo_ = null;
 
-        public void Activate(WorkerMainView view) {
+        public void Activate(WorkerMainView view, WorkerMainController controller) {
             view_ = new WorkerDataView();
-            view_.InitController(this);
+            view_.InitController(this, controller);
 
             view_.Show();
             view_.Left = view.Left;
@@ -42,6 +41,13 @@ namespace SteelWorks_Worker.Controller
                 keypads.Add(new KeypadData());
             }
 
+            if (employee == null) {
+                view_.Hide();
+                NoEmployeeView view = new NoEmployeeView();
+                view.Show();
+                return;
+            }
+
             while (chips.Count < keypads.Count) {
                 Debug.Log("Too few chips as comapred to keypads detected", LogType.Error);
             }
@@ -55,10 +61,6 @@ namespace SteelWorks_Worker.Controller
             for (int i = 0; i < chips.Count; i++) {
                 view_.AddData(chips[i], keypads[i]);
             }
-        }
-
-        public WorkerDataController(Repository repository) {
-            repo_ = repository;
         }
     }
 }

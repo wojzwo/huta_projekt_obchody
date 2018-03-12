@@ -13,21 +13,23 @@ namespace SteelWorks_Worker.View
 {
     public partial class DataRemoveUserControl : UserControl
     {
+        public bool bEndDeletion = false;
+
         public DataRemoveUserControl() {
             InitializeComponent();
         }
 
         private void StartButton_Click(object sender, EventArgs e) {
-            WorkerMainView view = (WorkerMainView)this.ParentForm;
+            ReaderRemoveView view = (ReaderRemoveView)this.ParentForm;
             if (view == null) {
-                Debug.Log("Couldn't retrieve WorkerMainView", LogType.Error);
+                Debug.Log("Couldn't retrieve ReaderRemoveView", LogType.Error);
                 return;
             }
 
             StartButton.Text = "Proszę czekać...";
             StartButton.Enabled = false;
             if (view.controller.EraseReader()) {
-                view.ChangeUserControlToRemoveDataSuccess();
+                view.ChangeUserControlToDataRemoveSuccess();
             } else {
                 ErrorBox.Visible = true;
                 StartButton.Text = "Spróbuj jeszcze raz, trzymając czytnik na adapterze";

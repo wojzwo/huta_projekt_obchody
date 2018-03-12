@@ -17,14 +17,35 @@ namespace SteelWorks_Worker
             Application.SetCompatibleTextRenderingDefault(false);
 
             Debug.Log("Program start", LogType.Info);
-            Repository repository = new Repository();
 
             WorkerMainView workerMainView = new WorkerMainView();
             WorkerDataView workerDataView = new WorkerDataView();
-            WorkerDataController workerDataController = new WorkerDataController(repository);
+            WorkerDataController workerDataController = new WorkerDataController();
             WorkerMainController workerMainController = new  WorkerMainController(workerMainView, workerDataController);
 
             Application.Run(workerMainView);
+
+            //DbReport report = new DbReport() {
+            //    assignmentDate = DateTime.Now,
+            //    isFinished = false,
+            //    routineId = 1,
+            //    shift = 1,
+            //    signedEmployeeName = "",
+            //    trackName = "Trasa testowa"
+            //};
+
+            //Repository.report.Insert(report);
+
+            //DbRoutine routine = new DbRoutine() {
+            //    cycleLength = 0,
+            //    cycleMask = 0,
+            //    shift = 1,
+            //    startDay = DateTime.Now,
+            //    teamId = 0,
+            //    trackId = 1
+            //};
+
+            //Repository.routine.Insert(routine);
         }
     }
 }

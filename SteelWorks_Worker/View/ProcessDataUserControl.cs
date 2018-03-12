@@ -47,9 +47,9 @@ namespace SteelWorks_Worker.View
 
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
-                DB_Employee employee = null;
+                DbEmployee employee = null;
                 try {
-                    employee = Repository.instance.GetEmployee(data.id);
+                    employee = Repository.employee.Get(data.id);
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }

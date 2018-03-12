@@ -47,40 +47,40 @@ namespace SteelWorks_Worker.View
 
         private void Fill() {
             if (type_ == PopupSelectionType.Place) {
-                List<DB_Place> places = new List<DB_Place>();
+                List<DbPlace> places = new List<DbPlace>();
                 try {
-                    places = Repository.instance.GetAllPlaces();
+                    places = Repository.place.GetAll();
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }
 
-                foreach (DB_Place place in places) {
+                foreach (DbPlace place in places) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();
                     s.InitButton(this, type_, place.name);
                     tableLayoutPanel1.Controls.Add(s);
                 }
             } else if (type_ == PopupSelectionType.Mark) {
-                List<DB_Mark> marks = new List<DB_Mark>();
+                List<DbMark> marks = new List<DbMark>();
                 try {
-                    marks = Repository.instance.GetAllMarks();
+                    marks = Repository.mark.GetAll();
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }
 
-                foreach (DB_Mark mark in marks) {
+                foreach (DbMark mark in marks) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();
-                    s.InitButton(this, type_, mark.name, mark.bCommentRequired);
+                    s.InitButton(this, type_, mark.description, mark.requiresComment);
                     tableLayoutPanel1.Controls.Add(s);
                 }
             } else if (type_ == PopupSelectionType.Employee) {
-                List<DB_Employee> employees = new List<DB_Employee>();
+                List<DbEmployee> employees = new List<DbEmployee>();
                 try {
-                    employees = Repository.instance.GetAllEmployees();
+                    employees = Repository.employee.GetAll();
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }
 
-                foreach (DB_Employee employee in employees) {
+                foreach (DbEmployee employee in employees) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();
                     s.InitButton(this, type_, employee.name);
                     tableLayoutPanel1.Controls.Add(s);

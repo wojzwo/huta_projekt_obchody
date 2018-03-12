@@ -99,9 +99,9 @@ namespace SteelWorks_Worker.View
             Date.Text = validTime.ToString("g");
 
             if (chip.bIsValid) {
-                DB_Place place = null;
+                DbPlace place = null;
                 try {
-                    place = Repository.instance.GetPlace(chip.id);
+                    place = Repository.place.Get(chip.id);
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }
@@ -124,10 +124,16 @@ namespace SteelWorks_Worker.View
             }
 
             if (keypad.bIsValid) {
-                DB_Mark mark = Repository.instance.GetMark(keypad.value);
+                DbMark mark = null;
+                try {
+                    mark = Repository.mark.Get(keypad.value);
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+
                 if (mark != null) {
-                    Mark.Text = mark.name;
-                    bCommentRequired = mark.bCommentRequired;
+                    Mark.Text = mark.description;
+                    bCommentRequired = mark.requiresComment;
                 } else {
                     Mark.Text = keypad.value.ToString();
                 }

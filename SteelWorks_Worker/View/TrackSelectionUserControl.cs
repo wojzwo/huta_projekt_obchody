@@ -18,14 +18,14 @@ namespace SteelWorks_Worker.View
         private string currentItem_ = "";
 
         public void GetTracks() {
-            List<DB_Report> reports = new List<DB_Report>();
+            List<DbReport> reports = new List<DbReport>();
             try {
-                reports = Repository.instance.GetAllTodaysReports(true);
+                //reports = Repository.instance.GetAllTodaysReports(true);
             } catch (Exception ex) {
                 //TODO: Exception handling code
             }
 
-            foreach (DB_Report r in reports) {
+            foreach (DbReport r in reports) {
                 string listName = "Zmiana: " + r.shift.ToString() + ",   Trasa: " + r.trackName;
                 trackIdByListName_.Add(listName, r.id);
                 listBox1.Items.Add(listName);

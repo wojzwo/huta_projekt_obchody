@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace SteelWorks_Utils.Model
 {
-    public class DB_ReportPlace
+    public class DbReportPlace
     {
         public Int64 reportId = -1;
         public string placeName;
@@ -14,5 +15,14 @@ namespace SteelWorks_Utils.Model
         public string status;
         public string markName;
         public string comment;
+    }
+
+    public class RepositoryReportPlace
+    {
+        private readonly MySqlConnection connection_;
+
+        public RepositoryReportPlace(MySqlConnection connection) {
+            connection_ = connection;
+        }
     }
 }

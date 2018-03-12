@@ -9,6 +9,6 @@ namespace SteelWorks_Utils.Model
     public class DB_TrackPlace
     {
         public int trackId = -1;
-        public int placeId;
+        public string placeId;
     }
 }

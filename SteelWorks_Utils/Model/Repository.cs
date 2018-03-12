@@ -278,8 +278,9 @@ namespace SteelWorks_Utils.Model
                 MySqlDataReader reader = query.ExecuteReader();
                 while (reader.Read()) {
                     DB_Place place = new DB_Place() {
-                        chipId = reader.GetString("chipId"),
-                        name = reader.GetString("name")
+                        chipId = reader.GetString("placeId")
+                        /*,
+						 * name = reader.GetString("name")*/
                     };
 
                     places.Add(place);
@@ -512,7 +513,42 @@ namespace SteelWorks_Utils.Model
             return (rowsAffected == 1);
         }
 
-        public bool InsertEmployee(DB_Employee employee) {
+		public bool UpdateTrackName(int trackId, string newName)
+		{
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "UPDATE Track SET name = @newName WHERE id = @trackid";
+			query.Parameters.AddWithValue("@newName", newName);
+			query.Parameters.AddWithValue("@trackid", trackId);
+
+			int rowsAffected = 0;
+			try
+			{
+				rowsAffected = query.ExecuteNonQuery();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while updating Track\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return (rowsAffected == 1);
+		}
+
+		public bool InsertEmployee(DB_Employee employee) {
             try {
                 connection_.Open();
             } catch (Exception ex) {
@@ -591,7 +627,7 @@ namespace SteelWorks_Utils.Model
             return (rowsAffected == 1 && rowsAffected2 == 1);
         }
 
-        public bool DeleteTrackPlace(int trackId, int placeId) {
+        public bool DeleteTrackPlace(int trackId, string placeId) {
             try {
                 connection_.Open();
             } catch (Exception ex) {
@@ -617,7 +653,41 @@ namespace SteelWorks_Utils.Model
             return (rowsAffected == 1);
         }
 
-        public bool DeleteTrack(int trackId) {
+		public bool DeleteAllTrackPlacesFromTrack(int trackId)
+		{
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "DELETE FROM TrackPlace WHERE trackId = @trackId";
+			query.Parameters.AddWithValue("@trackId", trackId);
+
+			int rowsAffected = 0;
+			try
+			{
+				rowsAffected = query.ExecuteNonQuery();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while deleting TrackPlaces\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return (rowsAffected == 1);
+		}
+
+		public bool DeleteTrack(int trackId) {
             try {
                 connection_.Open();
             } catch (Exception ex) {
@@ -625,8 +695,9 @@ namespace SteelWorks_Utils.Model
                 throw new NoInternetConnectionException();
             }
 
+
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "DELETE FROM Track WHERE trackId = @trackId";
+            query.CommandText = "DELETE FROM Track WHERE id = @trackId";
             query.Parameters.AddWithValue("@trackId", trackId);
 
             int rowsAffected = 0;
@@ -638,7 +709,7 @@ namespace SteelWorks_Utils.Model
             }
 
             query = connection_.CreateCommand();
-            query.CommandText = "DELETE FROM TrackPlace WHERE trackId = @trackId)";
+            query.CommandText = "DELETE FROM TrackPlace WHERE trackId = @trackId";
             query.Parameters.AddWithValue("@trackId", trackId);
 
             int rowsAffected2 = 0;

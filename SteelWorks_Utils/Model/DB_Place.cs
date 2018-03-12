@@ -20,5 +20,5 @@ namespace SteelWorks_Utils.Model
             this.name = name;
             this.areaName = areaName;
         }
-    }
+	}
 }

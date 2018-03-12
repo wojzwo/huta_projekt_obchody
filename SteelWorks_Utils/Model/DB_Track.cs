@@ -11,5 +11,16 @@ namespace SteelWorks_Utils.Model
         public int id = -1;
         public string name;
         public DateTime creationDate;
+
+		public DB_Track()
+		{
+
+		}
+
+		public DB_Track(string Nname, DateTime NcreationDate)
+		{
+			name = Nname;
+			creationDate = NcreationDate;
+		}
     }
 }

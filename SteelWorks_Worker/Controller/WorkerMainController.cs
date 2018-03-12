@@ -30,7 +30,7 @@ namespace SteelWorks_Worker.Controller
         private WorkerDataController workerDataController_ = null;
 
         public void ChangeToDataMode() {
-            workerDataController_.Activate(view_);
+            workerDataController_.Activate(view_, this);
             workerDataController_.InitData(employee_, chips_, keypads_);
             view_.Hide();
         }

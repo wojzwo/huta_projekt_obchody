@@ -16,9 +16,9 @@ namespace SteelWorks_Worker.Controller
     {
         private WorkerDataView view_ = null;
 
-        public void Activate(WorkerMainView view) {
+        public void Activate(WorkerMainView view, WorkerMainController controller) {
             view_ = new WorkerDataView();
-            view_.InitController(this);
+            view_.InitController(this, controller);
 
             view_.Show();
             view_.Left = view.Left;

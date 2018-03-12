@@ -18,6 +18,7 @@ namespace SteelWorks_Worker.View
         public ReportProcessData reportData = new ReportProcessData();
 
         private WorkerDataController controller_ = null;
+        private WorkerMainController mainController_ = null;
 
         public void ChangeUserControlToTrackSelection() {
             dataUserControl.Visible = false;
@@ -56,6 +57,10 @@ namespace SteelWorks_Worker.View
             reportData.items.AddRange(newData.items);
 
             SaveReportToDatabase();
+
+            ReaderRemoveView newView = new ReaderRemoveView(mainController_);
+            newView.Show();
+            Hide();
         }
 
         public void AddEmployee(ChipData data) {
@@ -66,8 +71,9 @@ namespace SteelWorks_Worker.View
             dataUserControl.AddData(chip, mark);
         }
 
-        public void InitController(WorkerDataController controller) {
+        public void InitController(WorkerDataController controller, WorkerMainController mainController) {
             controller_ = controller;
+            mainController_ = mainController;
         }
 
         public WorkerDataView() {

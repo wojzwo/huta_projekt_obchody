@@ -18,13 +18,7 @@ namespace SteelWorks_Worker.View
         }
 
         private void StartButton_Click(object sender, EventArgs e) {
-            WorkerMainView view = (WorkerMainView)this.ParentForm;
-            if (view == null) {
-                Debug.Log("Couldn't retrieve WorkerMainView", LogType.Error);
-                return;
-            }
-
-            view.ChangeUserControlToMenuFromSuccess();
+            Application.Restart();
         }
     }
 }

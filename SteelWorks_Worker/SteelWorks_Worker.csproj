@@ -125,6 +125,12 @@
     <Compile Include="View\ProcessDataUserControl.Designer.cs">
       <DependentUpon>ProcessDataUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ReaderRemoveView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ReaderRemoveView.Designer.cs">
+      <DependentUpon>ReaderRemoveView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\SelectableButtonUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProcessDataUserControl.resx">
       <DependentUpon>ProcessDataUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ReaderRemoveView.resx">
+      <DependentUpon>ReaderRemoveView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SelectableButtonUserControl.resx">
       <DependentUpon>SelectableButtonUserControl.cs</DependentUpon>

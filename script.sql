@@ -16,6 +16,60 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `ArchiveReport`
+--
+
+DROP TABLE IF EXISTS `ArchiveReport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ArchiveReport` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `routineId` int(11) NOT NULL,
+  `assignmentDate` date NOT NULL,
+  `signedEmployeeName` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `trackName` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `shift` int(11) NOT NULL,
+  `isFinished` bit(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ArchiveReport`
+--
+
+LOCK TABLES `ArchiveReport` WRITE;
+/*!40000 ALTER TABLE `ArchiveReport` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ArchiveReport` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ArchiveReportPlace`
+--
+
+DROP TABLE IF EXISTS `ArchiveReportPlace`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ArchiveReportPlace` (
+  `reportId` bigint(20) NOT NULL,
+  `placeName` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `markDescription` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `comment` varchar(511) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`reportId`,`placeName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ArchiveReportPlace`
+--
+
+LOCK TABLES `ArchiveReportPlace` WRITE;
+/*!40000 ALTER TABLE `ArchiveReportPlace` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ArchiveReportPlace` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Chip`
 --
 
@@ -23,8 +77,8 @@ DROP TABLE IF EXISTS `Chip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Chip` (
-  `chipId` varchar(64) NOT NULL,
-  `isEmployee` bit(1) DEFAULT NULL,
+  `chipId` varchar(31) NOT NULL,
+  `isEmployee` bit(1) NOT NULL,
   PRIMARY KEY (`chipId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -35,7 +89,7 @@ CREATE TABLE `Chip` (
 
 LOCK TABLES `Chip` WRITE;
 /*!40000 ALTER TABLE `Chip` DISABLE KEYS */;
-INSERT INTO `Chip` VALUES ('asd','\0'),('dsad',''),('EFA62D',''),('EFD576',''),('F06516','\0'),('F0D8B4',''),('F0DFC9','\0'),('F0E0EE','\0'),('saddas','\0');
+INSERT INTO `Chip` VALUES ('EFA62D',''),('EFD576',''),('F06516',''),('F0D8B4',''),('F0DFC9',''),('F0E0EE','');
 /*!40000 ALTER TABLE `Chip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -47,8 +101,8 @@ DROP TABLE IF EXISTS `Employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Employee` (
-  `chipId` varchar(64) NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chipId` varchar(31) NOT NULL,
+  `name` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`chipId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -59,7 +113,7 @@ CREATE TABLE `Employee` (
 
 LOCK TABLES `Employee` WRITE;
 /*!40000 ALTER TABLE `Employee` DISABLE KEYS */;
-INSERT INTO `Employee` VALUES ('dsad','xD'),('EFA62D','Jakub Dominikanin'),('EFD576','Stanislaw Nowak'),('F0D8B4','Piotr Kowalski');
+INSERT INTO `Employee` VALUES ('EFA62D','Jakub Dominikanin'),('EFD576','Stanislaw Nowak'),('F0D8B4','Piotr Kowalski');
 /*!40000 ALTER TABLE `Employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,8 +126,8 @@ DROP TABLE IF EXISTS `Mark`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Mark` (
   `id` int(11) NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `isCommentRequired` bit(1) DEFAULT NULL,
+  `description` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `requiresComment` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -84,7 +138,7 @@ CREATE TABLE `Mark` (
 
 LOCK TABLES `Mark` WRITE;
 /*!40000 ALTER TABLE `Mark` DISABLE KEYS */;
-INSERT INTO `Mark` VALUES (0,'Problem 0',''),(1,'Wszystko w porządku','\0'),(2,'Awaria',''),(3,'Problem 3',''),(4,'Problem 4',''),(5,'Problem 5',''),(6,'Problem 6',''),(7,'Problem 7',''),(8,'Problem 8',''),(9,'Problem 9',''),(12,'Problem C',''),(14,'Problem E','');
+INSERT INTO `Mark` VALUES (0,'Problem 0',''),(1,'Wszystko w porządku',''),(2,'Awaria',''),(3,'Problem 3',''),(4,'Problem 4',''),(5,'Problem 5',''),(6,'Problem 6',''),(7,'Problem 7',''),(8,'Problem 8',''),(9,'Problem 9',''),(12,'Problem C',''),(14,'Problem E','');
 /*!40000 ALTER TABLE `Mark` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,8 +150,9 @@ DROP TABLE IF EXISTS `Place`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Place` (
-  `chipId` varchar(64) NOT NULL,
-  `name` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chipId` varchar(31) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `department` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`chipId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -108,7 +163,7 @@ CREATE TABLE `Place` (
 
 LOCK TABLES `Place` WRITE;
 /*!40000 ALTER TABLE `Place` DISABLE KEYS */;
-INSERT INTO `Place` VALUES ('F06516','Odlewnia', "Dział_1"),('F0DFC9','Biuro', "Dział2"),('F0E0EE','Walcownia', "Dział1"),('saddas','dfsfsd', "Dział1");
+INSERT INTO `Place` VALUES ('F06516','Odlewnia','Dział_1'),('F0DFC9','Biuro','Dział2'),('F0E0EE','Walcownia','Dział1');
 /*!40000 ALTER TABLE `Place` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,11 +176,12 @@ DROP TABLE IF EXISTS `Report`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Report` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `trackName` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `shift` int(11) DEFAULT NULL,
-  `reportDay` date DEFAULT NULL,
-  `employeeName` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `isFinished` bit(1) DEFAULT NULL,
+  `routineId` int(11) NOT NULL,
+  `assignmentDate` date NOT NULL,
+  `signedEmployeeName` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `trackName` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `shift` int(11) NOT NULL,
+  `isFinished` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -149,10 +205,9 @@ DROP TABLE IF EXISTS `ReportPlace`;
 CREATE TABLE `ReportPlace` (
   `reportId` bigint(20) NOT NULL,
   `placeName` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `areaName` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `markName` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `comment` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `markDescription` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `comment` varchar(511) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`reportId`,`placeName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -167,6 +222,80 @@ LOCK TABLES `ReportPlace` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Routine`
+--
+
+DROP TABLE IF EXISTS `Routine`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Routine` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `trackId` int(11) NOT NULL,
+  `teamId` int(11) NOT NULL,
+  `startDay` date NOT NULL,
+  `cycleLength` int(11) NOT NULL,
+  `cycleMask` bigint(20) NOT NULL,
+  `shift` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Routine`
+--
+
+LOCK TABLES `Routine` WRITE;
+/*!40000 ALTER TABLE `Routine` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Routine` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Team`
+--
+
+DROP TABLE IF EXISTS `Team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Team` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Team`
+--
+
+LOCK TABLES `Team` WRITE;
+/*!40000 ALTER TABLE `Team` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TeamEmployee`
+--
+
+DROP TABLE IF EXISTS `TeamEmployee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TeamEmployee` (
+  `teamId` int(11) NOT NULL,
+  `employeeId` varchar(31) NOT NULL,
+  PRIMARY KEY (`teamId`,`employeeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TeamEmployee`
+--
+
+LOCK TABLES `TeamEmployee` WRITE;
+/*!40000 ALTER TABLE `TeamEmployee` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TeamEmployee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Track`
 --
 
@@ -175,8 +304,7 @@ DROP TABLE IF EXISTS `Track`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Track` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `creationDate` date DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -199,7 +327,7 @@ DROP TABLE IF EXISTS `TrackPlace`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `TrackPlace` (
   `trackId` int(11) NOT NULL,
-  `placeId` int(11) NOT NULL,
+  `placeId` varchar(31) NOT NULL,
   PRIMARY KEY (`trackId`,`placeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -212,34 +340,6 @@ LOCK TABLES `TrackPlace` WRITE;
 /*!40000 ALTER TABLE `TrackPlace` DISABLE KEYS */;
 /*!40000 ALTER TABLE `TrackPlace` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `TrackRepeating`
---
-
-DROP TABLE IF EXISTS `TrackRepeating`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TrackRepeating` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `trackId` int(11) DEFAULT NULL,
-  `employeeId` varchar(64) DEFAULT NULL,
-  `dayStart` date DEFAULT NULL,
-  `repeatLength` int(11) DEFAULT NULL,
-  `repeatMask` bigint(20) DEFAULT NULL,
-  `shift` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `TrackRepeating`
---
-
-LOCK TABLES `TrackRepeating` WRITE;
-/*!40000 ALTER TABLE `TrackRepeating` DISABLE KEYS */;
-/*!40000 ALTER TABLE `TrackRepeating` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -250,4 +350,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-11 12:00:53
+-- Dump completed on 2018-03-12 11:55:02

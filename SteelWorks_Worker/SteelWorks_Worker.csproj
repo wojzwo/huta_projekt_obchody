@@ -101,6 +101,18 @@
     <Compile Include="View\LoadReaderUserControl.Designer.cs">
       <DependentUpon>LoadReaderUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\NoEmployeeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\NoEmployeeView.Designer.cs">
+      <DependentUpon>NoEmployeeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopupNoInternetView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PopupNoInternetView.Designer.cs">
+      <DependentUpon>PopupNoInternetView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\PopupView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +177,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\LoadReaderUserControl.resx">
       <DependentUpon>LoadReaderUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\NoEmployeeView.resx">
+      <DependentUpon>NoEmployeeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PopupNoInternetView.resx">
+      <DependentUpon>PopupNoInternetView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\PopupView.resx">
       <DependentUpon>PopupView.cs</DependentUpon>

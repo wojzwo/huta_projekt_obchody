@@ -9,6 +9,5 @@ namespace SteelWorks_Worker.Model
     public static class Tester
     {
 		public static bool bIsInTestMode = true;
-
     }
 }

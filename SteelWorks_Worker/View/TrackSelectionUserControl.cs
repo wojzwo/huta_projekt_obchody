@@ -14,13 +14,16 @@ namespace SteelWorks_Worker.View
 {
     public partial class TrackSelectionUserControl : UserControl
     {
+        public Int64 finalReportId;
+        public List<DbPlace> finalPlaces;
+
         private Dictionary<string, Int64> trackIdByListName_ = new Dictionary<string, Int64>();
         private string currentItem_ = "";
 
         public void GetTracks() {
             List<DbReport> reports = new List<DbReport>();
             try {
-                //reports = Repository.instance.GetAllTodaysReports(true);
+                reports = Repository.report.GetAllTodays(true);
             } catch (Exception ex) {
                 //TODO: Exception handling code
             }
@@ -46,11 +49,27 @@ namespace SteelWorks_Worker.View
                 return;
             }
 
-            view.ChangeUserControlToSending();
+            finalReportId = trackIdByListName_[currentItem_];
+
+            view.ChangeUserControlToCommentUnvisited();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
             currentItem_ = listBox1.SelectedItem.ToString();
+            listBox2.Items.Clear();
+
+            try {
+                int routineId = Repository.report.Get(trackIdByListName_[currentItem_]).routineId;
+                int trackId = Repository.routine.Get(routineId).trackId;
+
+                List<DbPlace> places = Repository.place.GetAllInTrack(trackId);
+                finalPlaces = places;
+                foreach (DbPlace p in places) {
+                    listBox2.Items.Add("Dział: " + p.department + ", Miejsce: " + p.name);
+                }
+            } catch (Exception ex) {
+                //TODO: Exception handling code
+            }
         }
     }
 }

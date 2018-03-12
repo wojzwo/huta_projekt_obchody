@@ -29,6 +29,7 @@ namespace SteelWorks_Worker.View
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataItemUserControl));
             this.Panel = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Date = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,6 +46,7 @@ namespace SteelWorks_Worker.View
             this.Panel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Panel.ButtonSize = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonSize.Normal;
             this.Panel.ButtonStyle = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonStyle.Triangle;
+            this.Panel.Controls.Add(this.button1);
             this.Panel.Controls.Add(this.textBox1);
             this.Panel.Controls.Add(this.Date);
             this.Panel.Controls.Add(this.label4);
@@ -64,6 +66,21 @@ namespace SteelWorks_Worker.View
             this.Panel.ExpandCollapse += new System.EventHandler<MakarovDev.ExpandCollapsePanel.ExpandCollapseEventArgs>(this.Panel_ExpandCollapse);
             this.Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel_Paint);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Red;
+            this.button1.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.button1.Location = new System.Drawing.Point(1139, 44);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(47, 138);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "U\r\ns\r\nu\r\nń";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -71,7 +88,7 @@ namespace SteelWorks_Worker.View
             this.textBox1.Location = new System.Drawing.Point(608, 44);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(568, 138);
+            this.textBox1.Size = new System.Drawing.Size(525, 138);
             this.textBox1.TabIndex = 10;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -202,5 +219,6 @@ namespace SteelWorks_Worker.View
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -138,7 +138,7 @@ CREATE TABLE `Mark` (
 
 LOCK TABLES `Mark` WRITE;
 /*!40000 ALTER TABLE `Mark` DISABLE KEYS */;
-INSERT INTO `Mark` VALUES (0,'Problem 0',''),(1,'Wszystko w porządku',''),(2,'Awaria',''),(3,'Problem 3',''),(4,'Problem 4',''),(5,'Problem 5',''),(6,'Problem 6',''),(7,'Problem 7',''),(8,'Problem 8',''),(9,'Problem 9',''),(12,'Problem C',''),(14,'Problem E','');
+INSERT INTO `Mark` VALUES (0,'Problem 0',''),(1,'Wszystko w porządku','\0'),(2,'Awaria',''),(3,'Problem 3',''),(4,'Problem 4',''),(5,'Problem 5',''),(6,'Problem 6',''),(7,'Problem 7',''),(8,'Problem 8',''),(9,'Problem 9',''),(12,'Problem C',''),(14,'Problem E','');
 /*!40000 ALTER TABLE `Mark` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +183,7 @@ CREATE TABLE `Report` (
   `shift` int(11) NOT NULL,
   `isFinished` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,6 +192,7 @@ CREATE TABLE `Report` (
 
 LOCK TABLES `Report` WRITE;
 /*!40000 ALTER TABLE `Report` DISABLE KEYS */;
+INSERT INTO `Report` VALUES (1,1,'2018-03-12','','Trasa testowa',1,'\0');
 /*!40000 ALTER TABLE `Report` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,6 +209,8 @@ CREATE TABLE `ReportPlace` (
   `status` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `markDescription` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `comment` varchar(511) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `department` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `visitDate` datetime NOT NULL,
   PRIMARY KEY (`reportId`,`placeName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -237,7 +240,7 @@ CREATE TABLE `Routine` (
   `cycleMask` bigint(20) NOT NULL,
   `shift` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,6 +249,7 @@ CREATE TABLE `Routine` (
 
 LOCK TABLES `Routine` WRITE;
 /*!40000 ALTER TABLE `Routine` DISABLE KEYS */;
+INSERT INTO `Routine` VALUES (1,1,0,'2018-03-12',0,0,1);
 /*!40000 ALTER TABLE `Routine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,8 +309,9 @@ DROP TABLE IF EXISTS `Track`;
 CREATE TABLE `Track` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `creationDate` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,6 +320,7 @@ CREATE TABLE `Track` (
 
 LOCK TABLES `Track` WRITE;
 /*!40000 ALTER TABLE `Track` DISABLE KEYS */;
+INSERT INTO `Track` VALUES (1,'Trasa testowa 1','2018-03-12');
 /*!40000 ALTER TABLE `Track` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,6 +344,7 @@ CREATE TABLE `TrackPlace` (
 
 LOCK TABLES `TrackPlace` WRITE;
 /*!40000 ALTER TABLE `TrackPlace` DISABLE KEYS */;
+INSERT INTO `TrackPlace` VALUES (1,'F06516'),(1,'F0E0EE');
 /*!40000 ALTER TABLE `TrackPlace` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -350,4 +357,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-12 11:55:02
+-- Dump completed on 2018-03-12 15:44:51

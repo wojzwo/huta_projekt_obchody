@@ -22,6 +22,35 @@ namespace SteelWorks_Utils.Model
             connection_ = connection;
         }
 
+        public string GetDepartmentByName(string name) {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT department FROM Place WHERE name = @name";
+            query.Parameters.AddWithValue("@name", name);
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    string department = reader.GetString("department");
+
+                    return department;
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting department by Place name\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return null;
+        }
+
         public DbPlace Get(string chipId) {
             try {
                 connection_.Open();

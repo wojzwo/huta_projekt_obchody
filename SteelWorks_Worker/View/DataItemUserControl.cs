@@ -26,12 +26,14 @@ namespace SteelWorks_Worker.View
     {
         ProperlyLoaded,
         ChangedPlace,
-        ChangedMark
+        ChangedMark,
+        NotVisited
     }
 
     public partial class DataItemUserControl : UserControl
     {
         public bool bIsValid = true;
+        public bool bNotVisited = false;
         public bool bCommentRequired = false;
 
         public const int COLLAPSED_HEIGHT = 42;
@@ -63,7 +65,8 @@ namespace SteelWorks_Worker.View
             }
 
             bCommentRequired = requireComment;
-            status = DataItemStatus.ChangedMark;
+            if (status == DataItemStatus.ProperlyLoaded)
+                status = DataItemStatus.ChangedMark;
             ChangeItemHeader();
         }
 
@@ -75,7 +78,8 @@ namespace SteelWorks_Worker.View
                 bIsValid = true;
             }
 
-            status = DataItemStatus.ChangedPlace;
+            if (status == DataItemStatus.ProperlyLoaded)
+                status = DataItemStatus.ChangedPlace;
             ChangeItemHeader();
         }
 
@@ -92,6 +96,22 @@ namespace SteelWorks_Worker.View
 
         public void SetParent(ProcessDataUserControl control) {
             control_ = control;
+        }
+
+        public void Init(DbPlace place) {
+            Date.Text = DateTime.Now.ToString("g");
+            Place.Text = place.name;
+            Place.BackColor = System.Drawing.Color.Green;
+            Place.Enabled = false;
+
+            Mark.Text = "???";
+            Mark.BackColor = System.Drawing.Color.Red;
+            Mark.Enabled = true;
+            bIsValid = false;
+            bNotVisited = true;
+            status = DataItemStatus.NotVisited;
+
+            ChangeItemHeader();
         }
 
         public void Init(ChipData chip, KeypadData keypad) {
@@ -160,12 +180,34 @@ namespace SteelWorks_Worker.View
             Panel.Text = Place.Text + " [" + Mark.Text + "]                                                               " +
                          "                                                                                             " +
                          "                                                                                             ";
-            if (bIsValid && !bCommentRequired) {
-                Panel.BackColor = System.Drawing.Color.FromArgb(190, 220, 190);
-            } else if (bIsValid && bCommentRequired ) {
-                Panel.BackColor = System.Drawing.Color.FromArgb(220, 190, 190);
+            SetProperBackgroundColor();
+        }
+
+        private void SetProperBackgroundColor() {
+            System.Drawing.Color red = System.Drawing.Color.FromArgb(220, 190, 190);
+            System.Drawing.Color yellow = System.Drawing.Color.FromArgb(220, 220, 190);
+            System.Drawing.Color green = System.Drawing.Color.FromArgb(190, 220, 190);
+
+            if (!bIsValid) {
+                Panel.BackColor = red;
             } else {
-                Panel.BackColor = System.Drawing.Color.FromArgb(220, 190, 190);
+                if (textBox1.Text.Length < 2) {
+                    if (bCommentRequired || bNotVisited) {
+                        Panel.BackColor = red;
+                    } else {
+                        if (status == DataItemStatus.ProperlyLoaded)
+                            Panel.BackColor = green;
+                        else {
+                            Panel.BackColor = yellow;
+                        }
+                    }
+                } else {
+                    if (status == DataItemStatus.ProperlyLoaded)
+                        Panel.BackColor = green;
+                    else {
+                        Panel.BackColor = yellow;
+                    }
+                }
             }
         }
 
@@ -196,15 +238,15 @@ namespace SteelWorks_Worker.View
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e) {
-            if (textBox1.Text.Length < 2 && bIsValid && bCommentRequired) {
-                Panel.BackColor = System.Drawing.Color.FromArgb(220, 190, 190);
-            } else if (textBox1.Text.Length >= 2 && bIsValid && bCommentRequired) {
-                Panel.BackColor = System.Drawing.Color.FromArgb(220, 220, 190);
-            }
+            SetProperBackgroundColor();
         }
 
         private void Date_Click(object sender, EventArgs e) {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            control_.DeleteDataItem(this);
         }
     }
 }

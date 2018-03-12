@@ -58,6 +58,7 @@
 			this.addButton.TabIndex = 2;
 			this.addButton.Text = "Dodaj Trase";
 			this.addButton.UseVisualStyleBackColor = true;
+			this.addButton.Click += new System.EventHandler(this.addButton_Click);
 			// 
 			// cancelButton
 			// 
@@ -67,6 +68,7 @@
 			this.cancelButton.TabIndex = 3;
 			this.cancelButton.Text = "Anuluj";
 			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// addTrackUserControl
 			// 
@@ -86,8 +88,8 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox TrackNameTextBox;
-		private System.Windows.Forms.Button addButton;
 		private System.Windows.Forms.Button cancelButton;
+		internal System.Windows.Forms.Button addButton;
+		internal System.Windows.Forms.TextBox TrackNameTextBox;
 	}
 }

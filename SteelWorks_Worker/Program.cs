@@ -24,6 +24,26 @@ namespace SteelWorks_Worker
 
             Application.Run(workerMainView);
 
+            //DbReport report3 = new DbReport() {
+            //    assignmentDate = DateTime.Now,
+            //    isFinished = false,
+            //    routineId = 4,
+            //    shift = 2,
+            //    signedEmployeeName = "",
+            //    trackName = "Trasa testowa"
+            //};
+            //Repository.report.Insert(report3);
+
+            //DbReport report2 = new DbReport() {
+            //    assignmentDate = DateTime.Now,
+            //    isFinished = false,
+            //    routineId = 4,
+            //    shift = 3,
+            //    signedEmployeeName = "",
+            //    trackName = "Trasa testowa"
+            //};
+            //Repository.report.Insert(report2);
+
             //DbReport report = new DbReport() {
             //    assignmentDate = DateTime.Now,
             //    isFinished = false,

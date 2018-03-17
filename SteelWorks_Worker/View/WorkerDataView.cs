@@ -34,11 +34,19 @@ namespace SteelWorks_Worker.View
 
             dataUserControl.DeleteAllDataItems();
 
+            List<ReportDataItem> placesUnnecessary = new List<ReportDataItem>();
             List<DbPlace> placesUnvisited = trackSelectionUserControl_.finalPlaces;
             foreach (ReportDataItem i in reportData.items) {
                 DbPlace matchedPlace = placesUnvisited.Find(p => p.name == i.placeName);
                 if (matchedPlace != null)
                     placesUnvisited.Remove(matchedPlace);
+                else {
+                    placesUnnecessary.Add(i);
+                }
+            }
+
+            foreach (ReportDataItem i in placesUnnecessary) {
+                reportData.items.Remove(i);
             }
 
             dataUserControl.bCorrectionMode = true;
@@ -90,6 +98,8 @@ namespace SteelWorks_Worker.View
 
         private void SaveReportToDatabase() {
             try {
+                List<DbMark> marks = Repository.mark.GetAll();
+
                 DbReport report = Repository.report.Get(reportData.reportId);
                 report.isFinished = true;
                 report.signedEmployeeName = reportData.employeeName;
@@ -115,7 +125,8 @@ namespace SteelWorks_Worker.View
                         visitDate = item.placeVisitDate,
                         markDescription = item.placeMark,
                         comment = item.placeComment,
-                        department = department
+                        department = department,
+                        markCommentRequired = marks.Find(x => x.description == item.placeMark).requiresComment
                     };
 
                     //separate try/catch because of possible duplicates

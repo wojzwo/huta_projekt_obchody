@@ -55,6 +55,9 @@ namespace SteelWorks_Worker.View
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
+            if (listBox1.SelectedItem == null)
+                return;
+
             currentItem_ = listBox1.SelectedItem.ToString();
             listBox2.Items.Clear();
 

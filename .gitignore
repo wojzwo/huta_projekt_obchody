@@ -7,6 +7,7 @@
 # Necessary files
 !SteelWorks_Worker/Config/*
 !SteelWorks_Admin/Config/*
+!SteelWorks_Server/Config/*
 
 #additional extensions
 *.manifest
@@ -32,9 +33,11 @@ bld/
 SteelWorks_Worker/[Bb]in/*
 SteelWorks_Admin/[Bb]in/*
 SteelWorks/[Bb]in/*
+SteelWorks_Server/[Bb]in/*
 SteelWorks_Worker/docs/*
 SteelWorks_Admin/docs/*
 SteelWorks/docs/*
+SteelWorks_Server/docs/*
 [Oo]bj/
 [Ll]og/
 

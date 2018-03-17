@@ -11,8 +11,7 @@ namespace SteelWorks_Worker
     static class Program
     {
         [STAThread]
-        static void Main()
-        {
+        static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -21,14 +20,14 @@ namespace SteelWorks_Worker
             WorkerMainView workerMainView = new WorkerMainView();
             WorkerDataView workerDataView = new WorkerDataView();
             WorkerDataController workerDataController = new WorkerDataController();
-            WorkerMainController workerMainController = new  WorkerMainController(workerMainView, workerDataController);
+            WorkerMainController workerMainController = new WorkerMainController(workerMainView, workerDataController);
 
             Application.Run(workerMainView);
 
             //DbReport report = new DbReport() {
             //    assignmentDate = DateTime.Now,
             //    isFinished = false,
-            //    routineId = 1,
+            //    routineId = 4,
             //    shift = 1,
             //    signedEmployeeName = "",
             //    trackName = "Trasa testowa"

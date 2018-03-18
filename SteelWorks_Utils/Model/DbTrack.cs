@@ -31,7 +31,7 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "SELECT * FROM Track WHERE trackId = @trackId";
+            query.CommandText = "SELECT * FROM Track WHERE id = @trackId";
             query.Parameters.AddWithValue("@trackId", trackId);
 
             try {

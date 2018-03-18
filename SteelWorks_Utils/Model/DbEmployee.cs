@@ -155,5 +155,98 @@ namespace SteelWorks_Utils.Model
 
             return (rowsAffected == 1 && isChipDeleted);
         }
-    }
+
+
+		public List<DbEmployee> GetAllInTeam(int teamId)
+		{
+			List<DbEmployee> teams = new List<DbEmployee>();
+
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "SELECT * FROM Employee WHERE chipId IN" +
+								"(SELECT employeeId FROM TeamEmployee WHERE teamId = @teamId)";
+			query.Parameters.AddWithValue("@teamId", teamId);
+
+			try
+			{
+				MySqlDataReader reader = query.ExecuteReader();
+				while (reader.Read())
+				{
+					DbEmployee place = new DbEmployee()
+					{
+						chipId = reader.GetString("chipId"),
+						name = reader.GetString("name")
+					};
+
+					teams.Add(place);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while getting all Places by Team\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return teams;
+		}
+
+		public List<DbEmployee> GetAllNotInTeam(int teamId)
+		{
+			List<DbEmployee> teams = new List<DbEmployee>();
+
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "SELECT * FROM Employee WHERE chipId NOT IN" +
+								"(SELECT employeeId FROM TeamEmployee WHERE teamId = @teamId)";
+			query.Parameters.AddWithValue("@teamId", teamId);
+
+			try
+			{
+				MySqlDataReader reader = query.ExecuteReader();
+				while (reader.Read())
+				{
+					DbEmployee place = new DbEmployee()
+					{
+						chipId = reader.GetString("chipId"),
+						name = reader.GetString("name")
+					};
+
+					teams.Add(place);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while getting all Places not in Team\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return teams;
+		}
+	}
 }

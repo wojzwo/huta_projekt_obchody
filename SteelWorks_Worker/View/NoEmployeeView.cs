@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SteelWorks_Utils;
 
 namespace SteelWorks_Worker.View
 {
-    public partial class DataRemoveSuccessUserControl : UserControl
+    public partial class NoEmployeeView : Form
     {
-        public DataRemoveSuccessUserControl() {
+        public NoEmployeeView() {
             InitializeComponent();
         }
 
-        private void StartButton_Click(object sender, EventArgs e) {
+        private void button1_Click(object sender, EventArgs e) {
             Application.Restart();
         }
     }

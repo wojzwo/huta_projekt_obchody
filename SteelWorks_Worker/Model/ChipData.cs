@@ -8,7 +8,7 @@ namespace SteelWorks_Worker.Model
 {
     public class ChipData
     {
-        public DateTime date;
+        public DateTime date = DateTime.Now;
         public string id;
         public bool bIsValid;
 

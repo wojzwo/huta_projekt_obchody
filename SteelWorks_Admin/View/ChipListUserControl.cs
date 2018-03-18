@@ -14,8 +14,8 @@ namespace SteelWorks_Admin.View
 	public partial class ChipListUserControl : UserControl
 	{
 
-		private List<DB_Employee>  employees = new List<DB_Employee>();
-		private List<DB_Place> places = new List<DB_Place>();
+		private List<DbEmployee>  employees = new List<DbEmployee>();
+		private List<DbPlace> places = new List<DbPlace>();
 		public ChipListUserControl()
 		{
 			InitializeComponent();
@@ -50,12 +50,12 @@ namespace SteelWorks_Admin.View
 			if (chipStateComboBox.SelectedIndex == 0)
 			{
 			    try {
-			        places = Repository.instance.GetAllPlaces();
+			        places = Repository.place.GetAll();
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }
 
-                foreach (DB_Place place in places)
+                foreach (DbPlace place in places)
 				{
 					row[0] = place.chipId;
 					row[1] = place.name;
@@ -66,12 +66,12 @@ namespace SteelWorks_Admin.View
 			if (chipStateComboBox.SelectedIndex == 1)
 			{
 			    try {
-			        employees = Repository.instance.GetAllEmployees();
+			        employees = Repository.employee.GetAll();
 			    } catch (Exception ex) {
 			        //TODO: Exception handling code
                 }
 
-                foreach (DB_Employee emp in employees)
+                foreach (DbEmployee emp in employees)
 				{
 					row[0] = emp.chipId;
 					row[1] = emp.name;

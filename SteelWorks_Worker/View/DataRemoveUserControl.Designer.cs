@@ -42,6 +42,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ErrorBox.BackColor = System.Drawing.SystemColors.Control;
             this.ErrorBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ErrorBox.Enabled = false;
             this.ErrorBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ErrorBox.ForeColor = System.Drawing.Color.Red;
             this.ErrorBox.Location = new System.Drawing.Point(19, 551);
@@ -60,13 +61,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("Calibri", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox1.Location = new System.Drawing.Point(20, 21);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(1202, 40);
             this.textBox1.TabIndex = 12;
-            this.textBox1.Text = "Przyłóż czytnik do adaptera";
+            this.textBox1.Text = "Czyszczenie zawartości czytnika";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // pictureBox4

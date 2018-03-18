@@ -49,9 +49,9 @@ namespace SteelWorks_Worker.View
                 p2.Alignment = Element.ALIGN_LEFT;
                 doc.Add(p2);
 
-                List<DB_Mark> marks = new List<DB_Mark>();
+                List<DbMark> marks = new List<DbMark>();
                 try {
-                    marks = Repository.instance.GetAllMarks();
+                    marks = Repository.mark.GetAll();
                 } catch (Exception ex) {
                     //TODO: Exception handling code
                 }
@@ -64,7 +64,7 @@ namespace SteelWorks_Worker.View
                 string normalString = "";
 
                 foreach (ReportDataItem i in data.items) {
-                    bool bRequiresComment = marks.Find((x) => x.name == i.placeMark).bCommentRequired;
+                    bool bRequiresComment = marks.Find((x) => x.description == i.placeMark).requiresComment;
                     if (bRequiresComment) {
                         crucialItems.Add(i);
                         crucialString += "Godzina odwiedzenia: " + i.placeVisitDate.ToString("g") + "\nMiejsce: " + i.placeName + "\nOcena: " + i.placeMark + "\nKomentarz: " + i.placeComment + "\n\n";

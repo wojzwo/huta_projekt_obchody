@@ -40,6 +40,13 @@ namespace SteelWorks_Admin.View
 		private List<DB_Place> placesIn = null;
 		private List<DB_Track> tracks = null;
 
+		private ComboboxItem addComboBoxItem = new ComboboxItem()
+		{
+			Text = "<Nowy>",
+			Value = -1
+		};
+
+
 		public TrackUserControl()
 		{
 			InitializeComponent();
@@ -68,7 +75,7 @@ namespace SteelWorks_Admin.View
 
 
 			trackComboBox.Items.Clear();
-
+			trackComboBox.Items.Add(addComboBoxItem);
 			foreach (DB_Track track in tracks)
 			{
 				ComboboxItem item = new ComboboxItem();
@@ -95,6 +102,9 @@ namespace SteelWorks_Admin.View
 		{
 			if (trackComboBox.SelectedItem == null)
 			{
+				noTrackPlacesListBox.Items.Clear();
+				trackPlacesListBox.Items.Clear();
+				trackNametextBox.Text = "";
 				return;
 			}
 			int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
@@ -154,6 +164,14 @@ namespace SteelWorks_Admin.View
 		{
 			if (trackComboBox.SelectedItem == null)
 			{
+				return;
+			}
+			if(trackComboBox.SelectedItem == addComboBoxItem)
+			{
+				DateTime nowTime = DateTime.Now;
+				Repository.instance.InsertTrack(new DB_Track(trackNametextBox.Text, nowTime));
+				reloadTracksFromDB();
+				trackComboBox.SelectedIndex = -1;
 				return;
 			}
 			int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);

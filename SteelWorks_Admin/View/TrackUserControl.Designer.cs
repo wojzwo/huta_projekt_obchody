@@ -149,7 +149,7 @@
 			// 
 			// addTrackUserControl1
 			// 
-			this.addTrackUserControl1.Location = new System.Drawing.Point(46, 15);
+			this.addTrackUserControl1.Location = new System.Drawing.Point(833, 326);
 			this.addTrackUserControl1.Name = "addTrackUserControl1";
 			this.addTrackUserControl1.Size = new System.Drawing.Size(1248, 557);
 			this.addTrackUserControl1.TabIndex = 12;

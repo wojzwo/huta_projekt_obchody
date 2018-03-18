@@ -36,9 +36,9 @@ namespace SteelWorks_Admin.View
 			}
 		}
 
-		private List<DB_Place> placesOut = null;
-		private List<DB_Place> placesIn = null;
-		private List<DB_Track> tracks = null;
+		private List<DbPlace> placesOut = null;
+		private List<DbPlace> placesIn = null;
+		private List<DbTrack> tracks = null;
 
 		private ComboboxItem addComboBoxItem = new ComboboxItem()
 		{
@@ -59,8 +59,8 @@ namespace SteelWorks_Admin.View
 
 		private void addTrackButtonHandler(object sender, EventArgs e)
 		{
-			Repository.instance.InsertTrack(new DB_Track(addTrackUserControl1.TrackNameTextBox.Text, DateTime.Now));
-			reloadTracksFromDB();
+			/*Repository.instance.InsertTrack(new DB_Track(addTrackUserControl1.TrackNameTextBox.Text, DateTime.Now));
+			reloadTracksFromDB();*/
 		}
 
 		private void addTrackButton_Click(object sender, EventArgs e)
@@ -71,12 +71,19 @@ namespace SteelWorks_Admin.View
 
 		private void reloadTracksFromDB()
 		{
-			tracks = Repository.instance.GetAllTracks();
+			try
+			{
+				tracks = Repository.track.GetAll();
+			}
+			catch (Exception ex)
+			{
+				//TODO: Exception handling code
+			}
 
 
 			trackComboBox.Items.Clear();
 			trackComboBox.Items.Add(addComboBoxItem);
-			foreach (DB_Track track in tracks)
+			foreach (DbTrack track in tracks)
 			{
 				ComboboxItem item = new ComboboxItem();
 				item.Text = track.name;
@@ -88,11 +95,11 @@ namespace SteelWorks_Admin.View
 
 		private void deletTrackButton_Click(object sender, EventArgs e)
 		{
-			if(trackComboBox.SelectedItem == null)
+			if(trackComboBox.SelectedItem == null || trackComboBox.SelectedItem== addComboBoxItem)
 			{
 				return;
 			}
-			Repository.instance.DeleteTrack((System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value));
+			Repository.track.Delete((System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value));
 			reloadTracksFromDB();
 			trackComboBox.SelectedIndex = 0;
 			/**/
@@ -107,40 +114,40 @@ namespace SteelWorks_Admin.View
 				trackNametextBox.Text = "";
 				return;
 			}
-			int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
 
-
-			placesOut = Repository.instance.GetAllPlaces();
-
-			List<DB_Place> placesToAddIn = Repository.instance.GetAllPlacesInTrack(selectedTrackId);
-			placesIn = new List<DB_Place>();
-
-			trackNametextBox.Text = (trackComboBox.SelectedItem as ComboboxItem).Text.ToString();
+			if (trackComboBox.SelectedItem == addComboBoxItem)
+			{
+				trackNametextBox.Text = "Nowa";
+				placesOut = Repository.place.GetAll();
+				placesIn = null;
+			}
+			else
+			{
+				int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
+				placesOut = Repository.place.GetAllNotInTrack(selectedTrackId);
+				placesIn = Repository.place.GetAllInTrack(selectedTrackId);
+				trackNametextBox.Text = (trackComboBox.SelectedItem as ComboboxItem).Text.ToString();
+			}
 
 			noTrackPlacesListBox.Items.Clear();
 			trackPlacesListBox.Items.Clear();
-			foreach (DB_Place place in placesOut)
+			foreach (DbPlace place in placesOut)
 			{
-				if (placesToAddIn.Any(p => p.chipId==place.chipId))
-				{
-					placesIn.Add(place);
-				}
-				else
+				ListboxItem item = new ListboxItem();
+				item.Text = place.name;
+				item.Value = place.chipId;
+				noTrackPlacesListBox.Items.Add(item);
+			}
+
+			if(placesIn != null)
+			{
+				foreach (DbPlace place in placesIn)
 				{
 					ListboxItem item = new ListboxItem();
 					item.Text = place.name;
 					item.Value = place.chipId;
-					noTrackPlacesListBox.Items.Add(item);
+					trackPlacesListBox.Items.Add(item);
 				}
-			}
-
-			foreach (DB_Place place in placesIn)
-			{
-				placesOut.Remove(place);
-				ListboxItem item = new ListboxItem();
-				item.Text = place.name;
-				item.Value = place.chipId;
-				trackPlacesListBox.Items.Add(item);
 			}
 		}
 
@@ -162,35 +169,42 @@ namespace SteelWorks_Admin.View
 
 		private void saveButton_Click(object sender, EventArgs e)
 		{
+
 			if (trackComboBox.SelectedItem == null)
 			{
 				return;
 			}
-			if(trackComboBox.SelectedItem == addComboBoxItem)
+
+			int selectedTrackId;
+
+			if (trackComboBox.SelectedItem == addComboBoxItem)
 			{
 				DateTime nowTime = DateTime.Now;
-				Repository.instance.InsertTrack(new DB_Track(trackNametextBox.Text, nowTime));
-				reloadTracksFromDB();
-				trackComboBox.SelectedIndex = -1;
-				return;
+				selectedTrackId = Repository.track.Insert(new DbTrack()
+				{
+					name = trackNametextBox.Text,
+					creationDate = nowTime
+				}
+				);
 			}
-			int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
-			Repository.instance.UpdateTrackName(selectedTrackId, trackNametextBox.Text);
-			int selInd = trackComboBox.SelectedIndex;
+			else
+			{
+				selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
+				Repository.trackPlace.DeleteAllFromTrack(selectedTrackId);
+				Repository.track.UpdateName(selectedTrackId, trackNametextBox.Text);
+			}
 
-
-			Repository.instance.DeleteAllTrackPlacesFromTrack(selectedTrackId);
-
-			DB_TrackPlace dB_TrackPlace = new DB_TrackPlace();
-			foreach(ListboxItem trackitem in trackPlacesListBox.Items)
+			DbTrackPlace dB_TrackPlace = new DbTrackPlace();
+			foreach (ListboxItem trackitem in trackPlacesListBox.Items)
 			{
 				dB_TrackPlace.trackId = selectedTrackId;
-				dB_TrackPlace.placeId = (System.String) (trackitem.Value);
-				Repository.instance.InsertTrackPlace(dB_TrackPlace);
+				dB_TrackPlace.placeId = (System.String)(trackitem.Value);
+				Repository.trackPlace.Insert(dB_TrackPlace);
 			}
 
 			reloadTracksFromDB();
-			trackComboBox.SelectedIndex = selInd;
+			trackComboBox.SelectedIndex = trackComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int) cbi.Value == selectedTrackId);
+
 		}
 	}
 }

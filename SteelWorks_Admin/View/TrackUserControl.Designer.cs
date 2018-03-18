@@ -32,24 +32,22 @@
 			this.noTrackPlacesListBox = new System.Windows.Forms.ListBox();
 			this.trackPlacesListBox = new System.Windows.Forms.ListBox();
 			this.trackComboBox = new System.Windows.Forms.ComboBox();
-			this.addTrackButton = new System.Windows.Forms.Button();
 			this.deletTrackButton = new System.Windows.Forms.Button();
 			this.toTrackButton = new System.Windows.Forms.Button();
 			this.fromTrackButton = new System.Windows.Forms.Button();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.trackNameLabel2 = new System.Windows.Forms.Label();
 			this.trackNametextBox = new System.Windows.Forms.TextBox();
-			this.addTrackUserControl1 = new SteelWorks_Admin.View.addTrackUserControl();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(40, 70);
+			this.label1.Location = new System.Drawing.Point(347, 71);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(87, 32);
+			this.label1.Size = new System.Drawing.Size(85, 32);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Trasa";
+			this.label1.Text = "Trasy";
 			// 
 			// noTrackPlacesListBox
 			// 
@@ -81,19 +79,9 @@
 			this.trackComboBox.TabIndex = 3;
 			this.trackComboBox.SelectedIndexChanged += new System.EventHandler(this.trackComboBox_SelectedIndexChanged);
 			// 
-			// addTrackButton
-			// 
-			this.addTrackButton.Location = new System.Drawing.Point(198, 33);
-			this.addTrackButton.Name = "addTrackButton";
-			this.addTrackButton.Size = new System.Drawing.Size(378, 83);
-			this.addTrackButton.TabIndex = 4;
-			this.addTrackButton.Text = "Dodaj Trase";
-			this.addTrackButton.UseVisualStyleBackColor = true;
-			this.addTrackButton.Click += new System.EventHandler(this.addTrackButton_Click);
-			// 
 			// deletTrackButton
 			// 
-			this.deletTrackButton.Location = new System.Drawing.Point(653, 33);
+			this.deletTrackButton.Location = new System.Drawing.Point(653, 922);
 			this.deletTrackButton.Name = "deletTrackButton";
 			this.deletTrackButton.Size = new System.Drawing.Size(417, 83);
 			this.deletTrackButton.TabIndex = 5;
@@ -123,11 +111,11 @@
 			// 
 			// saveButton
 			// 
-			this.saveButton.Location = new System.Drawing.Point(359, 918);
+			this.saveButton.Location = new System.Drawing.Point(46, 920);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(441, 85);
 			this.saveButton.TabIndex = 9;
-			this.saveButton.Text = "Zapisz";
+			this.saveButton.Text = "Zapisz/Dodaj";
 			this.saveButton.UseVisualStyleBackColor = true;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
@@ -147,26 +135,16 @@
 			this.trackNametextBox.Size = new System.Drawing.Size(921, 38);
 			this.trackNametextBox.TabIndex = 11;
 			// 
-			// addTrackUserControl1
-			// 
-			this.addTrackUserControl1.Location = new System.Drawing.Point(833, 326);
-			this.addTrackUserControl1.Name = "addTrackUserControl1";
-			this.addTrackUserControl1.Size = new System.Drawing.Size(1248, 557);
-			this.addTrackUserControl1.TabIndex = 12;
-			this.addTrackUserControl1.Visible = false;
-			// 
 			// TrackUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.addTrackUserControl1);
 			this.Controls.Add(this.trackNametextBox);
 			this.Controls.Add(this.trackNameLabel2);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.fromTrackButton);
 			this.Controls.Add(this.toTrackButton);
 			this.Controls.Add(this.deletTrackButton);
-			this.Controls.Add(this.addTrackButton);
 			this.Controls.Add(this.trackComboBox);
 			this.Controls.Add(this.trackPlacesListBox);
 			this.Controls.Add(this.noTrackPlacesListBox);
@@ -184,13 +162,11 @@
 		private System.Windows.Forms.ListBox noTrackPlacesListBox;
 		private System.Windows.Forms.ListBox trackPlacesListBox;
 		private System.Windows.Forms.ComboBox trackComboBox;
-		private System.Windows.Forms.Button addTrackButton;
 		private System.Windows.Forms.Button deletTrackButton;
 		private System.Windows.Forms.Button toTrackButton;
 		private System.Windows.Forms.Button fromTrackButton;
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.Label trackNameLabel2;
 		private System.Windows.Forms.TextBox trackNametextBox;
-		private addTrackUserControl addTrackUserControl1;
 	}
 }

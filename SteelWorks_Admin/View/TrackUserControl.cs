@@ -50,24 +50,10 @@ namespace SteelWorks_Admin.View
 		public TrackUserControl()
 		{
 			InitializeComponent();
-			addTrackUserControl1.addButton.Click += new System.EventHandler(addTrackButtonHandler);
-
-
 			reloadTracksFromDB();
 			
 		}
 
-		private void addTrackButtonHandler(object sender, EventArgs e)
-		{
-			/*Repository.instance.InsertTrack(new DB_Track(addTrackUserControl1.TrackNameTextBox.Text, DateTime.Now));
-			reloadTracksFromDB();*/
-		}
-
-		private void addTrackButton_Click(object sender, EventArgs e)
-		{
-			addTrackUserControl1.TrackNameTextBox.Text = "";
-			addTrackUserControl1.Visible = true;
-		}
 
 		private void reloadTracksFromDB()
 		{

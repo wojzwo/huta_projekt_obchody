@@ -39,13 +39,15 @@ namespace SteelWorks_Utils.Model
                     lambda();
 
                     bSuccess = true;
-                    currentControl.Enabled = true;
+                    if (currentControl != null)
+                        currentControl.Enabled = true;
                     errorView?.Close();
                 } catch (NoInternetConnectionException ex) {
                     if (errorView == null || !errorView.Visible) {
                         errorView = new T();
                         errorView.Show();
-                        currentControl.Enabled = false;
+                        if (currentControl != null)
+                            currentControl.Enabled = false;
                     }
 
                     for (int ij = 0; ij < 10; ij++) {

@@ -31,7 +31,7 @@ CREATE TABLE `ArchiveReport` (
   `shift` int(11) NOT NULL,
   `isFinished` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `ArchiveReport` (
 
 LOCK TABLES `ArchiveReport` WRITE;
 /*!40000 ALTER TABLE `ArchiveReport` DISABLE KEYS */;
+INSERT INTO `ArchiveReport` VALUES (21,5,'2018-03-19','','Trasa testowa',2,'\0'),(22,5,'2018-03-19','','Trasa testowa',3,'\0'),(23,5,'2018-03-19','','Trasa testowa',1,'\0');
 /*!40000 ALTER TABLE `ArchiveReport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,6 +57,8 @@ CREATE TABLE `ArchiveReportPlace` (
   `status` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `markDescription` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `comment` varchar(511) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `department` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `visitDate` datetime NOT NULL,
   PRIMARY KEY (`reportId`,`placeName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -89,7 +92,7 @@ CREATE TABLE `Chip` (
 
 LOCK TABLES `Chip` WRITE;
 /*!40000 ALTER TABLE `Chip` DISABLE KEYS */;
-INSERT INTO `Chip` VALUES ('EFA62D',''),('EFD576',''),('F06516',''),('F0D8B4',''),('F0DFC9',''),('F0E0EE','');
+INSERT INTO `Chip` VALUES ('213213','\0'),('EFA62D',''),('EFD576',''),('F06516','\0'),('F0D8B4',''),('F0DFC9','\0'),('F0E0EE','\0');
 /*!40000 ALTER TABLE `Chip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,8 +116,33 @@ CREATE TABLE `Employee` (
 
 LOCK TABLES `Employee` WRITE;
 /*!40000 ALTER TABLE `Employee` DISABLE KEYS */;
-INSERT INTO `Employee` VALUES ('EFA62D','Jakub Dominikanin'),('EFD576','Stanislaw Nowak'),('F0D8B4','Piotr Kowalski');
+INSERT INTO `Employee` VALUES ('EFA62D','Jakub Dominikanin'),('EFD576','Stanisław Nowak2'),('F0D8B4','Piotr Kowalski');
 /*!40000 ALTER TABLE `Employee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Mail`
+--
+
+DROP TABLE IF EXISTS `Mail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Mail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `isFullReport` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Mail`
+--
+
+LOCK TABLES `Mail` WRITE;
+/*!40000 ALTER TABLE `Mail` DISABLE KEYS */;
+INSERT INTO `Mail` VALUES (1,'huta.raporty@gmail.com',''),(2,'thirrasch@gmail.com','\0');
+/*!40000 ALTER TABLE `Mail` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -163,7 +191,7 @@ CREATE TABLE `Place` (
 
 LOCK TABLES `Place` WRITE;
 /*!40000 ALTER TABLE `Place` DISABLE KEYS */;
-INSERT INTO `Place` VALUES ('F06516','Odlewnia','Dział_1'),('F0DFC9','Biuro','Dział2'),('F0E0EE','Walcownia','Dział1');
+INSERT INTO `Place` VALUES ('213213','Piekarnik',''),('F06516','Rozdzielnica RSP','Odlewnia'),('F0DFC9','Lodówka','Biuro'),('F0E0EE','Agregat Diesla','Walcownia');
 /*!40000 ALTER TABLE `Place` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +211,7 @@ CREATE TABLE `Report` (
   `shift` int(11) NOT NULL,
   `isFinished` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +220,6 @@ CREATE TABLE `Report` (
 
 LOCK TABLES `Report` WRITE;
 /*!40000 ALTER TABLE `Report` DISABLE KEYS */;
-INSERT INTO `Report` VALUES (1,1,'2018-03-12','','Trasa testowa',1,'\0');
 /*!40000 ALTER TABLE `Report` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,6 +238,7 @@ CREATE TABLE `ReportPlace` (
   `comment` varchar(511) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `department` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `visitDate` datetime NOT NULL,
+  `markCommentRequired` bit(1) NOT NULL,
   PRIMARY KEY (`reportId`,`placeName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -221,6 +249,7 @@ CREATE TABLE `ReportPlace` (
 
 LOCK TABLES `ReportPlace` WRITE;
 /*!40000 ALTER TABLE `ReportPlace` DISABLE KEYS */;
+INSERT INTO `ReportPlace` VALUES (21,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0'),(22,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0'),(23,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0');
 /*!40000 ALTER TABLE `ReportPlace` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,7 +269,7 @@ CREATE TABLE `Routine` (
   `cycleMask` bigint(20) NOT NULL,
   `shift` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +278,7 @@ CREATE TABLE `Routine` (
 
 LOCK TABLES `Routine` WRITE;
 /*!40000 ALTER TABLE `Routine` DISABLE KEYS */;
-INSERT INTO `Routine` VALUES (1,1,0,'2018-03-12',0,0,1);
+INSERT INTO `Routine` VALUES (5,5,0,'2018-03-19',0,0,1);
 /*!40000 ALTER TABLE `Routine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,7 +293,7 @@ CREATE TABLE `Team` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,6 +302,7 @@ CREATE TABLE `Team` (
 
 LOCK TABLES `Team` WRITE;
 /*!40000 ALTER TABLE `Team` DISABLE KEYS */;
+INSERT INTO `Team` VALUES (2,'Grupa 1'),(3,'Grupa 2');
 /*!40000 ALTER TABLE `Team` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,6 +326,7 @@ CREATE TABLE `TeamEmployee` (
 
 LOCK TABLES `TeamEmployee` WRITE;
 /*!40000 ALTER TABLE `TeamEmployee` DISABLE KEYS */;
+INSERT INTO `TeamEmployee` VALUES (2,'EFA62D'),(2,'F0D8B4'),(3,'EFA62D'),(3,'F0D8B4');
 /*!40000 ALTER TABLE `TeamEmployee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +342,7 @@ CREATE TABLE `Track` (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `creationDate` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +351,7 @@ CREATE TABLE `Track` (
 
 LOCK TABLES `Track` WRITE;
 /*!40000 ALTER TABLE `Track` DISABLE KEYS */;
-INSERT INTO `Track` VALUES (1,'Trasa testowa 1','2018-03-12');
+INSERT INTO `Track` VALUES (2,'NowaxD','2018-03-18'),(5,'Trasa testowa','2018-03-19'),(14,'Nowa23','2018-03-18'),(15,'15','2018-03-18'),(16,'Nowa566655','2018-03-18'),(17,'NowaTest','2018-03-18');
 /*!40000 ALTER TABLE `Track` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -344,7 +375,7 @@ CREATE TABLE `TrackPlace` (
 
 LOCK TABLES `TrackPlace` WRITE;
 /*!40000 ALTER TABLE `TrackPlace` DISABLE KEYS */;
-INSERT INTO `TrackPlace` VALUES (1,'F06516'),(1,'F0E0EE');
+INSERT INTO `TrackPlace` VALUES (2,'F06516'),(2,'F0DFC9'),(5,'F06516'),(15,'213213'),(16,'F06516'),(16,'F0E0EE'),(17,'F06516');
 /*!40000 ALTER TABLE `TrackPlace` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -357,4 +388,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-12 15:44:51
+-- Dump completed on 2018-03-19 17:53:39

@@ -26,6 +26,33 @@ namespace SteelWorks_Utils.Model
             connection_ = connection;
         }
 
+        public Int64 GetLastInsertedIndex() {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT LAST_INSERT_ID() AS reportLastId FROM Report";
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    Int64 reportLastId = reader.GetInt64("reportLastId");
+                    return reportLastId;
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting all todays Reports\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return -1;
+        }
+
         public bool Update(DbReport report) {
             try {
                 connection_.Open();
@@ -78,6 +105,43 @@ namespace SteelWorks_Utils.Model
                 throw new QueryExecutionException();
             } finally {
                 connection_.Close();
+            }
+
+            try {
+                int reportCount = Repository.reportPlace.GetReportPlaceCount(report.id);
+                if (reportCount > 0)
+                    return rowsAffected == 1;
+            } catch (Exception ex) {
+                throw;
+            }
+
+            List<DbPlace> places = new List<DbPlace>();
+            Int64 reportId;
+            try {
+                DbRoutine routine = Repository.routine.Get(report.routineId);
+                places = Repository.place.GetAllInTrack(routine.trackId);
+                reportId = GetLastInsertedIndex();
+            } catch (Exception ex) {
+                throw;
+            }
+
+            foreach (DbPlace place in places) {
+                DbReportPlace reportPlace = new DbReportPlace() {
+                    reportId = reportId,
+                    placeName = place.name,
+                    department = place.department,
+                    status = "",
+                    comment = "",
+                    visitDate = DateTime.MinValue,
+                    markDescription = "",
+                    markCommentRequired = false
+                };
+
+                try {
+                    Repository.reportPlace.Insert(reportPlace);
+                } catch (Exception ex) {
+                    throw;
+                }
             }
 
             return (rowsAffected == 1);
@@ -198,6 +262,52 @@ namespace SteelWorks_Utils.Model
             }
 
             return null;
+        }
+
+        public bool Archive(Int64 reportId) {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "INSERT INTO ArchiveReport SELECT * FROM Report WHERE id = @id";
+            query.Parameters.AddWithValue("@id", reportId);
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while archiving-adding Report\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            query = connection_.CreateCommand();
+            query.CommandText = "DELETE FROM Report WHERE id = @id";
+            query.Parameters.AddWithValue("@id", reportId);
+
+            int rowsAffected2 = 0;
+            try {
+                rowsAffected2 = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while archiving-deletng Report\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return rowsAffected == 1 && rowsAffected2 == 1;
         }
     }
 }

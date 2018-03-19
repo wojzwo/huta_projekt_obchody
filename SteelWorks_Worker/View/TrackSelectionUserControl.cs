@@ -5,10 +5,12 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SteelWorks_Utils;
 using SteelWorks_Utils.Model;
+using SteelWorks_Worker.Model;
 
 namespace SteelWorks_Worker.View
 {
@@ -22,14 +24,31 @@ namespace SteelWorks_Worker.View
 
         public void GetTracks() {
             List<DbReport> reports = new List<DbReport>();
-            try {
-                reports = Repository.report.GetAllTodays(true);
-            } catch (Exception ex) {
-                //TODO: Exception handling code
+            bool bSuccess = false;
+            PopupNoInternetView noInternetView = null;
+            while (!bSuccess) {
+                try {
+                    reports = Repository.report.GetAllTodays(false);
+
+                    bSuccess = true;
+                    noInternetView?.Close();
+                } catch (NoInternetConnectionException ex) {
+                    if (noInternetView == null || !noInternetView.Visible) {
+                        noInternetView = new PopupNoInternetView();
+                        noInternetView.Show();
+                    }
+
+                    for (int ij = 0; ij < 5; ij++) {
+                        Thread.Sleep(200);
+                        Application.DoEvents();
+                    }
+                } catch (Exception ex) {
+
+                }
             }
 
             foreach (DbReport r in reports) {
-                string listName = "Zmiana: " + r.shift.ToString() + ",   Trasa: " + r.trackName;
+                string listName = "Zmiana: " + r.shift.ToString() + ",   Trasa: " + r.trackName; 
                 trackIdByListName_.Add(listName, r.id);
                 listBox1.Items.Add(listName);
             }
@@ -61,17 +80,34 @@ namespace SteelWorks_Worker.View
             currentItem_ = listBox1.SelectedItem.ToString();
             listBox2.Items.Clear();
 
-            try {
-                int routineId = Repository.report.Get(trackIdByListName_[currentItem_]).routineId;
-                int trackId = Repository.routine.Get(routineId).trackId;
+            bool bSuccess = false;
+            PopupNoInternetView noInternetView = null;
+            while (!bSuccess) {
+                try {
+                    int routineId = Repository.report.Get(trackIdByListName_[currentItem_]).routineId;
+                    int trackId = Repository.routine.Get(routineId).trackId;
 
-                List<DbPlace> places = Repository.place.GetAllInTrack(trackId);
-                finalPlaces = places;
-                foreach (DbPlace p in places) {
-                    listBox2.Items.Add("Dział: " + p.department + ", Miejsce: " + p.name);
+                    List<DbPlace> places = Repository.place.GetAllInTrack(trackId);
+                    finalPlaces = places;
+                    foreach (DbPlace p in places) {
+                        listBox2.Items.Add("Dział: " + p.department + ", Miejsce: " + p.name);
+                    }
+
+                    bSuccess = true;
+                    noInternetView?.Close();
+                } catch (NoInternetConnectionException ex) {
+                    if (noInternetView == null || !noInternetView.Visible) {
+                        noInternetView = new PopupNoInternetView();
+                        noInternetView.Show();
+                    }
+
+                    for (int ij = 0; ij < 5; ij++) {
+                        Thread.Sleep(200);
+                        Application.DoEvents();
+                    }
+                } catch (Exception ex) {
+
                 }
-            } catch (Exception ex) {
-                //TODO: Exception handling code
             }
         }
     }

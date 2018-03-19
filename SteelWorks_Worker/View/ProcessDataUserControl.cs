@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SteelWorks_Utils;
@@ -68,10 +69,27 @@ namespace SteelWorks_Worker.View
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
                 DbEmployee employee = null;
-                try {
-                    employee = Repository.employee.Get(data.id);
-                } catch (Exception ex) {
-                    //TODO: Exception handling code
+                bool bSuccess = false;
+                PopupNoInternetView noInternetView = null;
+                while (!bSuccess) {
+                    try {
+                        employee = Repository.employee.Get(data.id);
+
+                        bSuccess = true;
+                        noInternetView?.Close();
+                    } catch (NoInternetConnectionException ex) {
+                        if (noInternetView == null || !noInternetView.Visible) {
+                            noInternetView = new PopupNoInternetView();
+                            noInternetView.Show();
+                        }
+
+                        for (int ij = 0; ij < 5; ij++) {
+                            Thread.Sleep(200);
+                            Application.DoEvents();
+                        }
+                    } catch (Exception ex) {
+
+                    }
                 }
 
                 if (employee != null) {

@@ -50,10 +50,28 @@ namespace SteelWorks_Worker.View
                 doc.Add(p2);
 
                 List<DbMark> marks = new List<DbMark>();
-                try {
-                    marks = Repository.mark.GetAll();
-                } catch (Exception ex) {
-                    //TODO: Exception handling code
+
+                bool bSuccess = false;
+                PopupNoInternetView noInternetView = null;
+                while (!bSuccess) {
+                    try {
+                        marks = Repository.mark.GetAll();
+
+                        bSuccess = true;
+                        noInternetView?.Close();
+                    } catch (NoInternetConnectionException ex) {
+                        if (noInternetView == null || !noInternetView.Visible) {
+                            noInternetView = new PopupNoInternetView();
+                            noInternetView.Show();
+                        }
+
+                        for (int ij = 0; ij < 5; ij++) {
+                            Thread.Sleep(200);
+                            Application.DoEvents();
+                        }
+                    } catch (Exception ex) {
+
+                    }
                 }
 
                 List<ReportDataItem> crucialItems = new List<ReportDataItem>();

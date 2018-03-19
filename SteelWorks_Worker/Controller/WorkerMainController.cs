@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using SteelWorks_Worker.Model;
 using SteelWorks_Worker.View;
 using SteelWorks_Utils;
@@ -155,15 +156,31 @@ namespace SteelWorks_Worker.Controller
             string log = String.Format(date.ToString("G") + " || [Chip id = " + chipId + "]");
             Debug.Log("Parsed chip || " + log, LogType.Info);
 
-            try {
-                EChipType type = Repository.chip.CheckType(chipId);
-                if (type == EChipType.Employee) {
-                    employee_ = new ChipData(date, chipId);
-                    return;
+            bool bSuccess = false;
+            PopupNoInternetView noInternetView = null;
+            while (!bSuccess) {
+                try {
+                    EChipType type = Repository.chip.CheckType(chipId);
+                    if (type == EChipType.Employee) {
+                        employee_ = new ChipData(date, chipId);
+                        return;
+                    }
+
+                    bSuccess = true;
+                    noInternetView?.Close();
+                } catch (NoInternetConnectionException ex) {
+                    if (noInternetView == null || !noInternetView.Visible) {
+                        noInternetView = new PopupNoInternetView();
+                        noInternetView.Show();
+                    }
+
+                    for (int ij = 0; ij < 5; ij++) {
+                        Thread.Sleep(200);
+                        Application.DoEvents();
+                    }
+                } catch (Exception ex) {
+
                 }
-            } catch (Exception ex) {
-                PopupNoInternetView view = new PopupNoInternetView();
-                view.Show();
             }
 
             chips_.Add(new ChipData(date, chipId));

@@ -120,7 +120,54 @@ namespace SteelWorks_Utils.Model
             return places;
         }
 
-        public List<DbPlace> GetAll() {
+		public List<DbPlace> GetAllNotInTrack(int trackId)
+		{
+			List<DbPlace> places = new List<DbPlace>();
+
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "SELECT * FROM Place WHERE chipId NOT IN" +
+								"(SELECT placeId FROM TrackPlace WHERE trackId = @trackId)";
+			query.Parameters.AddWithValue("@trackId", trackId);
+
+			try
+			{
+				MySqlDataReader reader = query.ExecuteReader();
+				while (reader.Read())
+				{
+					DbPlace place = new DbPlace()
+					{
+						chipId = reader.GetString("chipId"),
+						name = reader.GetString("name"),
+						department = reader.GetString("department")
+					};
+
+					places.Add(place);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while getting all Places not in Track\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return places;
+		}
+
+		public List<DbPlace> GetAll() {
             List<DbPlace> places = new List<DbPlace>();
 
             try {

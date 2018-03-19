@@ -31,7 +31,7 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "SELECT * FROM Track WHERE trackId = @trackId";
+            query.CommandText = "SELECT * FROM Track WHERE id = @trackId";
             query.Parameters.AddWithValue("@trackId", trackId);
 
             try {
@@ -89,7 +89,7 @@ namespace SteelWorks_Utils.Model
             return tracks;
         }
 
-        public bool Insert(DbTrack track) {
+        public int Insert(DbTrack track) {
             try {
                 connection_.Open();
             } catch (Exception ex) {
@@ -98,21 +98,30 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "INSERT INTO Track(name, creationDate) VALUES(@name, @creationDate)";
+            query.CommandText = "INSERT INTO Track(name, creationDate) VALUES(@name, @creationDate);" +
+				"SELECT LAST_INSERT_ID();";
             query.Parameters.AddWithValue("@name", track.name);
             query.Parameters.AddWithValue("@creationDate", track.creationDate);
 
-            int rowsAffected = 0;
-            try {
-                rowsAffected = query.ExecuteNonQuery();
-            } catch (Exception ex) {
-                Debug.Log("Error while inserting Track\n" + ex.ToString(), LogType.DatabaseError);
-                throw new QueryExecutionException();
-            } finally {
-                connection_.Close();
-            }
-
-            return (rowsAffected == 1);
+			try
+			{
+				MySqlDataReader reader = query.ExecuteReader();
+				int i = 0;
+				while (reader.Read())
+				{
+					return reader.GetInt32("LAST_INSERT_ID()");
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while inserting Track\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+			return -1;
         }
 
         public bool UpdateName(int trackId, string newName) {

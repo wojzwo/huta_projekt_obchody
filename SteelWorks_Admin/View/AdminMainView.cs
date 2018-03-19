@@ -59,7 +59,7 @@ namespace SteelWorks_Admin.View
 		private void teamButton_Click(object sender, EventArgs e)
 		{
 			MainPanel.Controls.Clear();
-			MainPanel.Controls.Add(new TeamUserControl());
+			MainPanel.Controls.Add(new TeamsUserControl());
 		}
 	}
 }

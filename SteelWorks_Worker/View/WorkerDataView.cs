@@ -98,65 +98,46 @@ namespace SteelWorks_Worker.View
         }
 
         private void SaveReportToDatabase() {
-            bool bSuccess = false;
-            PopupNoInternetView noInternetView = null;
-            while (!bSuccess) {
-                try {
-                    List<DbMark> marks = Repository.mark.GetAll();
+            Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                List<DbMark> marks = Repository.mark.GetAll();
 
-                    DbReport report = Repository.report.Get(reportData.reportId);
-                    report.isFinished = true;
-                    report.signedEmployeeName = reportData.employeeName;
-                    Repository.report.Update(report);
+                DbReport report = Repository.report.Get(reportData.reportId);
+                report.isFinished = true;
+                report.signedEmployeeName = reportData.employeeName;
+                Repository.report.Update(report);
 
-                    foreach (ReportDataItem item in reportData.items) {
-                        string department = Repository.place.GetDepartmentByName(item.placeName);
-                        string status;
-                        if (item.placeStatus == DataItemStatus.ProperlyLoaded) {
-                            status = "Odwiedzono";
-                        } else if (item.placeStatus == DataItemStatus.ChangedMark) {
-                            status = "Odwiedzono - Poprawiano ocenę";
-                        } else if (item.placeStatus == DataItemStatus.ChangedPlace) {
-                            status = "Odwiedzono - Poprawiano miejsce";
-                        } else {
-                            status = "Nieodwiedzono";
-                        }
-
-                        DbReportPlace reportPlace = new DbReportPlace() {
-                            reportId = reportData.reportId,
-                            status = status,
-                            placeName = item.placeName,
-                            visitDate = item.placeVisitDate,
-                            markDescription = item.placeMark,
-                            comment = item.placeComment,
-                            department = department,
-                            markCommentRequired = marks.Find(x => x.description == item.placeMark).requiresComment
-                        };
-
-                        //separate try/catch because of possible duplicates
-                        try {
-                            Repository.reportPlace.Update(reportPlace);
-                        } catch (Exception ex) {
-
-                        }
+                foreach (ReportDataItem item in reportData.items) {
+                    string department = Repository.place.GetDepartmentByName(item.placeName);
+                    string status;
+                    if (item.placeStatus == DataItemStatus.ProperlyLoaded) {
+                        status = "Odwiedzono";
+                    } else if (item.placeStatus == DataItemStatus.ChangedMark) {
+                        status = "Odwiedzono - Poprawiano ocenę";
+                    } else if (item.placeStatus == DataItemStatus.ChangedPlace) {
+                        status = "Odwiedzono - Poprawiano miejsce";
+                    } else {
+                        status = "Nieodwiedzono";
                     }
 
-                    bSuccess = true;
-                    noInternetView?.Close();
-                } catch (NoInternetConnectionException ex) {
-                    if (noInternetView == null || !noInternetView.Visible) {
-                        noInternetView = new PopupNoInternetView();
-                        noInternetView.Show();
-                    }
+                    DbReportPlace reportPlace = new DbReportPlace() {
+                        reportId = reportData.reportId,
+                        status = status,
+                        placeName = item.placeName,
+                        visitDate = item.placeVisitDate,
+                        markDescription = item.placeMark,
+                        comment = item.placeComment,
+                        department = department,
+                        markCommentRequired = marks.Find(x => x.description == item.placeMark).requiresComment
+                    };
 
-                    for (int ij = 0; ij < 5; ij++) {
-                        Thread.Sleep(200);
-                        Application.DoEvents();
-                    }
-                } catch (Exception ex) {
+                    //separate try/catch because of possible duplicates
+                    try {
+                        Repository.reportPlace.Update(reportPlace);
+                    } catch (Exception ex) {
 
+                    }
                 }
-            }
+            });
         }
     }
 }

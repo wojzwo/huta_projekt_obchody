@@ -50,29 +50,9 @@ namespace SteelWorks_Worker.View
                 doc.Add(p2);
 
                 List<DbMark> marks = new List<DbMark>();
-
-                bool bSuccess = false;
-                PopupNoInternetView noInternetView = null;
-                while (!bSuccess) {
-                    try {
-                        marks = Repository.mark.GetAll();
-
-                        bSuccess = true;
-                        noInternetView?.Close();
-                    } catch (NoInternetConnectionException ex) {
-                        if (noInternetView == null || !noInternetView.Visible) {
-                            noInternetView = new PopupNoInternetView();
-                            noInternetView.Show();
-                        }
-
-                        for (int ij = 0; ij < 5; ij++) {
-                            Thread.Sleep(200);
-                            Application.DoEvents();
-                        }
-                    } catch (Exception ex) {
-
-                    }
-                }
+                Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                    marks = Repository.mark.GetAll();
+                });
 
                 List<ReportDataItem> crucialItems = new List<ReportDataItem>();
                 string crucialString = "";

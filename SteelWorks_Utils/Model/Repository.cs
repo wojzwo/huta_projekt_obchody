@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using SteelWorks_Utils;
 
@@ -28,6 +30,33 @@ namespace SteelWorks_Utils.Model
         public static RepositoryMail mail { get; }
 
         private static MySqlConnection connection_;
+
+        public static void RepeatQueryWhileNoConnection<T>(ContainerControl currentControl, int repeatDelayMs, Action lambda) where T : Form, new() {
+            bool bSuccess = false;
+            T errorView = null;
+            while (!bSuccess) {
+                try {
+                    lambda();
+
+                    bSuccess = true;
+                    currentControl.Enabled = true;
+                    errorView?.Close();
+                } catch (NoInternetConnectionException ex) {
+                    if (errorView == null || !errorView.Visible) {
+                        errorView = new T();
+                        errorView.Show();
+                        currentControl.Enabled = false;
+                    }
+
+                    for (int ij = 0; ij < 10; ij++) {
+                        Thread.Sleep(repeatDelayMs / 10);
+                        Application.DoEvents();
+                    }
+                } catch (Exception ex) {
+
+                }
+            }
+        }
 
         static Repository() {
             connection_ = new MySqlConnection(ParseDatabaseConfig());

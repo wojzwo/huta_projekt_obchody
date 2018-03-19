@@ -121,28 +121,9 @@ namespace SteelWorks_Worker.View
 
             if (chip.bIsValid) {
                 DbPlace place = null;
-                bool bSuccess = false;
-                PopupNoInternetView noInternetView = null;
-                while (!bSuccess) {
-                    try {
-                        place = Repository.place.Get(chip.id);
-
-                        bSuccess = true;
-                        noInternetView?.Close();
-                    } catch (NoInternetConnectionException ex) {
-                        if (noInternetView == null || !noInternetView.Visible) {
-                            noInternetView = new PopupNoInternetView();
-                            noInternetView.Show();
-                        }
-
-                        for (int ij = 0; ij < 5; ij++) {
-                            Thread.Sleep(200);
-                            Application.DoEvents();
-                        }
-                    } catch (Exception ex) {
-
-                    }
-                }
+                Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                    place = Repository.place.Get(chip.id);
+                });
 
                 if (place != null) {
                     Place.Text = place.name;
@@ -163,28 +144,9 @@ namespace SteelWorks_Worker.View
 
             if (keypad.bIsValid) {
                 DbMark mark = null;
-                bool bSuccess = false;
-                PopupNoInternetView noInternetView = null;
-                while (!bSuccess) {
-                    try {
-                        mark = Repository.mark.Get(keypad.value);
-
-                        bSuccess = true;
-                        noInternetView?.Close();
-                    } catch (NoInternetConnectionException ex) {
-                        if (noInternetView == null || !noInternetView.Visible) {
-                            noInternetView = new PopupNoInternetView();
-                            noInternetView.Show();
-                        }
-
-                        for (int ij = 0; ij < 5; ij++) {
-                            Thread.Sleep(200);
-                            Application.DoEvents();
-                        }
-                    } catch (Exception ex) {
-
-                    }
-                }
+                Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                    mark = Repository.mark.Get(keypad.value);
+                });
 
                 if (mark != null) {
                     Mark.Text = mark.description;

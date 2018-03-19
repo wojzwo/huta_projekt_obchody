@@ -69,28 +69,10 @@ namespace SteelWorks_Worker.View
         public void AddEmployee(ChipData data) {
             if (data.bIsValid) {
                 DbEmployee employee = null;
-                bool bSuccess = false;
-                PopupNoInternetView noInternetView = null;
-                while (!bSuccess) {
-                    try {
-                        employee = Repository.employee.Get(data.id);
 
-                        bSuccess = true;
-                        noInternetView?.Close();
-                    } catch (NoInternetConnectionException ex) {
-                        if (noInternetView == null || !noInternetView.Visible) {
-                            noInternetView = new PopupNoInternetView();
-                            noInternetView.Show();
-                        }
-
-                        for (int ij = 0; ij < 5; ij++) {
-                            Thread.Sleep(200);
-                            Application.DoEvents();
-                        }
-                    } catch (Exception ex) {
-
-                    }
-                }
+                Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                    employee = Repository.employee.Get(data.id);
+                });
 
                 if (employee != null) {
                     WorkerName.Text = "Pracownik: " + employee.name;

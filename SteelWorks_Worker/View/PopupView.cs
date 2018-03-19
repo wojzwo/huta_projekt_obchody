@@ -49,28 +49,9 @@ namespace SteelWorks_Worker.View
         private void Fill() {
             if (type_ == PopupSelectionType.Place) {
                 List<DbPlace> places = new List<DbPlace>();
-                bool bSuccess = false;
-                PopupNoInternetView noInternetView = null;
-                while (!bSuccess) {
-                    try {
-                        places = Repository.place.GetAll();
-
-                        bSuccess = true;
-                        noInternetView?.Close();
-                    } catch (NoInternetConnectionException ex) {
-                        if (noInternetView == null || !noInternetView.Visible) {
-                            noInternetView = new PopupNoInternetView();
-                            noInternetView.Show();
-                        }
-
-                        for (int ij = 0; ij < 5; ij++) {
-                            Thread.Sleep(200);
-                            Application.DoEvents();
-                        }
-                    } catch (Exception ex) {
-
-                    }
-                }
+                Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                    places = Repository.place.GetAll();
+                });
 
                 Dictionary<string, List<DbPlace>> placeByDepartment = new Dictionary<string, List<DbPlace>>();
                 foreach (DbPlace p in places) {
@@ -98,28 +79,9 @@ namespace SteelWorks_Worker.View
                 }
             } else if (type_ == PopupSelectionType.Mark) {
                 List<DbMark> marks = new List<DbMark>();
-                bool bSuccess = false;
-                PopupNoInternetView noInternetView = null;
-                while (!bSuccess) {
-                    try {
-                        marks = Repository.mark.GetAll();
-
-                        bSuccess = true;
-                        noInternetView?.Close();
-                    } catch (NoInternetConnectionException ex) {
-                        if (noInternetView == null || !noInternetView.Visible) {
-                            noInternetView = new PopupNoInternetView();
-                            noInternetView.Show();
-                        }
-
-                        for (int ij = 0; ij < 5; ij++) {
-                            Thread.Sleep(200);
-                            Application.DoEvents();
-                        }
-                    } catch (Exception ex) {
-
-                    }
-                }
+                Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                    marks = Repository.mark.GetAll();
+                });
 
                 foreach (DbMark mark in marks) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();
@@ -128,27 +90,9 @@ namespace SteelWorks_Worker.View
                 }
             } else if (type_ == PopupSelectionType.Employee) {
                 List<DbEmployee> employees = new List<DbEmployee>();
-                bool bSuccess = false;
-                PopupNoInternetView noInternetView = null;
-                while (!bSuccess) {
-                    try {
-                        employees = Repository.employee.GetAll();
-                        bSuccess = true;
-                        noInternetView?.Close();
-                    } catch (NoInternetConnectionException ex) {
-                        if (noInternetView == null || !noInternetView.Visible) {
-                            noInternetView = new PopupNoInternetView();
-                            noInternetView.Show();
-                        }
-
-                        for (int ij = 0; ij < 5; ij++) {
-                            Thread.Sleep(200);
-                            Application.DoEvents();
-                        }
-                    } catch (Exception ex) {
-
-                    }
-                }
+                Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
+                    employees = Repository.employee.GetAll();
+                });
 
                 foreach (DbEmployee employee in employees) {
                     SelectableButtonUserControl s = new SelectableButtonUserControl();

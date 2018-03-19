@@ -156,32 +156,17 @@ namespace SteelWorks_Worker.Controller
             string log = String.Format(date.ToString("G") + " || [Chip id = " + chipId + "]");
             Debug.Log("Parsed chip || " + log, LogType.Info);
 
-            bool bSuccess = false;
-            PopupNoInternetView noInternetView = null;
-            while (!bSuccess) {
-                try {
-                    EChipType type = Repository.chip.CheckType(chipId);
-                    if (type == EChipType.Employee) {
-                        employee_ = new ChipData(date, chipId);
-                        return;
-                    }
-
-                    bSuccess = true;
-                    noInternetView?.Close();
-                } catch (NoInternetConnectionException ex) {
-                    if (noInternetView == null || !noInternetView.Visible) {
-                        noInternetView = new PopupNoInternetView();
-                        noInternetView.Show();
-                    }
-
-                    for (int ij = 0; ij < 5; ij++) {
-                        Thread.Sleep(200);
-                        Application.DoEvents();
-                    }
-                } catch (Exception ex) {
-
+            bool bChipEmployee = false;
+            Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(null, 1000, () => {
+                EChipType type = Repository.chip.CheckType(chipId);
+                if (type == EChipType.Employee) {
+                    employee_ = new ChipData(date, chipId);
+                    bChipEmployee = true;
                 }
-            }
+            });
+
+            if (bChipEmployee)
+                return;
 
             chips_.Add(new ChipData(date, chipId));
             if (bLastParsedChip) {

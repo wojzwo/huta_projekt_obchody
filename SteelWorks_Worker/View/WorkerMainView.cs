@@ -50,6 +50,7 @@ namespace SteelWorks_Worker.View
 
         }
 
+
         private void richTextBox1_TextChanged(object sender, EventArgs e) {
 
         }
@@ -68,6 +69,10 @@ namespace SteelWorks_Worker.View
 
         private void dataRemoveOrLoadSelectionUserControl_Load(object sender, EventArgs e) {
 
+        }
+
+        private void WorkerMainView_FormClosed(object sender, FormClosedEventArgs e) {
+            Environment.Exit(0);
         }
     }
 }

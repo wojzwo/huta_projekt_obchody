@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using iTextSharp.text;
@@ -25,8 +26,11 @@ namespace SteelWorks_Server
 
     class Program
     {
+        private const string EMAIL_NAME = "huta.raporty@gmail.com";
+        private const string EMAIL_PASSWORD = "zX2eKod6";
+
         private static float normalTextSize = 13.0f;
-        static BaseFont ARIAL = BaseFont.CreateFont(@"Fonts\consola.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        static BaseFont ARIAL = BaseFont.CreateFont(@"Fonts/consola.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
         static Font tFont = new Font(ARIAL, normalTextSize, Font.NORMAL);
         static Font bFont = new Font(ARIAL, normalTextSize, Font.BOLD);
         static Font boldSmallFont = new Font(ARIAL, 10.0f, Font.BOLD);
@@ -36,12 +40,94 @@ namespace SteelWorks_Server
         static BaseColor ultraLightGrayColor = new BaseColor(240, 240, 240);
 
         static void Main(string[] args) {
+            Debug.Log("Started processing reports", LogType.Info);
+            //InsertTestData();
+
             SendOldReports();
-            AddNewReports();
+            ArchiveOldReports();
+            //AddNewReports();
+        }
+
+        private static void InsertTestData() {
+            DbReport report3 = new DbReport() {
+                assignmentDate = DateTime.Now,
+                isFinished = false,
+                routineId = 5,
+                shift = 2,
+                signedEmployeeName = "",
+                trackName = "Trasa testowa"
+            };
+            Repository.report.Insert(report3);
+
+            DbReport report2 = new DbReport() {
+                assignmentDate = DateTime.Now,
+                isFinished = false,
+                routineId = 5,
+                shift = 3,
+                signedEmployeeName = "",
+                trackName = "Trasa testowa"
+            };
+            Repository.report.Insert(report2);
+
+            DbReport report = new DbReport() {
+                assignmentDate = DateTime.Now,
+                isFinished = false,
+                routineId = 5,
+                shift = 1,
+                signedEmployeeName = "",
+                trackName = "Trasa testowa"
+            };
+
+            Repository.report.Insert(report);
+
+            DbReport report5 = new DbReport() {
+                assignmentDate = DateTime.Now,
+                isFinished = false,
+                routineId = 6,
+                shift = 2,
+                signedEmployeeName = "",
+                trackName = "Trasa testowa 2"
+            };
+            Repository.report.Insert(report5);
+
+            DbReport report4 = new DbReport() {
+                assignmentDate = DateTime.Now,
+                isFinished = false,
+                routineId = 6,
+                shift = 3,
+                signedEmployeeName = "",
+                trackName = "Trasa testowa 2"
+            };
+            Repository.report.Insert(report4);
+
+
+            //DbRoutine routine = new DbRoutine() {
+            //    cycleLength = 0,
+            //    cycleMask = 0,
+            //    shift = 1,
+            //    startDay = DateTime.Now,
+            //    teamId = 0,
+            //    trackId = 1
+            //};
+
+            //Repository.routine.Insert(routine);
+        }
+
+        private static void ArchiveOldReports() {
+            List<DbReport> reports = Repository.report.GetAll();
+            List<DbReportPlace> reportPlaces = Repository.reportPlace.GetAll();
+
+            foreach (DbReport r in reports) {
+                Repository.report.Archive(r.id);
+            }
+
+            foreach (DbReportPlace p in reportPlaces) {
+                Repository.reportPlace.Archive(p.reportId, p.placeName);
+            }
         }
 
         private static void AddNewReports() {
-            
+
         }
 
         private static void SendOldReports() {
@@ -63,6 +149,40 @@ namespace SteelWorks_Server
                 GeneratePDFHeader(doc, false);
                 GeneratePDFReport(doc, false, dictionary);
                 doc.Close();
+            }
+
+            List<DbMail> mails = Repository.mail.GetAll();
+
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(EMAIL_NAME, EMAIL_PASSWORD);
+
+            DateTime yesterday = DateTime.Now - new TimeSpan(1, 0, 0, 0);
+            foreach (DbMail m in mails) {
+                MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
+                mm.Attachments.Add(new Attachment((m.isFullReport) ? "Report_Full.pdf" : "Report_General.pdf"));
+                mm.BodyEncoding = UTF8Encoding.UTF8;
+                mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                int counter = 0;
+                while (counter < 10) {
+                    try {
+                        client.Send(mm);
+                        break;
+                    } catch (Exception ex) {
+                        Debug.Log(ex.ToString(), LogType.Error);
+                    }
+
+                    counter++;
+                    if (counter == 10) {
+                        Debug.Log("Couldn't send email to " + m.address, LogType.Error);
+                    }
+                }
             }
         }
 
@@ -204,12 +324,15 @@ namespace SteelWorks_Server
 
                 Phrase employeeNamesPhrase = new Phrase();
                 for (int l = 0; l < employeeByShift[u + 1].Count - 1; l++) {
+                    if (employeeByShift[u + 1][l] == "")
+                        continue;
+
                     employeeNamesPhrase.Add(
                         new Chunk(employeeByShift[u + 1][l] + "\n", tFont)
                     );
                 }
 
-                if (employeeByShift[u + 1].Count > 0) {
+                if (employeeByShift[u + 1].Count > 0 && employeeByShift[u + 1][employeeByShift[u + 1].Count - 1] != "") {
                     employeeNamesPhrase.Add(
                         new Chunk(employeeByShift[u + 1][employeeByShift[u + 1].Count - 1], tFont)
                     );
@@ -264,8 +387,8 @@ namespace SteelWorks_Server
 
                 foreach (ReportInfo i in pair.Value) {
                     for (int z = 0; z < 3; z++)
-                        if (!employeeByShift[z+1].Contains(i.employeeName[z]))
-                            employeeByShift[z+1].Add(i.employeeName[z]);
+                        if (!employeeByShift[z + 1].Contains(i.employeeName[z]))
+                            employeeByShift[z + 1].Add(i.employeeName[z]);
 
                     PdfPCell numberCell = new PdfPCell(new Phrase(globalCounter.ToString(), tFont));
                     numberCell.Padding = 5;
@@ -287,7 +410,7 @@ namespace SteelWorks_Server
                     shift1cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                     shift1cell.HorizontalAlignment = 1;
                     if (i.shiftInfo[0] == "T" || i.shiftInfo[0] == "-") {
-                        
+
                     } else if (i.shiftInfo[0] == "T*") {
                         shift1cell.BackgroundColor = ultraLightGrayColor;
                     } else {
@@ -351,7 +474,7 @@ namespace SteelWorks_Server
                         additionalTable.SetWidths(new float[] { 0.05f, 0.25f, 0.25f, 0.25f, 0.2f });
 
                         for (int k = 0; k < i.shiftInfo.Length; k++) {
-                            if (i.shiftInfo[k] == "-")
+                            if (i.shiftInfo[k] == "-" || i.shiftInfo[k] == "*")
                                 continue;
 
                             PdfPCell additionalShiftCell = new PdfPCell(new Phrase("Z" + (k + 1).ToString(), boldSmallFont));
@@ -437,16 +560,24 @@ namespace SteelWorks_Server
                     info.visitDate[shift] = p.visitDate.ToString("HH:mm");
                     info.mark[shift] = p.markDescription;
 
-                    if (p.status == "Nieodwiedzono") {
-                        if (p.markCommentRequired)
-                            info.shiftInfo[shift] = "N*";
-                        else
-                            info.shiftInfo[shift] = "T*";
+                    if (info.shiftInfo[shift] != "-") {
+                        Debug.Log("Duplicate entry: Place = " + p.placeName + "; Shift = " + (shift+1), LogType.Warning);
+                    }
+
+                    if (!pair.Key.isFinished) {
+                        info.shiftInfo[shift] = "*";
                     } else {
-                        if (p.markCommentRequired)
-                            info.shiftInfo[shift] = "N";
-                        else
-                            info.shiftInfo[shift] = "T";
+                        if (p.status == "Nieodwiedzono") {
+                            if (p.markCommentRequired)
+                                info.shiftInfo[shift] = "N*";
+                            else
+                                info.shiftInfo[shift] = "T*";
+                        } else {
+                            if (p.markCommentRequired)
+                                info.shiftInfo[shift] = "N";
+                            else
+                                info.shiftInfo[shift] = "T";
+                        }
                     }
                 }
             }

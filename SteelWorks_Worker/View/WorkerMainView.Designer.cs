@@ -104,6 +104,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WorkerMainView";
             this.Text = "Obchody - Pracownik";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WorkerMainView_FormClosed);
             this.Load += new System.EventHandler(this.BeforeLoad);
             this.ResumeLayout(false);
 

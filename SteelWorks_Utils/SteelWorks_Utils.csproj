@@ -62,6 +62,7 @@
     <Compile Include="Debug.cs" />
     <Compile Include="Model\DbChip.cs" />
     <Compile Include="Model\DbEmployee.cs" />
+    <Compile Include="Model\DbMail.cs" />
     <Compile Include="Model\DbMark.cs" />
     <Compile Include="Model\DbPlace.cs" />
     <Compile Include="Model\DbReport.cs" />

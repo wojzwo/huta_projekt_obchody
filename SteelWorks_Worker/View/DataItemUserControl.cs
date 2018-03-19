@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
@@ -120,10 +121,27 @@ namespace SteelWorks_Worker.View
 
             if (chip.bIsValid) {
                 DbPlace place = null;
-                try {
-                    place = Repository.place.Get(chip.id);
-                } catch (Exception ex) {
-                    //TODO: Exception handling code
+                bool bSuccess = false;
+                PopupNoInternetView noInternetView = null;
+                while (!bSuccess) {
+                    try {
+                        place = Repository.place.Get(chip.id);
+
+                        bSuccess = true;
+                        noInternetView?.Close();
+                    } catch (NoInternetConnectionException ex) {
+                        if (noInternetView == null || !noInternetView.Visible) {
+                            noInternetView = new PopupNoInternetView();
+                            noInternetView.Show();
+                        }
+
+                        for (int ij = 0; ij < 5; ij++) {
+                            Thread.Sleep(200);
+                            Application.DoEvents();
+                        }
+                    } catch (Exception ex) {
+
+                    }
                 }
 
                 if (place != null) {
@@ -145,10 +163,27 @@ namespace SteelWorks_Worker.View
 
             if (keypad.bIsValid) {
                 DbMark mark = null;
-                try {
-                    mark = Repository.mark.Get(keypad.value);
-                } catch (Exception ex) {
-                    //TODO: Exception handling code
+                bool bSuccess = false;
+                PopupNoInternetView noInternetView = null;
+                while (!bSuccess) {
+                    try {
+                        mark = Repository.mark.Get(keypad.value);
+
+                        bSuccess = true;
+                        noInternetView?.Close();
+                    } catch (NoInternetConnectionException ex) {
+                        if (noInternetView == null || !noInternetView.Visible) {
+                            noInternetView = new PopupNoInternetView();
+                            noInternetView.Show();
+                        }
+
+                        for (int ij = 0; ij < 5; ij++) {
+                            Thread.Sleep(200);
+                            Application.DoEvents();
+                        }
+                    } catch (Exception ex) {
+
+                    }
                 }
 
                 if (mark != null) {

@@ -25,6 +25,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReaderRemoveView));
             this.dataRemoveSuccessUserControl_ = new SteelWorks_Worker.View.DataRemoveSuccessUserControl();
             this.dataRemoveUserControl_ = new SteelWorks_Worker.View.DataRemoveUserControl();
             this.SuspendLayout();
@@ -55,6 +56,7 @@
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.dataRemoveSuccessUserControl_);
             this.Controls.Add(this.dataRemoveUserControl_);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ReaderRemoveView";
             this.Text = "ReaderRemoveView";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ReaderRemoveView_FormClosed);

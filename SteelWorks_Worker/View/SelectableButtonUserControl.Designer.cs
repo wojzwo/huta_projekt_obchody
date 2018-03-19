@@ -36,10 +36,10 @@
             this.button1.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.Button;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Font = new System.Drawing.Font("Calibri", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(280, 50);
+            this.button1.Size = new System.Drawing.Size(405, 25);
             this.button1.TabIndex = 0;
             this.button1.Text = "-Bez_nazwy-";
             this.button1.UseVisualStyleBackColor = false;
@@ -51,7 +51,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button1);
             this.Name = "SelectableButtonUserControl";
-            this.Size = new System.Drawing.Size(280, 50);
+            this.Size = new System.Drawing.Size(405, 25);
             this.ResumeLayout(false);
 
         }

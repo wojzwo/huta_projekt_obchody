@@ -43,8 +43,9 @@ namespace SteelWorks_Server
             Debug.Log("Started processing reports", LogType.Info);
             //InsertTestData();
 
-            SendOldReports();
-            ArchiveOldReports();
+            GenerateOldReports();
+            //SendOldReports();
+            //ArchiveOldReports();
             //AddNewReports();
         }
 
@@ -130,7 +131,7 @@ namespace SteelWorks_Server
 
         }
 
-        private static void SendOldReports() {
+        private static void GenerateOldReports() {
             Dictionary<string, List<ReportInfo>> dictionary = GetReportInfo();
 
             using (FileStream stream = new FileStream("Report_Full.pdf", FileMode.Create, FileAccess.Write, FileShare.None)) {
@@ -150,7 +151,9 @@ namespace SteelWorks_Server
                 GeneratePDFReport(doc, false, dictionary);
                 doc.Close();
             }
+        }
 
+        private static void SendOldReports() {
             List<DbMail> mails = Repository.mail.GetAll();
 
             SmtpClient client = new SmtpClient();
@@ -474,7 +477,7 @@ namespace SteelWorks_Server
                         additionalTable.SetWidths(new float[] { 0.05f, 0.25f, 0.25f, 0.25f, 0.2f });
 
                         for (int k = 0; k < i.shiftInfo.Length; k++) {
-                            if (i.shiftInfo[k] == "-" || i.shiftInfo[k] == "*")
+                            if (i.shiftInfo[k] == "-")
                                 continue;
 
                             PdfPCell additionalShiftCell = new PdfPCell(new Phrase("Z" + (k + 1).ToString(), boldSmallFont));

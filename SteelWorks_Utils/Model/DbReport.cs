@@ -130,7 +130,7 @@ namespace SteelWorks_Utils.Model
                     reportId = reportId,
                     placeName = place.name,
                     department = place.department,
-                    status = "",
+                    status = "Nieodwiedzono",
                     comment = "",
                     visitDate = DateTime.MinValue,
                     markDescription = "",

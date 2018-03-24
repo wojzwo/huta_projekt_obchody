@@ -44,8 +44,8 @@ namespace SteelWorks_Server
             //InsertTestData();
 
             GenerateOldReports();
-            //SendOldReports();
-            //ArchiveOldReports();
+            SendOldReports();
+            ArchiveOldReports();
 
             List<DbRoutine> routines = new List<DbRoutine>();
             try {
@@ -147,11 +147,15 @@ namespace SteelWorks_Server
 
             foreach (DbRoutine routine in routines) {
                 string teamName = "";
-                try {
-                    DbTeam team = Repository.team.Get(routine.teamId);
-                    teamName = team.name;
-                } catch (Exception ex) {
-                    //Empty in case there is no such team (for example team 0 meaning everyone can complete report)
+                if (routine.teamId == 0) {
+                    teamName = "--Dowolny pracownik--";
+                } else {
+                    try {
+                        DbTeam team = Repository.team.Get(routine.teamId);
+                        teamName = team.name;
+                    } catch (Exception ex) {
+                        //In case there is no such team (for example team 0 meaning everyone can complete report)
+                    }
                 }
 
                 string trackName = "";
@@ -182,7 +186,7 @@ namespace SteelWorks_Server
                     shift = routine.shift,
                     id = 0,
                     routineId = routine.id,
-                    signedEmployeeName = teamName,
+                    signedEmployeeName = "Grupa: " + teamName,
                     isFinished = false,
                     trackName = trackName,
                     assignmentDate = DateTime.Now
@@ -481,8 +485,9 @@ namespace SteelWorks_Server
 
                 foreach (ReportInfo i in pair.Value) {
                     for (int z = 0; z < 3; z++)
-                        if (!employeeByShift[z + 1].Contains(i.employeeName[z]))
-                            employeeByShift[z + 1].Add(i.employeeName[z]);
+                        if (i.employeeName[z] != null && !i.employeeName[z].StartsWith("Grupa:"))
+                            if (!employeeByShift[z + 1].Contains(i.employeeName[z]))
+                                employeeByShift[z + 1].Add(i.employeeName[z]);
 
                     PdfPCell numberCell = new PdfPCell(new Phrase(globalCounter.ToString(), tFont));
                     numberCell.Padding = 5;

@@ -22,10 +22,10 @@ namespace SteelWorks_Worker.View
         private Dictionary<string, Int64> trackIdByListName_ = new Dictionary<string, Int64>();
         private string currentItem_ = "";
 
-        public void GetTracks() {
+        public void GetTracks(string employeeName) {
             List<DbReport> reports = new List<DbReport>();
             Repository.RepeatQueryWhileNoConnection<PopupNoInternetView>(this, 1000, () => {
-                reports = Repository.report.GetAllTodays(false);
+                reports = Repository.report.GetAllTodaysForEmployee(employeeName);
             });
 
             foreach (DbReport r in reports) {

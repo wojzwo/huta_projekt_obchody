@@ -130,7 +130,7 @@ namespace SteelWorks_Utils.Model
                     reportId = reportId,
                     placeName = place.name,
                     department = place.department,
-                    status = "",
+                    status = "Nieodwiedzono",
                     comment = "",
                     visitDate = DateTime.MinValue,
                     markDescription = "",
@@ -185,7 +185,7 @@ namespace SteelWorks_Utils.Model
             return reports;
         }
 
-        public List<DbReport> GetAllTodays(bool bIncludeFinished) {
+        public List<DbReport> GetAllTodaysForEmployee(string employeeName) {
             List<DbReport> reports = new List<DbReport>();
 
             try {
@@ -196,11 +196,11 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            if (bIncludeFinished) {
-                query.CommandText = "SELECT * FROM Report WHERE assignmentDate = CURDATE()";
-            } else {
-                query.CommandText = "SELECT * FROM Report WHERE assignmentDate = CURDATE() AND isFinished = 0";
-            }
+            query.CommandText = "SELECT * FROM Report WHERE assignmentDate = CURDATE() AND isFinished = 0 AND routineId IN" +
+                                "(SELECT id FROM Routine WHERE teamId IN" +
+                                "(SELECT teamId FROM TeamEmployee WHERE employeeId = " +
+                                "(SELECT employeeId FROM Employee WHERE name = @employeeName)));";
+            query.Parameters.AddWithValue("@employeeName", employeeName);
 
             try {
                 MySqlDataReader reader = query.ExecuteReader();
@@ -218,7 +218,7 @@ namespace SteelWorks_Utils.Model
                     reports.Add(report);
                 }
             } catch (Exception ex) {
-                Debug.Log("Error while getting all todays Reports\n" + ex.ToString(), LogType.DatabaseError);
+                Debug.Log("Error while getting all todays Reports for employee\n" + ex.ToString(), LogType.DatabaseError);
                 throw new QueryExecutionException();
             } finally {
                 connection_.Close();

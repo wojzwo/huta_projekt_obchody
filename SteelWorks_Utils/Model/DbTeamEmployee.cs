@@ -124,5 +124,37 @@ namespace SteelWorks_Utils.Model
 
 			return (rowsAffected == 1);
 		}
+
+        public bool CheckIfEmployeeInTeam(int teamId, string employeeId) {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT COUNT(*) AS noMatches FROM TeamEmployee WHERE teamId = @teamId AND employeeId = @employeeId";
+            query.Parameters.AddWithValue("@teamId", teamId);
+            query.Parameters.AddWithValue("@employeeId", employeeId);
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    int noMatches = reader.GetInt32("noMatches");
+                    if (noMatches == 0)
+                        return false;
+
+                    return true;
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting Team\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return false;
+        }
 	}
 }

@@ -26,7 +26,7 @@ namespace SteelWorks_Worker.View
             reportData = dataUserControl.GetReportInfo();
 
             trackSelectionUserControl_.Visible = true;
-            trackSelectionUserControl_.GetTracks();
+            trackSelectionUserControl_.GetTracks(reportData.employeeName);
         }
 
         public void ChangeUserControlToCommentUnvisited() {

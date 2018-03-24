@@ -115,10 +115,11 @@ namespace SteelWorks_Utils.Model
                 throw;
             }
 
+            DbRoutine routine = null;
             List<DbPlace> places = new List<DbPlace>();
             Int64 reportId;
             try {
-                DbRoutine routine = Repository.routine.Get(report.routineId);
+                routine = Repository.routine.Get(report.routineId);
                 places = Repository.place.GetAllInTrack(routine.trackId);
                 reportId = GetLastInsertedIndex();
             } catch (Exception ex) {
@@ -141,6 +142,35 @@ namespace SteelWorks_Utils.Model
                     Repository.reportPlace.Insert(reportPlace);
                 } catch (Exception ex) {
                     throw;
+                }
+            }
+
+            if (routine != null) {
+                if (routine.teamId == 0) {
+                    DbReportEmployee re = new DbReportEmployee() {
+                        reportId = reportId,
+                        employeeName = "",
+                        employeeId = "0"
+                    };
+
+                    Repository.reportEmployee.Insert(re);
+                } else {
+                    List<DbEmployee> employees = new List<DbEmployee>();
+                    try {
+                        employees = Repository.employee.GetAllInTeam(routine.teamId);
+                    } catch (Exception ex) {
+
+                    }
+
+                    foreach (DbEmployee e in employees) {
+                        DbReportEmployee re = new DbReportEmployee() {
+                            reportId = reportId,
+                            employeeName = e.name,
+                            employeeId = e.chipId
+                        };
+
+                        Repository.reportEmployee.Insert(re);
+                    }
                 }
             }
 
@@ -196,10 +226,8 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "SELECT * FROM Report WHERE assignmentDate = CURDATE() AND isFinished = 0 AND routineId IN" +
-                                "(SELECT id FROM Routine WHERE teamId = 0 OR teamId IN" +
-                                "(SELECT teamId FROM TeamEmployee WHERE employeeId = " +
-                                "(SELECT employeeId FROM Employee WHERE name = @employeeName)));";
+            query.CommandText = "SELECT * FROM Report WHERE assignmentDate = CURDATE() AND isFinished = 0 AND id IN" +
+                                "(SELECT reportId FROM ReportEmployee WHERE employeeName = @employeeName OR employeeId = '0');";
             query.Parameters.AddWithValue("@employeeName", employeeName);
 
             try {

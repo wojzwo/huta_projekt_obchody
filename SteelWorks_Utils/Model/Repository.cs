@@ -28,6 +28,7 @@ namespace SteelWorks_Utils.Model
         public static RepositoryTeam team { get; }
         public static RepositoryTeamEmployee teamEmployee { get; }
         public static RepositoryMail mail { get; }
+        public static RepositoryReportEmployee reportEmployee { get; }
 
         private static MySqlConnection connection_;
 
@@ -118,6 +119,7 @@ namespace SteelWorks_Utils.Model
             team = new RepositoryTeam(connection_);
             teamEmployee = new RepositoryTeamEmployee(connection_);
             mail = new RepositoryMail(connection_);
+            reportEmployee = new RepositoryReportEmployee(connection_);
         }
 
         private static string ParseDatabaseConfig() {

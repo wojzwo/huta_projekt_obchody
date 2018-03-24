@@ -137,6 +137,8 @@ namespace SteelWorks_Server
                 foreach (DbReportPlace p in reportPlaces) {
                     Repository.reportPlace.Archive(p.reportId, p.placeName);
                 }
+
+                Repository.reportEmployee.DeleteAll();
             } catch (Exception ex) {
                 Debug.Log(ex.ToString(), LogType.DatabaseError);
             }

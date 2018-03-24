@@ -69,6 +69,7 @@
     <Compile Include="Model\DbMark.cs" />
     <Compile Include="Model\DbPlace.cs" />
     <Compile Include="Model\DbReport.cs" />
+    <Compile Include="Model\DbReportEmployee.cs" />
     <Compile Include="Model\DbReportPlace.cs" />
     <Compile Include="Model\DbRoutine.cs" />
     <Compile Include="Model\DbTeam.cs" />

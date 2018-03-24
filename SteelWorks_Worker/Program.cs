@@ -22,6 +22,7 @@ namespace SteelWorks_Worker
             WorkerDataController workerDataController = new WorkerDataController();
             WorkerMainController workerMainController = new WorkerMainController(workerMainView, workerDataController);
 
+            //Repository.BackupDatabase("E:\\script.sql");
             Application.Run(workerMainView);
         }
     }

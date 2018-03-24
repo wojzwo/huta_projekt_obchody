@@ -197,7 +197,7 @@ namespace SteelWorks_Utils.Model
 
             MySqlCommand query = connection_.CreateCommand();
             query.CommandText = "SELECT * FROM Report WHERE assignmentDate = CURDATE() AND isFinished = 0 AND routineId IN" +
-                                "(SELECT id FROM Routine WHERE teamId IN" +
+                                "(SELECT id FROM Routine WHERE teamId = 0 OR teamId IN" +
                                 "(SELECT teamId FROM TeamEmployee WHERE employeeId = " +
                                 "(SELECT employeeId FROM Employee WHERE name = @employeeName)));";
             query.Parameters.AddWithValue("@employeeName", employeeName);

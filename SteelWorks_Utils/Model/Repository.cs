@@ -14,7 +14,7 @@ using SteelWorks_Utils;
 
 namespace SteelWorks_Utils.Model
 {
-	public class Repository
+    public class Repository
     {
         public static RepositoryChip chip { get; }
         public static RepositoryEmployee employee { get; }
@@ -57,6 +57,49 @@ namespace SteelWorks_Utils.Model
                 } catch (Exception ex) {
 
                 }
+            }
+        }
+
+        public static void BackupDatabase(string path) {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            try {
+                MySqlCommand cmd = new MySqlCommand();
+                using (MySqlBackup mb = new MySqlBackup(cmd)) {
+                    cmd.Connection = connection_;
+                    mb.ExportToFile(path);
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while doing database backup\n" + ex.ToString(), LogType.DatabaseError);
+            } finally {
+                connection_.Close();
+            }
+        }
+
+        //USE WITH CAUTION - IT'S IRREVERSIBLE
+        public static void RestoreDatabase(string path) {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            try {
+                MySqlCommand cmd = new MySqlCommand();
+                using (MySqlBackup mb = new MySqlBackup(cmd)) {
+                    cmd.Connection = connection_;
+                    mb.ImportFromFile(path);
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while doing database restore\n" + ex.ToString(), LogType.DatabaseError);
+            } finally {
+                connection_.Close();
             }
         }
 

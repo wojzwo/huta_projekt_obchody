@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,44 @@ namespace SteelWorks_Utils.Model
             }
 
             return (rowsAffected == 1);
+        }
+
+        public List<DbRoutine> GetAll() {
+            List<DbRoutine> routines = new List<DbRoutine>();
+
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT * FROM Routine";
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    DbRoutine routine = new DbRoutine() {
+                        id = reader.GetInt32("id"),
+                        shift = reader.GetInt32("shift"),
+                        trackId = reader.GetInt32("trackId"),
+                        cycleLength = reader.GetInt32("cycleLength"),
+                        teamId = reader.GetInt32("teamId"),
+                        cycleMask = reader.GetInt64("cycleMask"),
+                        startDay = reader.GetDateTime("startDay")
+                    };
+
+                    routines.Add(routine);
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting all Routines\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return routines;
         }
 
         public DbRoutine Get(int routineId) {

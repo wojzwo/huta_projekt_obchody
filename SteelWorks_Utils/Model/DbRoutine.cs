@@ -92,5 +92,30 @@ namespace SteelWorks_Utils.Model
 
             return null;
         }
+
+        public bool Delete(int routineId) {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "DELETE FROM Routine WHERE id = @id";
+            query.Parameters.AddWithValue("@id", routineId);
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting Routine\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return (rowsAffected == 1);
+        }
     }
 }

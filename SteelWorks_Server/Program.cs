@@ -40,13 +40,22 @@ namespace SteelWorks_Server
         static BaseColor ultraLightGrayColor = new BaseColor(240, 240, 240);
 
         static void Main(string[] args) {
-            Debug.Log("Started processing reports", LogType.Info);
+            Debug.Log("Started program", LogType.Info);
             //InsertTestData();
 
             GenerateOldReports();
             //SendOldReports();
             //ArchiveOldReports();
-            //AddNewReports();
+
+            List<DbRoutine> routines = new List<DbRoutine>();
+            try {
+                routines = Repository.routine.GetAll();
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
+            }
+
+            AddNewReports(routines);
+            DeleteOldRoutines(routines);
         }
 
         private static void InsertTestData() {
@@ -115,23 +124,99 @@ namespace SteelWorks_Server
         }
 
         private static void ArchiveOldReports() {
+            Debug.Log("Archiving reports...", LogType.Info);
+
             List<DbReport> reports = Repository.report.GetAll();
             List<DbReportPlace> reportPlaces = Repository.reportPlace.GetAll();
 
-            foreach (DbReport r in reports) {
-                Repository.report.Archive(r.id);
-            }
+            try {
+                foreach (DbReport r in reports) {
+                    Repository.report.Archive(r.id);
+                }
 
-            foreach (DbReportPlace p in reportPlaces) {
-                Repository.reportPlace.Archive(p.reportId, p.placeName);
+                foreach (DbReportPlace p in reportPlaces) {
+                    Repository.reportPlace.Archive(p.reportId, p.placeName);
+                }
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
             }
         }
 
-        private static void AddNewReports() {
+        private static void AddNewReports(List<DbRoutine> routines) {
+            Debug.Log("Adding new reports...", LogType.Info);
 
+            foreach (DbRoutine routine in routines) {
+                string teamName = "";
+                try {
+                    DbTeam team = Repository.team.Get(routine.teamId);
+                    teamName = team.name;
+                } catch (Exception ex) {
+                    //Empty in case there is no such team (for example team 0 meaning everyone can complete report)
+                }
+
+                string trackName = "";
+                try {
+                    DbTrack track = Repository.track.Get(routine.trackId);
+                    trackName = track.name;
+                } catch (Exception ex) {
+                    Debug.Log("Couldn't get requested track by id = " + routine.trackId, LogType.Error);
+                    Debug.Log(ex.ToString(), LogType.DatabaseError);
+                    continue;
+                }
+
+                if (routine.cycleLength == 0) {
+                    if (routine.startDay.Date != DateTime.Today.Date)
+                        continue;
+                } else {
+                    int dayDiff = (DateTime.Now.Date - routine.startDay).Days;
+                    if (dayDiff < 0)
+                        continue;
+
+                    dayDiff = dayDiff % routine.cycleLength;
+                    Int64 shiftedMask = routine.cycleMask >> dayDiff;
+                    if ((shiftedMask & 1) != 1)
+                        continue;
+                }
+
+                DbReport newReport = new DbReport() {
+                    shift = routine.shift,
+                    id = 0,
+                    routineId = routine.id,
+                    signedEmployeeName = teamName,
+                    isFinished = false,
+                    trackName = trackName,
+                    assignmentDate = DateTime.Now
+                };
+
+                try {
+                    Repository.report.Insert(newReport);
+                } catch (Exception ex) {
+                    Debug.Log(ex.ToString(), LogType.DatabaseError);
+                }
+            }
+        }
+
+        private static void DeleteOldRoutines(List<DbRoutine> routines) {
+            Debug.Log("Deleting old routines...", LogType.Info);
+
+            foreach (DbRoutine routine in routines) {
+                if (routine.cycleLength != 0)
+                    continue;
+
+                 if (routine.startDay.Date >= DateTime.Today.Date)
+                    continue;
+
+                try {
+                    Repository.routine.Delete(routine.id);
+                } catch (Exception ex) {
+                    Debug.Log(ex.ToString(), LogType.DatabaseError);
+                }
+            }
         }
 
         private static void GenerateOldReports() {
+            Debug.Log("Generating reports...", LogType.Info);
+
             Dictionary<string, List<ReportInfo>> dictionary = GetReportInfo();
 
             using (FileStream stream = new FileStream("Report_Full.pdf", FileMode.Create, FileAccess.Write, FileShare.None)) {
@@ -154,38 +239,44 @@ namespace SteelWorks_Server
         }
 
         private static void SendOldReports() {
+            Debug.Log("Sending reports...", LogType.Info);
+
             List<DbMail> mails = Repository.mail.GetAll();
 
-            SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.Host = "smtp.gmail.com";
-            client.EnableSsl = true;
-            client.Timeout = 10000;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(EMAIL_NAME, EMAIL_PASSWORD);
+            try {
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                client.Timeout = 10000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential(EMAIL_NAME, EMAIL_PASSWORD);
 
-            DateTime yesterday = DateTime.Now - new TimeSpan(1, 0, 0, 0);
-            foreach (DbMail m in mails) {
-                MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
-                mm.Attachments.Add(new Attachment((m.isFullReport) ? "Report_Full.pdf" : "Report_General.pdf"));
-                mm.BodyEncoding = UTF8Encoding.UTF8;
-                mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                DateTime yesterday = DateTime.Now - new TimeSpan(1, 0, 0, 0);
+                foreach (DbMail m in mails) {
+                    MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
+                    mm.Attachments.Add(new Attachment((m.isFullReport) ? "Report_Full.pdf" : "Report_General.pdf"));
+                    mm.BodyEncoding = UTF8Encoding.UTF8;
+                    mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
-                int counter = 0;
-                while (counter < 10) {
-                    try {
-                        client.Send(mm);
-                        break;
-                    } catch (Exception ex) {
-                        Debug.Log(ex.ToString(), LogType.Error);
-                    }
+                    int counter = 0;
+                    while (counter < 10) {
+                        try {
+                            client.Send(mm);
+                            break;
+                        } catch (Exception ex) {
+                            Debug.Log(ex.ToString(), LogType.Error);
+                        }
 
-                    counter++;
-                    if (counter == 10) {
-                        Debug.Log("Couldn't send email to " + m.address, LogType.Error);
+                        counter++;
+                        if (counter == 10) {
+                            Debug.Log("Couldn't send email to " + m.address, LogType.Error);
+                        }
                     }
                 }
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
             }
         }
 
@@ -533,14 +624,20 @@ namespace SteelWorks_Server
         }
 
         private static Dictionary<string, List<ReportInfo>> GetReportInfo() {
-            List<DbReport> reports = Repository.report.GetAll();
             Dictionary<DbReport, List<DbReportPlace>> reportPlaces = new Dictionary<DbReport, List<DbReportPlace>>();
-            foreach (DbReport r in reports) {
-                List<DbReportPlace> rp = Repository.reportPlace.GetAllByReport(r.id);
-                reportPlaces.Add(r, rp);
+
+            try {
+                List<DbReport> reports = Repository.report.GetAll();
+                foreach (DbReport r in reports) {
+                    List<DbReportPlace> rp = Repository.reportPlace.GetAllByReport(r.id);
+                    reportPlaces.Add(r, rp);
+                }
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
             }
 
             Dictionary<string, List<ReportInfo>> departmentToReports = new Dictionary<string, List<ReportInfo>>();
+
             foreach (KeyValuePair<DbReport, List<DbReportPlace>> pair in reportPlaces) {
                 foreach (DbReportPlace p in pair.Value) {
                     string department = p.department;
@@ -564,7 +661,7 @@ namespace SteelWorks_Server
                     info.mark[shift] = p.markDescription;
 
                     if (info.shiftInfo[shift] != "-") {
-                        Debug.Log("Duplicate entry: Place = " + p.placeName + "; Shift = " + (shift+1), LogType.Warning);
+                        Debug.Log("Duplicate entry: Place = " + p.placeName + "; Shift = " + (shift + 1), LogType.Warning);
                     }
 
                     if (!pair.Key.isFinished) {

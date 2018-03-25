@@ -37,6 +37,7 @@
 			this.keyPadSettingButton = new System.Windows.Forms.Button();
 			this.chipListButton = new System.Windows.Forms.Button();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
+			this.routineButton = new System.Windows.Forms.Button();
 			this.ButtonPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
@@ -62,12 +63,13 @@
 			this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.MainPanel.Location = new System.Drawing.Point(0, 0);
 			this.MainPanel.Name = "MainPanel";
-			this.MainPanel.Size = new System.Drawing.Size(1982, 944);
+			this.MainPanel.Size = new System.Drawing.Size(2449, 944);
 			this.MainPanel.TabIndex = 3;
 			// 
 			// ButtonPanel
 			// 
 			this.ButtonPanel.BackColor = System.Drawing.SystemColors.Control;
+			this.ButtonPanel.Controls.Add(this.routineButton);
 			this.ButtonPanel.Controls.Add(this.teamButton);
 			this.ButtonPanel.Controls.Add(this.trackButton);
 			this.ButtonPanel.Controls.Add(this.keyPadSettingButton);
@@ -76,7 +78,7 @@
 			this.ButtonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ButtonPanel.Location = new System.Drawing.Point(0, 0);
 			this.ButtonPanel.Name = "ButtonPanel";
-			this.ButtonPanel.Size = new System.Drawing.Size(1982, 106);
+			this.ButtonPanel.Size = new System.Drawing.Size(2449, 106);
 			this.ButtonPanel.TabIndex = 4;
 			// 
 			// teamButton
@@ -146,15 +148,28 @@
 			// splitContainer.Panel2
 			// 
 			this.splitContainer.Panel2.Controls.Add(this.MainPanel);
-			this.splitContainer.Size = new System.Drawing.Size(1982, 1054);
+			this.splitContainer.Size = new System.Drawing.Size(2449, 1054);
 			this.splitContainer.SplitterDistance = 106;
 			this.splitContainer.TabIndex = 5;
+			// 
+			// routineButton
+			// 
+			this.routineButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.routineButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("routineButton.BackgroundImage")));
+			this.routineButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.routineButton.Location = new System.Drawing.Point(2042, 12);
+			this.routineButton.Name = "routineButton";
+			this.routineButton.Size = new System.Drawing.Size(400, 100);
+			this.routineButton.TabIndex = 7;
+			this.routineButton.Text = "Grupy Pracowników";
+			this.routineButton.UseVisualStyleBackColor = false;
+			this.routineButton.Click += new System.EventHandler(this.routineButton_Click);
 			// 
 			// AdminMainView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1982, 1054);
+			this.ClientSize = new System.Drawing.Size(2449, 1054);
 			this.Controls.Add(this.splitContainer);
 			this.Name = "AdminMainView";
 			this.Text = "AdminMainView";
@@ -177,5 +192,6 @@
 		private System.Windows.Forms.Button teamButton;
 		private System.Windows.Forms.Button trackButton;
 		private System.Windows.Forms.Button keyPadSettingButton;
+		private System.Windows.Forms.Button routineButton;
 	}
 }

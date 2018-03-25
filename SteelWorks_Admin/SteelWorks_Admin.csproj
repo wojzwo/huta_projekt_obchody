@@ -80,6 +80,12 @@
     <Compile Include="View\ChipListUserControl.Designer.cs">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\RoutineUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\RoutineUserControl.Designer.cs">
+      <DependentUpon>RoutineUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\TeamsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ChipListUserControl.resx">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RoutineUserControl.resx">
+      <DependentUpon>RoutineUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TeamsUserControl.resx">
       <DependentUpon>TeamsUserControl.cs</DependentUpon>

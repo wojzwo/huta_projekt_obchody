@@ -32,12 +32,12 @@
 			this.LoadChipButton = new System.Windows.Forms.Button();
 			this.MainPanel = new System.Windows.Forms.Panel();
 			this.ButtonPanel = new System.Windows.Forms.Panel();
+			this.routineButton = new System.Windows.Forms.Button();
 			this.teamButton = new System.Windows.Forms.Button();
 			this.trackButton = new System.Windows.Forms.Button();
 			this.keyPadSettingButton = new System.Windows.Forms.Button();
 			this.chipListButton = new System.Windows.Forms.Button();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.routineButton = new System.Windows.Forms.Button();
 			this.ButtonPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
@@ -80,6 +80,19 @@
 			this.ButtonPanel.Name = "ButtonPanel";
 			this.ButtonPanel.Size = new System.Drawing.Size(2449, 106);
 			this.ButtonPanel.TabIndex = 4;
+			// 
+			// routineButton
+			// 
+			this.routineButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.routineButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("routineButton.BackgroundImage")));
+			this.routineButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.routineButton.Location = new System.Drawing.Point(2042, 12);
+			this.routineButton.Name = "routineButton";
+			this.routineButton.Size = new System.Drawing.Size(400, 100);
+			this.routineButton.TabIndex = 7;
+			this.routineButton.Text = "Rutyny";
+			this.routineButton.UseVisualStyleBackColor = false;
+			this.routineButton.Click += new System.EventHandler(this.routineButton_Click);
 			// 
 			// teamButton
 			// 
@@ -151,19 +164,6 @@
 			this.splitContainer.Size = new System.Drawing.Size(2449, 1054);
 			this.splitContainer.SplitterDistance = 106;
 			this.splitContainer.TabIndex = 5;
-			// 
-			// routineButton
-			// 
-			this.routineButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.routineButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("routineButton.BackgroundImage")));
-			this.routineButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.routineButton.Location = new System.Drawing.Point(2042, 12);
-			this.routineButton.Name = "routineButton";
-			this.routineButton.Size = new System.Drawing.Size(400, 100);
-			this.routineButton.TabIndex = 7;
-			this.routineButton.Text = "Grupy Pracowników";
-			this.routineButton.UseVisualStyleBackColor = false;
-			this.routineButton.Click += new System.EventHandler(this.routineButton_Click);
 			// 
 			// AdminMainView
 			// 

@@ -65,7 +65,7 @@ namespace SteelWorks_Admin.View
 		private void routineButton_Click(object sender, EventArgs e)
 		{
 			MainPanel.Controls.Clear();
-			MainPanel.Controls.Add(new RoutineUserControl());
+			MainPanel.Controls.Add(new RoutineListUserControl());
 		}
 	}
 }

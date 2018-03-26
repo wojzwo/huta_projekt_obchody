@@ -58,7 +58,48 @@ namespace SteelWorks_Utils.Model
             return (rowsAffected == 1);
         }
 
-        public List<DbRoutine> GetAll() {
+		public bool Update(DbRoutine routine)
+		{
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			//TODO UPDATE NAME
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "UPDATE Routine SET cycleLength = @cycleLength, shif = @shif, trackId=@trackId, cycleMask=@cycleMask, startDay=@startDay, teamId=@teamId WHERE id = @id";
+			query.Parameters.AddWithValue("@cycleLength", routine.cycleLength);
+			query.Parameters.AddWithValue("@shift", routine.shift);
+			query.Parameters.AddWithValue("@trackId", routine.trackId);
+			query.Parameters.AddWithValue("@cycleMask", routine.cycleMask);
+			query.Parameters.AddWithValue("@startDay", routine.startDay);
+			query.Parameters.AddWithValue("@teamId", routine.teamId);
+			query.Parameters.AddWithValue("@id", routine.id);
+
+			int rowsAffected = 0;
+			try
+			{
+				rowsAffected = query.ExecuteNonQuery();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while updating Routine\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return (rowsAffected == 1);
+		}
+
+		public List<DbRoutine> GetAll() {
             List<DbRoutine> routines = new List<DbRoutine>();
 
             try {
@@ -136,6 +177,8 @@ namespace SteelWorks_Utils.Model
 
             return null;
         }
+
+
 
         public bool Delete(int routineId) {
             try {

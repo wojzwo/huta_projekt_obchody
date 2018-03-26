@@ -47,6 +47,7 @@
 			this.nameTextBox = new System.Windows.Forms.TextBox();
 			this.cycleLengthLabel = new System.Windows.Forms.Label();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.team0CheckBox = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.cycleLengthNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.shiftNumeric)).BeginInit();
 			this.SuspendLayout();
@@ -245,10 +246,22 @@
 			this.cancelButton.Text = "Anuluj";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
+			// team0CheckBox
+			// 
+			this.team0CheckBox.AutoSize = true;
+			this.team0CheckBox.Location = new System.Drawing.Point(1194, 175);
+			this.team0CheckBox.Name = "team0CheckBox";
+			this.team0CheckBox.Size = new System.Drawing.Size(238, 36);
+			this.team0CheckBox.TabIndex = 21;
+			this.team0CheckBox.Text = "Dla wszystkich";
+			this.team0CheckBox.UseVisualStyleBackColor = true;
+			this.team0CheckBox.CheckedChanged += new System.EventHandler(this.team0CheckBox_CheckedChanged);
+			// 
 			// RoutineUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.team0CheckBox);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.cycleLengthLabel);
 			this.Controls.Add(this.nameTextBox);
@@ -269,7 +282,7 @@
 			this.Controls.Add(this.dateLabel);
 			this.Controls.Add(this.beginDateTime);
 			this.Name = "RoutineUserControl";
-			this.Size = new System.Drawing.Size(2041, 1138);
+			this.Size = new System.Drawing.Size(1800, 900);
 			((System.ComponentModel.ISupportInitialize)(this.cycleLengthNumeric)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.shiftNumeric)).EndInit();
 			this.ResumeLayout(false);
@@ -281,7 +294,6 @@
 
 		private System.Windows.Forms.DateTimePicker beginDateTime;
 		private System.Windows.Forms.Label dateLabel;
-		private System.Windows.Forms.Button saveRoutineButton;
 		private System.Windows.Forms.ComboBox trackComboBox;
 		private System.Windows.Forms.ComboBox teamComboBox;
 		private System.Windows.Forms.NumericUpDown cycleLengthNumeric;
@@ -297,6 +309,8 @@
 		private System.Windows.Forms.Label shift2Label;
 		private System.Windows.Forms.TextBox nameTextBox;
 		private System.Windows.Forms.Label cycleLengthLabel;
-		private System.Windows.Forms.Button cancelButton;
+		public System.Windows.Forms.Button saveRoutineButton;
+		public System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.CheckBox team0CheckBox;
 	}
 }

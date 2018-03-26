@@ -27,13 +27,20 @@ namespace SteelWorks_Admin.View
 
 		DbRoutine routine = null;
 
-		public void load_routine(DbRoutine routN)
+		public void set_routine(DbRoutine routN)
 		{
 			reloadDataFromDB();
 			routine = routN;
 			nameTextBox.Text = routine.name;
 			trackComboBox.SelectedIndex = trackComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int)cbi.Value == routine.trackId);
-			teamComboBox.SelectedIndex = trackComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int)cbi.Value == routine.teamId);
+			if (routine.teamId == 0)
+			{
+				team0CheckBox.Checked = true;
+			}
+			else
+			{
+				teamComboBox.SelectedIndex = trackComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int)cbi.Value == routine.teamId);
+			}
 			beginDateTime.Value = routine.startDay;
 			if (routine.cycleLength == 0)
 			{
@@ -54,22 +61,27 @@ namespace SteelWorks_Admin.View
 				shiftCheckBox.Checked = true;
 				shiftNumeric.Value = routine.shift;
 			}
+			refresh_fields();
+			if (routine.id == -1)
+			{
+				nameTextBox.Text = "Nowa";
+				reloadDataFromDB();
+			}
 		}
 
 		public RoutineUserControl()
 		{
 			InitializeComponent();
+			nameTextBox.Text = "";
 			reloadDataFromDB();
+			
 		}
 
 
-
-		private void reloadDataFromDB()
+		List<DbTrack> tracks = null;
+		List<DbTeam> teams = null;
+		public void reloadDataFromDB()
 		{
-			List<DbTrack> tracks = null;
-			List<DbTeam> teams = null;
-
-
 			try
 			{
 				tracks = Repository.track.GetAll();
@@ -97,10 +109,27 @@ namespace SteelWorks_Admin.View
 				item.Value = team.id;
 				teamComboBox.Items.Add(item);
 			}
-
+			trackComboBox.SelectedIndex = 0;
+			teamComboBox.SelectedIndex = 0;
 		}
 
-
+		private void refresh_fields()
+		{
+			_64buttonUserControl1.set_buttons_active((int)cycleLengthNumeric.Value);
+			if (repeatedCheckBox.Checked == true)
+			{
+				cycleLengthNumeric.Enabled = true;
+				_64buttonUserControl1.set_buttons_active((int)cycleLengthNumeric.Value);
+			}
+			else
+			{
+				cycleLengthNumeric.Enabled = false;
+				_64buttonUserControl1.set_buttons_active(0);
+			}
+			shift2Label.Visible = shiftCheckBox.Checked;
+			shiftNumeric.Visible = shiftCheckBox.Checked;
+			teamComboBox.Enabled = !team0CheckBox.Checked;
+		}
 
 		private void cycleLengthNumeric_ValueChanged(object sender, EventArgs e)
 		{
@@ -129,9 +158,20 @@ namespace SteelWorks_Admin.View
 
 		private void update_routine()
 		{
+			if (routine == null)
+			{
+				return;
+			}
 			routine.name = nameTextBox.Text;
 			routine.trackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
-			routine.teamId = (System.Int32)((teamComboBox.SelectedItem as ComboboxItem).Value);
+			if (team0CheckBox.Checked)
+			{
+				routine.teamId = 0;
+			}
+			else
+			{
+				routine.teamId = (System.Int32)((teamComboBox.SelectedItem as ComboboxItem).Value);
+			}
 			routine.startDay = beginDateTime.Value;
 			if (repeatedCheckBox.Checked)
 			{
@@ -155,7 +195,33 @@ namespace SteelWorks_Admin.View
 		private void saveRoutineButton_Click(object sender, EventArgs e)
 		{
 			update_routine();
-			//Todo DB comunication
+			if (routine.id == -1)
+			{
+				try
+				{
+					Repository.routine.Insert(routine);
+				}
+				catch (Exception ex)
+				{
+					//TODO: Exception handling code
+				}
+			}
+			else
+			{
+				try
+				{
+					Repository.routine.Update(routine);
+				}
+				catch (Exception ex)
+				{
+					//TODO: Exception handling code
+				}
+			}
+		}
+
+		private void team0CheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			teamComboBox.Enabled = !team0CheckBox.Checked;
 		}
 	}
 }

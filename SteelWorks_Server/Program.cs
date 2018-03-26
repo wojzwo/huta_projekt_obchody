@@ -179,7 +179,7 @@ namespace SteelWorks_Server
                         continue;
 
                     dayDiff = dayDiff % routine.cycleLength;
-                    Int64 shiftedMask = routine.cycleMask >> dayDiff;
+                    UInt64 shiftedMask = routine.cycleMask >> dayDiff;
                     if ((shiftedMask & 1) != 1)
                         continue;
                 }

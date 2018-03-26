@@ -56,8 +56,8 @@ namespace SteelWorks_Admin.View
 			foreach(DbRoutine routine in routines)
 			{
 				RoutineListboxItem item = new RoutineListboxItem();
-				//TODO
-				routine.name = routine.id.ToString();
+                if (routine.name == "")
+				    routine.name = routine.id.ToString();
 
 				item.Text = routine.name;
 				item.Routine = routine;
@@ -107,5 +107,9 @@ namespace SteelWorks_Admin.View
 			panel1.Visible = false;
 			reloadfromDB();
 		}
-	}
+
+        private void panel1_Paint(object sender, PaintEventArgs e) {
+
+        }
+    }
 }

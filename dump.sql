@@ -31,7 +31,7 @@ CREATE TABLE `ArchiveReport` (
   `shift` int(11) NOT NULL,
   `isFinished` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `ArchiveReport` (
 
 LOCK TABLES `ArchiveReport` WRITE;
 /*!40000 ALTER TABLE `ArchiveReport` DISABLE KEYS */;
-INSERT INTO `ArchiveReport` VALUES (21,5,'2018-03-19','','Trasa testowa',2,'\0'),(22,5,'2018-03-19','','Trasa testowa',3,'\0'),(23,5,'2018-03-19','','Trasa testowa',1,'\0');
+INSERT INTO `ArchiveReport` VALUES (24,5,'2018-03-19','','Trasa testowa',2,'\0'),(25,5,'2018-03-19','Stanisław Nowak2','Trasa testowa',3,''),(26,5,'2018-03-19','','Trasa testowa',1,'\0'),(32,5,'2018-03-19','Stanisław Nowak2','Trasa testowa',2,''),(33,5,'2018-03-19','','Trasa testowa',3,'\0'),(34,5,'2018-03-19','Stanisław Nowak2','Trasa testowa',1,''),(35,6,'2018-03-19','Stanisław Nowak2','Trasa testowa 2',2,''),(36,6,'2018-03-19','Stanisław Nowak2','Trasa testowa 2',3,''),(58,8,'2018-03-24','Grupa 1','Trasa testowa',2,'\0'),(59,11,'2018-03-24','','Trasa testowa 2',2,'\0'),(60,12,'2018-03-24','Stanisław Nowak2','Trasa testowa 2',3,''),(61,7,'2018-03-24','','Trasa testowa',1,'\0'),(62,8,'2018-03-24','Grupa 1','Trasa testowa',2,'\0'),(63,11,'2018-03-24','','Trasa testowa 2',2,'\0'),(64,12,'2018-03-24','Grupa 1','Trasa testowa 2',3,'\0'),(65,8,'2018-03-24','Grupa 1','Trasa testowa',2,'\0'),(66,11,'2018-03-24','--Dowolny pracownik--','Trasa testowa 2',2,'\0'),(67,12,'2018-03-24','Grupa 1','Trasa testowa 2',3,'\0'),(68,8,'2018-03-24','Grupa: Grupa 1','Trasa testowa',2,'\0'),(69,11,'2018-03-24','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(70,12,'2018-03-24','Grupa: Grupa 1','Trasa testowa 2',3,'\0'),(71,8,'2018-03-24','Grupa: Grupa 1','Trasa testowa',2,'\0'),(72,11,'2018-03-24','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(73,12,'2018-03-24','Grupa: Grupa 1','Trasa testowa 2',3,'\0'),(74,8,'2018-03-24','Grupa: Grupa 1','Trasa testowa',2,'\0'),(75,11,'2018-03-24','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(76,12,'2018-03-24','Grupa: Grupa 1','Trasa testowa 2',3,'\0'),(77,8,'2018-03-24','Grupa: Grupa 1','Trasa testowa',2,'\0'),(78,11,'2018-03-24','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(79,12,'2018-03-24','Grupa: Grupa 1','Trasa testowa 2',3,'\0'),(80,8,'2018-03-24','Stanisław Nowak2','Trasa testowa',2,''),(81,11,'2018-03-24','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(82,12,'2018-03-24','Grupa: Grupa 1','Trasa testowa 2',3,'\0'),(83,8,'2018-03-24','Grupa: Grupa 1','Trasa testowa',2,'\0'),(84,11,'2018-03-24','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(85,12,'2018-03-24','Grupa: Grupa 1','Trasa testowa 2',3,'\0'),(86,9,'2018-03-25','Grupa: --Dowolny pracownik--','Trasa testowa',3,'\0'),(87,10,'2018-03-25','Grupa: --Dowolny pracownik--','Trasa testowa 2',1,'\0'),(88,11,'2018-03-25','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(89,12,'2018-03-25','Grupa: Grupa 1','Trasa testowa 2',3,'\0'),(90,13,'2018-03-25','Grupa: --Dowolny pracownik--','Trasa testowa 2',3,'\0');
 /*!40000 ALTER TABLE `ArchiveReport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,6 +59,7 @@ CREATE TABLE `ArchiveReportPlace` (
   `comment` varchar(511) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `department` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `visitDate` datetime NOT NULL,
+  `markCommentRequired` bit(1) NOT NULL,
   PRIMARY KEY (`reportId`,`placeName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -69,6 +70,7 @@ CREATE TABLE `ArchiveReportPlace` (
 
 LOCK TABLES `ArchiveReportPlace` WRITE;
 /*!40000 ALTER TABLE `ArchiveReportPlace` DISABLE KEYS */;
+INSERT INTO `ArchiveReportPlace` VALUES (24,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0'),(25,'Rozdzielnica RSP','Odwiedzono','Wszystko w porządku','','Odlewnia','2018-03-19 17:53:00','\0'),(26,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0'),(32,'Rozdzielnica RSP','Odwiedzono','Wszystko w porządku','','Odlewnia','2018-03-19 18:34:00','\0'),(33,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0'),(34,'Rozdzielnica RSP','Odwiedzono','Wszystko w porządku','','Odlewnia','2018-03-19 18:35:00','\0'),(35,'Agregat Diesla','Nieodwiedzono','Wszystko w porządku','Było spoko, tylko chip się zbugował','Walcownia','2018-03-19 18:35:00','\0'),(35,'Lodówka','Odwiedzono - Poprawiano ocenę','Wszystko w porządku','','Biuro','2018-03-19 18:35:00','\0'),(36,'Agregat Diesla','Odwiedzono - Poprawiano miejsce','Awaria','YYY, Coś dmuchło, a nie byłem bo chip mi wpadł do lawy','Walcownia','2018-03-19 18:36:00',''),(36,'Lodówka','Odwiedzono - Poprawiano ocenę','Wszystko w porządku','Gut gud','Biuro','2018-03-19 18:36:00','\0'),(58,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(59,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(59,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(60,'Agregat Diesla','Nieodwiedzono','Awaria','Nie byłem, coś pierdolło','Walcownia','2018-03-24 15:08:00',''),(60,'Lodówka','Nieodwiedzono','Wszystko w porządku','Nie byłem','Biuro','2018-03-24 15:08:00','\0'),(61,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(62,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(63,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(63,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(64,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(64,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(65,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(66,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(66,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(67,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(67,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(68,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(69,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(69,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(70,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(70,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(71,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(72,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(72,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(73,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(73,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(74,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(75,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(75,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(76,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(76,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(77,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(78,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(78,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(79,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(79,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(80,'Rozdzielnica RSP','Odwiedzono','Wszystko w porządku','','Odlewnia','2018-03-24 16:42:00','\0'),(81,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(81,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(82,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(82,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(83,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(84,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(84,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(85,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(85,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(86,'Rozdzielnica RSP','Nieodwiedzono','','','Odlewnia','0001-01-01 00:00:00','\0'),(87,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(87,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(88,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(88,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(89,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(89,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(90,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(90,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0');
 /*!40000 ALTER TABLE `ArchiveReportPlace` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +134,7 @@ CREATE TABLE `Mail` (
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `isFullReport` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +143,7 @@ CREATE TABLE `Mail` (
 
 LOCK TABLES `Mail` WRITE;
 /*!40000 ALTER TABLE `Mail` DISABLE KEYS */;
-INSERT INTO `Mail` VALUES (1,'huta.raporty@gmail.com',''),(2,'thirrasch@gmail.com','\0');
+INSERT INTO `Mail` VALUES (1,'huta.raporty@gmail.com',''),(2,'thirrasch@gmail.com','\0'),(3,'wojciech.zwolinski0@gmail.com',''),(4,'wojciech.zwolinski0@gmail.com','\0');
 /*!40000 ALTER TABLE `Mail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +213,7 @@ CREATE TABLE `Report` (
   `shift` int(11) NOT NULL,
   `isFinished` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +222,33 @@ CREATE TABLE `Report` (
 
 LOCK TABLES `Report` WRITE;
 /*!40000 ALTER TABLE `Report` DISABLE KEYS */;
+INSERT INTO `Report` VALUES (91,11,'2018-03-26','Grupa: --Dowolny pracownik--','Trasa testowa 2',2,'\0'),(92,12,'2018-03-26','Grupa: Grupa 1','Trasa testowa 2',3,'\0');
 /*!40000 ALTER TABLE `Report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ReportEmployee`
+--
+
+DROP TABLE IF EXISTS `ReportEmployee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ReportEmployee` (
+  `reportId` bigint(20) NOT NULL,
+  `employeeId` varchar(31) NOT NULL,
+  `employeeName` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`reportId`,`employeeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ReportEmployee`
+--
+
+LOCK TABLES `ReportEmployee` WRITE;
+/*!40000 ALTER TABLE `ReportEmployee` DISABLE KEYS */;
+INSERT INTO `ReportEmployee` VALUES (91,'0',''),(92,'EFA62D','Jakub Dominikanin'),(92,'EFD576','Stanisław Nowak2'),(92,'F0D8B4','Piotr Kowalski');
+/*!40000 ALTER TABLE `ReportEmployee` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -249,7 +277,7 @@ CREATE TABLE `ReportPlace` (
 
 LOCK TABLES `ReportPlace` WRITE;
 /*!40000 ALTER TABLE `ReportPlace` DISABLE KEYS */;
-INSERT INTO `ReportPlace` VALUES (21,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0'),(22,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0'),(23,'Rozdzielnica RSP','','','','Odlewnia','0001-01-01 00:00:00','\0');
+INSERT INTO `ReportPlace` VALUES (91,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(91,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0'),(92,'Agregat Diesla','Nieodwiedzono','','','Walcownia','0001-01-01 00:00:00','\0'),(92,'Lodówka','Nieodwiedzono','','','Biuro','0001-01-01 00:00:00','\0');
 /*!40000 ALTER TABLE `ReportPlace` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,8 +296,9 @@ CREATE TABLE `Routine` (
   `cycleLength` int(11) NOT NULL,
   `cycleMask` bigint(20) NOT NULL,
   `shift` int(11) NOT NULL,
+  `name` varchar(127) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,7 +307,7 @@ CREATE TABLE `Routine` (
 
 LOCK TABLES `Routine` WRITE;
 /*!40000 ALTER TABLE `Routine` DISABLE KEYS */;
-INSERT INTO `Routine` VALUES (5,5,0,'2018-03-19',0,0,1);
+INSERT INTO `Routine` VALUES (10,6,0,'2018-03-21',4,5,1,'Rutyna nr 10'),(11,6,0,'2018-03-21',4,11,2,''),(12,6,2,'2018-03-17',4,11,3,''),(15,2,3,'2018-03-26',4,6,0,'');
 /*!40000 ALTER TABLE `Routine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,7 +355,7 @@ CREATE TABLE `TeamEmployee` (
 
 LOCK TABLES `TeamEmployee` WRITE;
 /*!40000 ALTER TABLE `TeamEmployee` DISABLE KEYS */;
-INSERT INTO `TeamEmployee` VALUES (2,'EFA62D'),(2,'F0D8B4'),(3,'EFA62D'),(3,'F0D8B4');
+INSERT INTO `TeamEmployee` VALUES (2,'EFA62D'),(2,'EFD576'),(2,'F0D8B4'),(3,'EFA62D'),(3,'F0D8B4');
 /*!40000 ALTER TABLE `TeamEmployee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,7 +380,7 @@ CREATE TABLE `Track` (
 
 LOCK TABLES `Track` WRITE;
 /*!40000 ALTER TABLE `Track` DISABLE KEYS */;
-INSERT INTO `Track` VALUES (2,'NowaxD','2018-03-18'),(5,'Trasa testowa','2018-03-19'),(14,'Nowa23','2018-03-18'),(15,'15','2018-03-18'),(16,'Nowa566655','2018-03-18'),(17,'NowaTest','2018-03-18');
+INSERT INTO `Track` VALUES (2,'NowaxD','2018-03-18'),(5,'Trasa testowa','2018-03-19'),(6,'Trasa testowa 2','2018-03-19'),(14,'Nowa23','2018-03-18'),(15,'15','2018-03-18'),(16,'Nowa566655','2018-03-18'),(17,'NowaTest','2018-03-18');
 /*!40000 ALTER TABLE `Track` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -375,7 +404,7 @@ CREATE TABLE `TrackPlace` (
 
 LOCK TABLES `TrackPlace` WRITE;
 /*!40000 ALTER TABLE `TrackPlace` DISABLE KEYS */;
-INSERT INTO `TrackPlace` VALUES (2,'F06516'),(2,'F0DFC9'),(5,'F06516'),(15,'213213'),(16,'F06516'),(16,'F0E0EE'),(17,'F06516');
+INSERT INTO `TrackPlace` VALUES (2,'F06516'),(2,'F0DFC9'),(5,'F06516'),(6,'F0DFC9'),(6,'F0E0EE'),(15,'213213'),(16,'F06516'),(16,'F0E0EE'),(17,'F06516');
 /*!40000 ALTER TABLE `TrackPlace` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -388,4 +417,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-19 17:53:39
+-- Dump completed on 2018-03-26 12:37:35

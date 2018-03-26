@@ -11,11 +11,12 @@ namespace SteelWorks_Utils.Model
     public class DbRoutine
     {
         public int id;
+		public string name;
         public int trackId;
         public int teamId;
         public DateTime startDay;
         public int cycleLength;
-        public Int64 cycleMask;
+        public UInt64 cycleMask;
         public int shift; //0 means no shift routine
     }
 
@@ -73,13 +74,15 @@ namespace SteelWorks_Utils.Model
             try {
                 MySqlDataReader reader = query.ExecuteReader();
                 while (reader.Read()) {
-                    DbRoutine routine = new DbRoutine() {
-                        id = reader.GetInt32("id"),
-                        shift = reader.GetInt32("shift"),
+					DbRoutine routine = new DbRoutine() {
+						id = reader.GetInt32("id"),
+						//TODO
+						name = "",
+						shift = reader.GetInt32("shift"),
                         trackId = reader.GetInt32("trackId"),
                         cycleLength = reader.GetInt32("cycleLength"),
                         teamId = reader.GetInt32("teamId"),
-                        cycleMask = reader.GetInt64("cycleMask"),
+                        cycleMask = reader.GetUInt64("cycleMask"),
                         startDay = reader.GetDateTime("startDay")
                     };
 
@@ -110,12 +113,14 @@ namespace SteelWorks_Utils.Model
             try {
                 MySqlDataReader reader = query.ExecuteReader();
                 while (reader.Read()) {
-                    DbRoutine routine = new DbRoutine() {
-                        cycleLength = reader.GetInt32("cycleLength"),
-                        id = reader.GetInt32("id"),
+					DbRoutine routine = new DbRoutine() {
+						cycleLength = reader.GetInt32("cycleLength"),
+						id = reader.GetInt32("id"),
+						//TODO
+						name = "",
                         shift = reader.GetInt32("shift"),
                         trackId = reader.GetInt32("trackId"),
-                        cycleMask = reader.GetInt64("cycleMask"),
+                        cycleMask = reader.GetUInt64("cycleMask"),
                         startDay = reader.GetDateTime("startDay"),
                         teamId = reader.GetInt32("teamId")
                     };

@@ -209,7 +209,7 @@ namespace SteelWorks_Server
                 if (routine.cycleLength != 0)
                     continue;
 
-                 if (routine.startDay.Date >= DateTime.Today.Date)
+                if (routine.startDay.Date >= DateTime.Today.Date)
                     continue;
 
                 try {
@@ -225,22 +225,30 @@ namespace SteelWorks_Server
 
             Dictionary<string, List<ReportInfo>> dictionary = GetReportInfo();
 
-            using (FileStream stream = new FileStream("Report_Full.pdf", FileMode.Create, FileAccess.Write, FileShare.None)) {
-                Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
-                PdfWriter writer = PdfWriter.GetInstance(doc, stream);
-                doc.Open();
-                GeneratePDFHeader(doc, true);
-                GeneratePDFReport(doc, true, dictionary);
-                doc.Close();
+            try {
+                using (FileStream stream = new FileStream("Report_Full.pdf", FileMode.Create, FileAccess.Write, FileShare.None)) {
+                    Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
+                    PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+                    doc.Open();
+                    GeneratePDFHeader(doc, true);
+                    GeneratePDFReport(doc, true, dictionary);
+                    doc.Close();
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while generating full report:\n" + ex.ToString(), LogType.Error);
             }
 
-            using (FileStream stream = new FileStream("Report_General.pdf", FileMode.Create, FileAccess.Write, FileShare.None)) {
-                Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
-                PdfWriter writer = PdfWriter.GetInstance(doc, stream);
-                doc.Open();
-                GeneratePDFHeader(doc, false);
-                GeneratePDFReport(doc, false, dictionary);
-                doc.Close();
+            try {
+                using (FileStream stream = new FileStream("Report_General.pdf", FileMode.Create, FileAccess.Write, FileShare.None)) {
+                    Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
+                    PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+                    doc.Open();
+                    GeneratePDFHeader(doc, false);
+                    GeneratePDFReport(doc, false, dictionary);
+                    doc.Close();
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while generating partial report:\n" + ex.ToString(), LogType.Error);
             }
         }
 
@@ -647,6 +655,12 @@ namespace SteelWorks_Server
 
             foreach (KeyValuePair<DbReport, List<DbReportPlace>> pair in reportPlaces) {
                 foreach (DbReportPlace p in pair.Value) {
+                    int shift = pair.Key.shift;
+                    if (shift < 1 || shift > 3) {
+                        Debug.Log("Incorrect shift = " + shift + " in Report nr" + pair.Key.id + " -> skipping", LogType.Error);
+                        continue;
+                    }
+
                     string department = p.department;
                     if (!departmentToReports.ContainsKey(department)) {
                         departmentToReports.Add(department, new List<ReportInfo>());
@@ -659,7 +673,6 @@ namespace SteelWorks_Server
                         departmentToReports[department].Add(info);
                     }
 
-                    int shift = pair.Key.shift;
                     shift -= 1; //indexes are [0..2] not [1..3]
                     info.employeeName[shift] = pair.Key.signedEmployeeName;
                     info.status[shift] = p.status;

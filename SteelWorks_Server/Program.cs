@@ -126,8 +126,14 @@ namespace SteelWorks_Server
         private static void ArchiveOldReports() {
             Debug.Log("Archiving reports...", LogType.Info);
 
-            List<DbReport> reports = Repository.report.GetAll();
-            List<DbReportPlace> reportPlaces = Repository.reportPlace.GetAll();
+            List<DbReport> reports = new List<DbReport>();
+            List<DbReportPlace> reportPlaces = new List<DbReportPlace>();
+            try {
+                reports = Repository.report.GetAll();
+                reportPlaces = Repository.reportPlace.GetAll();
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
+            }
 
             try {
                 foreach (DbReport r in reports) {
@@ -255,7 +261,12 @@ namespace SteelWorks_Server
         private static void SendOldReports() {
             Debug.Log("Sending reports...", LogType.Info);
 
-            List<DbMail> mails = Repository.mail.GetAll();
+            List<DbMail> mails = new List<DbMail>();
+            try {
+                mails = Repository.mail.GetAll();
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
+            }
 
             try {
                 SmtpClient client = new SmtpClient();

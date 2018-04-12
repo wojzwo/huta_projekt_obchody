@@ -29,7 +29,12 @@ namespace SteelWorks_Worker.View
             });
 
             foreach (DbReport r in reports) {
-                string listName = "Zmiana: " + r.shift.ToString() + ",   Trasa: " + r.trackName;
+                string listName;
+                if (r.shift > 0) {
+                    listName = "Zmiana: " + r.shift.ToString() + ", Trasa: " + r.trackName;
+                } else {
+                    listName = "INDYWIDUALNY, Trasa: " + r.trackName;
+                }
                 trackIdByListName_.Add(listName, r.id);
                 listBox1.Items.Add(listName);
             }

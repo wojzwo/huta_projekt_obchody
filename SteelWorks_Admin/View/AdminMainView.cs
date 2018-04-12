@@ -67,5 +67,11 @@ namespace SteelWorks_Admin.View
 			MainPanel.Controls.Clear();
 			MainPanel.Controls.Add(new RoutineListUserControl());
 		}
+
+		private void mailButton_Click(object sender, EventArgs e)
+		{
+			MainPanel.Controls.Clear();
+			MainPanel.Controls.Add(new MailUserControl());
+		}
 	}
 }

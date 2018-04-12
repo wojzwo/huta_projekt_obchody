@@ -86,6 +86,12 @@
     <Compile Include="View\ChipListUserControl.Designer.cs">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\MailUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\MailUserControl.Designer.cs">
+      <DependentUpon>MailUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\RoutineListUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ChipListUserControl.resx">
       <DependentUpon>ChipListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\MailUserControl.resx">
+      <DependentUpon>MailUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\RoutineListUserControl.resx">
       <DependentUpon>RoutineListUserControl.cs</DependentUpon>

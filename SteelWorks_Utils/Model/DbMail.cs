@@ -106,5 +106,41 @@ namespace SteelWorks_Utils.Model
 
             return (rowsAffected == 1);
         }
-    }
+
+		public bool Update(DbMail mail)
+		{
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "UPDATE Mail SET adress = @adress, isFullReport = @isFullReport WHERE id = @id";
+			query.Parameters.AddWithValue("@adress", mail.address);
+			query.Parameters.AddWithValue("@shift", mail.isFullReport);
+			query.Parameters.AddWithValue("@id", mail.id);
+
+			int rowsAffected = 0;
+			try
+			{
+				rowsAffected = query.ExecuteNonQuery();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while updating Mail\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return (rowsAffected == 1);
+		}
+	}
 }

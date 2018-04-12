@@ -14,6 +14,8 @@ using SteelWorks_Utils;
 
 namespace SteelWorks_Utils.Model
 {
+
+
     public class Repository
     {
         public static RepositoryChip chip { get; }
@@ -32,7 +34,22 @@ namespace SteelWorks_Utils.Model
 
         private static MySqlConnection connection_;
 
-        public static void RepeatQueryWhileNoConnection<T>(ContainerControl currentControl, int repeatDelayMs, Action lambda) where T : Form, new() {
+		public static string XorText(string text, int key)
+		{
+			string newText = "";
+
+			for (int i = 0; i < text.Length; i++)
+			{
+				int charValue = Convert.ToInt32(text[i]); //get the ASCII value of the character
+				charValue ^= key; //xor the value
+
+				newText += char.ConvertFromUtf32(charValue); //convert back to string
+			}
+
+			return newText;
+		}
+
+		public static void RepeatQueryWhileNoConnection<T>(ContainerControl currentControl, int repeatDelayMs, Action lambda) where T : Form, new() {
             bool bSuccess = false;
             T errorView = null;
             while (!bSuccess) {
@@ -122,7 +139,10 @@ namespace SteelWorks_Utils.Model
             reportEmployee = new RepositoryReportEmployee(connection_);
         }
 
-        private static string ParseDatabaseConfig() {
+
+
+
+		private static string ParseDatabaseConfig() {
             string ret = "";
             try {
                 using (FileStream stream = new FileStream("DatabaseCredentials.config", FileMode.Open, FileAccess.Read, FileShare.Read)) {
@@ -134,7 +154,9 @@ namespace SteelWorks_Utils.Model
                         string database = reader.ReadLine().Split('=')[1];
                         string user = reader.ReadLine().Split('=')[1];
                         string password = reader.ReadLine().Split('=')[1];
-                        ret = "Server=" + serverName + ";Port=" + portNr + ";Database=" + database + ";Uid=" + user + ";Pwd=" + password + ";CharSet=utf8";
+						password = XorText(password, 1);
+
+						ret = "Server=" + serverName + ";Port=" + portNr + ";Database=" + database + ";Uid=" + user + ";Pwd=" + password + ";CharSet=utf8";
                     }
                 }
             } catch (Exception ex) {

@@ -12,6 +12,7 @@ namespace SteelWorks_Utils.Model
         public int id;
         public string address;
         public bool isFullReport;
+        public bool isIndividualReport;
     }
 
     public class RepositoryMail
@@ -41,7 +42,8 @@ namespace SteelWorks_Utils.Model
                     DbMail mail = new DbMail() {
                         id = reader.GetInt32("id"),
                         address = reader.GetString("address"),
-                        isFullReport = reader.GetBoolean("isFullReport")
+                        isFullReport = reader.GetBoolean("isFullReport"),
+                        isIndividualReport = reader.GetBoolean("isIndividualReport")
                     };
 
                     mails.Add(mail);
@@ -65,9 +67,10 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "INSERT INTO Mail(address, isFullReport) VALUES(@address, @isFullReport)";
+            query.CommandText = "INSERT INTO Mail(address, isFullReport, isIndividualReport) VALUES(@address, @isFullReport, @isIndividualReport)";
             query.Parameters.AddWithValue("@address", mail.address);
             query.Parameters.AddWithValue("@isFullReport", mail.isFullReport);
+            query.Parameters.AddWithValue("@isIndividualReport", mail.isIndividualReport);
 
             int rowsAffected = 0;
             try {
@@ -120,9 +123,10 @@ namespace SteelWorks_Utils.Model
 			}
 
 			MySqlCommand query = connection_.CreateCommand();
-			query.CommandText = "UPDATE Mail SET adress = @adress, isFullReport = @isFullReport WHERE id = @id";
-			query.Parameters.AddWithValue("@adress", mail.address);
-			query.Parameters.AddWithValue("@shift", mail.isFullReport);
+			query.CommandText = "UPDATE Mail SET address = @adress, isFullReport = @isFullReport, isIndividualReport = @isIndividualReport WHERE id = @id";
+			query.Parameters.AddWithValue("@address", mail.address);
+			query.Parameters.AddWithValue("@isFullReport", mail.isFullReport);
+		    query.Parameters.AddWithValue("@isIndividualReport", mail.isIndividualReport);
 			query.Parameters.AddWithValue("@id", mail.id);
 
 			int rowsAffected = 0;

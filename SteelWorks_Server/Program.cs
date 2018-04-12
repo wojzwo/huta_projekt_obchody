@@ -39,6 +39,8 @@ namespace SteelWorks_Server
         static BaseColor lightGrayColor = new BaseColor(225, 225, 225);
         static BaseColor ultraLightGrayColor = new BaseColor(240, 240, 240);
 
+        private static List<string> individualReportPaths = new List<string>();
+
         static void Main(string[] args) {
             Debug.Log("Started program", LogType.Info);
             //InsertTestData();
@@ -282,6 +284,11 @@ namespace SteelWorks_Server
                 foreach (DbMail m in mails) {
                     MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
                     mm.Attachments.Add(new Attachment((m.isFullReport) ? "Report_Full.pdf" : "Report_General.pdf"));
+                    if (m.isIndividualReport) {
+                        foreach (string indString in individualReportPaths) {
+                            mm.Attachments.Add(new Attachment(indString));
+                        }
+                    }
                     mm.BodyEncoding = UTF8Encoding.UTF8;
                     mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
@@ -337,7 +344,7 @@ namespace SteelWorks_Server
 
             Phrase legendPhrase = new Phrase();
             legendPhrase.Add(
-                new Chunk("Kontrola wizualna stanu urządzeń:\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                new Chunk("Kontrola stanu urządzeń:\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
             );
             legendPhrase.Add(
                 new Chunk("T", new Font(ARIAL, normalTextSize, Font.BOLD))
@@ -665,8 +672,13 @@ namespace SteelWorks_Server
             Dictionary<string, List<ReportInfo>> departmentToReports = new Dictionary<string, List<ReportInfo>>();
 
             foreach (KeyValuePair<DbReport, List<DbReportPlace>> pair in reportPlaces) {
+                int shift = pair.Key.shift;
+                if (shift == 0) {
+                    GenerateIndividual(pair.Key, pair.Value);
+                    continue;
+                }
+
                 foreach (DbReportPlace p in pair.Value) {
-                    int shift = pair.Key.shift;
                     if (shift < 1 || shift > 3) {
                         Debug.Log("Incorrect shift = " + shift + " in Report nr" + pair.Key.id + " -> skipping", LogType.Error);
                         continue;
@@ -714,6 +726,215 @@ namespace SteelWorks_Server
             }
 
             return departmentToReports;
+        }
+
+        private static void GenerateIndividual(DbReport report, List<DbReportPlace> places) {
+            try {
+                string employeeNameNoSpace = report.signedEmployeeName.Replace(" ", string.Empty).Replace(":", string.Empty).Replace(".", string.Empty);
+                string reportFileName = report.id + "_" + employeeNameNoSpace + ".pdf";
+                using (FileStream stream = new FileStream(reportFileName, FileMode.Create, FileAccess.Write, FileShare.None)) {
+                    Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
+                    PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+                    doc.Open();
+
+                    PdfPTable headerTable = new PdfPTable(3);
+                    headerTable.TotalWidth = doc.PageSize.Width - 72.0f;
+                    headerTable.LockedWidth = true;
+                    headerTable.SetWidths(new float[] { 0.05f, 0.45f, 0.5f });
+
+                    PdfPCell firstRowFirstColumn = new PdfPCell(new Phrase(""));
+                    firstRowFirstColumn.Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                    headerTable.AddCell(firstRowFirstColumn);
+
+                    Phrase companyNamePhrase = Phrase.GetInstance(0, "ARCELOR MITTAL HUTA WARSZAWA Wydz. P-20", new Font(ARIAL, 18.0f, Font.BOLD));
+                    PdfPCell companyName = new PdfPCell(companyNamePhrase);
+                    companyName.Colspan = 2;
+                    companyName.UseAscender = true;
+                    companyName.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    companyName.Padding = 8;
+                    headerTable.AddCell(companyName);
+
+                    PdfPCell secondRowFirstColumn = new PdfPCell(new Phrase(""));
+                    secondRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                    headerTable.AddCell(secondRowFirstColumn);
+
+                    Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z indywidualnej inspekcji P-20", new Font(ARIAL, normalTextSize, Font.BOLD));
+                    PdfPCell inspectionCard = new PdfPCell(inspectionCardPhrase);
+                    inspectionCard.UseAscender = true;
+                    inspectionCard.HorizontalAlignment = 1;
+                    inspectionCard.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    inspectionCard.Padding = 3;
+                    headerTable.AddCell(inspectionCard);
+
+                    Phrase legendPhrase = new Phrase();
+                    legendPhrase.Add(
+                        new Chunk("Kontrola stanu urządzeń:\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                    );
+                    legendPhrase.Add(
+                        new Chunk("T", new Font(ARIAL, normalTextSize, Font.BOLD))
+                    );
+                    legendPhrase.Add(
+                        new Chunk("  = sprawne\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                    );
+                    legendPhrase.Add(
+                        new Chunk("N", new Font(ARIAL, normalTextSize, Font.BOLD))
+                    );
+                    legendPhrase.Add(
+                        new Chunk("  = niesprawne\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                    );
+                    legendPhrase.Add(
+                        new Chunk("*", new Font(ARIAL, normalTextSize, Font.BOLD))
+                    );
+                    legendPhrase.Add(
+                        new Chunk(" = nieodwiedzone\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                    );
+
+                    PdfPCell legend = new PdfPCell(legendPhrase);
+                    legend.UseAscender = true;
+                    legend.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    legend.Padding = 3;
+                    headerTable.AddCell(legend);
+
+                    PdfPCell thirdRowFirstColumn = new PdfPCell(new Phrase(""));
+                    thirdRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                    headerTable.AddCell(thirdRowFirstColumn);
+
+                    CultureInfo cultureInfo = CultureInfo.GetCultureInfo("pl-PL");
+                    Phrase dateTimePhrase = new Phrase();
+                    dateTimePhrase.Add(
+                        new Chunk("Data: ", new Font(ARIAL, normalTextSize, Font.BOLD))
+                    );
+                    dateTimePhrase.Add(
+                        new Chunk(DateTime.Now.ToString("dddd, dd.MM.yyyy, HH:mm", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
+                    );
+                    PdfPCell dateTime = new PdfPCell(dateTimePhrase);
+                    dateTime.Padding = 8;
+                    dateTime.Colspan = 2;
+                    dateTime.UseAscender = true;
+                    dateTime.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    headerTable.AddCell(dateTime);
+
+                    PdfPCell fourthRowFirstColumn = new PdfPCell(new Phrase(""));
+                    fourthRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER | Rectangle.BOTTOM_BORDER;
+                    headerTable.AddCell(fourthRowFirstColumn);
+
+                    PdfPCell employeeNameCell = new PdfPCell(new Phrase("Pracownik: " + report.signedEmployeeName, bFont));
+                    employeeNameCell.Padding = 8;
+                    employeeNameCell.Colspan = 2;
+                    employeeNameCell.UseAscender = true;
+                    employeeNameCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    headerTable.AddCell(employeeNameCell);
+
+                    PdfPTable borderTable = new PdfPTable(1);
+                    borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
+                    borderTable.LockedWidth = true;
+                    borderTable.SpacingAfter = 0.0f;
+                    PdfPCell headerCell = new PdfPCell(headerTable);
+                    headerCell.BorderWidth = 1.0f;
+                    borderTable.AddCell(headerCell);
+
+                    doc.Add(borderTable);
+
+                    //-------------------------------------
+
+                    PdfPTable contentTableHeader = new PdfPTable(5);
+                    contentTableHeader.TotalWidth = doc.PageSize.Width - 72.0f;
+                    contentTableHeader.LockedWidth = true;
+                    contentTableHeader.SetWidths(new float[] { 0.05f, 0.35f, 0.05f, 0.45f, 0.1f });
+
+                    PdfPCell[] headerCells = new PdfPCell[5];
+                    headerCells[0] = new PdfPCell(new Phrase("Lp", bFont));
+                    headerCells[1] = new PdfPCell(new Phrase("Nazwa", bFont));
+                    headerCells[2] = new PdfPCell(new Phrase("St", bFont));
+                    headerCells[3] = new PdfPCell(new Phrase("Komentarz", bFont));
+                    headerCells[4] = new PdfPCell(new Phrase("Godz.", bFont));
+                    for (int i = 0; i < 5; i++) {
+                        headerCells[i].UseAscender = true;
+                        headerCells[i].VerticalAlignment = Element.ALIGN_MIDDLE;
+                        headerCells[i].Padding = 5;
+                        contentTableHeader.AddCell(headerCells[i]);
+                    }
+
+                    PdfPTable borderTable2 = new PdfPTable(1);
+                    borderTable2.TotalWidth = doc.PageSize.Width - 72.0f;
+                    borderTable2.LockedWidth = true;
+                    borderTable2.SpacingAfter = 0.0f;
+                    PdfPCell headerCell2 = new PdfPCell(contentTableHeader);
+                    headerCell2.BorderWidth = 1.0f;
+                    borderTable2.AddCell(headerCell2);
+                    doc.Add(borderTable2);
+
+                    //-----------------------------------
+
+                    PdfPTable contentTable = new PdfPTable(5);
+                    contentTable.TotalWidth = doc.PageSize.Width - 72.0f;
+                    contentTable.LockedWidth = true;
+                    contentTable.SetWidths(new float[] { 0.05f, 0.35f, 0.05f, 0.45f, 0.1f });
+
+                    for (int i = 0; i < places.Count; i++) {
+                        PdfPCell lpCell = new PdfPCell(new Phrase((i+1).ToString(), tFont));
+                        lpCell.UseAscender = true;
+                        lpCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        lpCell.HorizontalAlignment = 1;
+                        lpCell.Padding = 5;
+                        contentTable.AddCell(lpCell);
+
+                        PdfPCell placeCell = new PdfPCell(new Phrase("Dział: " + places[i].department + "\nMiejsce: " + places[i].placeName, tFont));
+                        placeCell.UseAscender = true;
+                        placeCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        placeCell.HorizontalAlignment = 0;
+                        placeCell.Padding = 5;
+                        contentTable.AddCell(placeCell);
+
+                        string status = "";
+                        if (places[i].status == "Nieodwiedzono") {
+                            status = "*";
+                        } else {
+                            status = (places[i].markCommentRequired) ? "N" : "T";
+                        }
+
+                        PdfPCell statusCell = new PdfPCell(new Phrase(status, tFont));
+                        statusCell.UseAscender = true;
+                        statusCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        statusCell.HorizontalAlignment = 1;
+                        statusCell.Padding = 5;
+                        contentTable.AddCell(statusCell);
+
+                        Phrase commentPhrase = new Phrase();
+                        commentPhrase.Add(new Chunk(places[i].markDescription + "\n", bFont));
+                        commentPhrase.Add(new Chunk(places[i].comment, tFont));
+                        PdfPCell commentCell = new PdfPCell(commentPhrase);
+                        commentCell.UseAscender = true;
+                        commentCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        commentCell.HorizontalAlignment = 0;
+                        commentCell.Padding = 5;
+                        contentTable.AddCell(commentCell);
+
+                        CultureInfo cultureInfo2 = CultureInfo.GetCultureInfo("pl-PL");
+                        PdfPCell hourCell = new PdfPCell(new Phrase(places[i].visitDate.ToString("HH:mm", cultureInfo2), tFont));
+                        hourCell.UseAscender = true;
+                        hourCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        hourCell.HorizontalAlignment = 1;
+                        hourCell.Padding = 5;
+                        contentTable.AddCell(hourCell);
+                    }
+
+                    PdfPTable borderTable3 = new PdfPTable(1);
+                    borderTable3.TotalWidth = doc.PageSize.Width - 72.0f;
+                    borderTable3.LockedWidth = true;
+                    borderTable3.SpacingAfter = 0.0f;
+                    PdfPCell headerCell3 = new PdfPCell(contentTable);
+                    headerCell3.BorderWidth = 1.0f;
+                    borderTable3.AddCell(headerCell3);
+                    doc.Add(borderTable3);
+
+                    doc.Close();
+                }
+
+                individualReportPaths.Add(reportFileName);
+            } catch (Exception ex) {
+                Debug.Log("Error while generating full report:\n" + ex.ToString(), LogType.Error);
+            }
         }
     }
 }

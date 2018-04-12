@@ -86,51 +86,51 @@ namespace SteelWorks_Admin.View
 			trackComboBox.SelectedIndex = 0;
 		}
 
-		private void trackComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (trackComboBox.SelectedItem == null)
-			{
-				noTrackPlacesListBox.Items.Clear();
-				trackPlacesListBox.Items.Clear();
-				trackNametextBox.Text = "";
-				return;
-			}
+		//private void trackComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		//{
+		//	if (trackComboBox.SelectedItem == null)
+		//	{
+		//		noTrackPlacesListBox.Items.Clear();
+		//		trackPlacesListBox.Items.Clear();
+		//		trackNametextBox.Text = "";
+		//		return;
+		//	}
 
-			if (trackComboBox.SelectedItem == addComboBoxItem)
-			{
-				trackNametextBox.Text = "Nowa";
-				placesOut = Repository.employee.GetAll();
-				placesIn = null;
-			}
-			else
-			{
-				int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
-				placesOut = Repository.employee.GetAllNotInTeam(selectedTrackId);
-				placesIn = Repository.employee.GetAllInTeam(selectedTrackId);
-				trackNametextBox.Text = (trackComboBox.SelectedItem as ComboboxItem).Text.ToString();
-			}
+		//	if (trackComboBox.SelectedItem == addComboBoxItem)
+		//	{
+		//		trackNametextBox.Text = "Nowa";
+		//		placesOut = Repository.employee.GetAll();
+		//		placesIn = null;
+		//	}
+		//	else
+		//	{
+		//		int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
+		//		placesOut = Repository.employee.GetAllNotInTeam(selectedTrackId);
+		//		placesIn = Repository.employee.GetAllInTeam(selectedTrackId);
+		//		trackNametextBox.Text = (trackComboBox.SelectedItem as ComboboxItem).Text.ToString();
+		//	}
 
-			noTrackPlacesListBox.Items.Clear();
-			trackPlacesListBox.Items.Clear();
-			foreach (DbEmployee place in placesOut)
-			{
-				ListboxItem item = new ListboxItem();
-				item.Text = place.name;
-				item.Value = place.chipId;
-				noTrackPlacesListBox.Items.Add(item);
-			}
+		//	noTrackPlacesListBox.Items.Clear();
+		//	trackPlacesListBox.Items.Clear();
+		//	foreach (DbEmployee place in placesOut)
+		//	{
+		//		ListboxItem item = new ListboxItem();
+		//		item.Text = place.name;
+		//		item.Value = place.chipId;
+		//		noTrackPlacesListBox.Items.Add(item);
+		//	}
 
-			if (placesIn != null)
-			{
-				foreach (DbEmployee place in placesIn)
-				{
-					ListboxItem item = new ListboxItem();
-					item.Text = place.name;
-					item.Value = place.chipId;
-					trackPlacesListBox.Items.Add(item);
-				}
-			}
-		}
+		//	if (placesIn != null)
+		//	{
+		//		foreach (DbEmployee place in placesIn)
+		//		{
+		//			ListboxItem item = new ListboxItem();
+		//			item.Text = place.name;
+		//			item.Value = place.chipId;
+		//			trackPlacesListBox.Items.Add(item);
+		//		}
+		//	}
+		//}
 
 		private void toTrackButton_Click(object sender, EventArgs e)
 		{
@@ -184,5 +184,43 @@ namespace SteelWorks_Admin.View
 			trackComboBox.SelectedIndex = trackComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int)cbi.Value == selectedTrackId);
 
 		}
-	}
+
+        private void comboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if (trackComboBox.SelectedItem == null) {
+                noTrackPlacesListBox.Items.Clear();
+                trackPlacesListBox.Items.Clear();
+                trackNametextBox.Text = "";
+                return;
+            }
+
+            if (trackComboBox.SelectedItem == addComboBoxItem) {
+                trackNametextBox.Text = "Nowa";
+                placesOut = Repository.employee.GetAll();
+                placesIn = null;
+            } else {
+                int selectedTrackId = (System.Int32)((trackComboBox.SelectedItem as ComboboxItem).Value);
+                placesOut = Repository.employee.GetAllNotInTeam(selectedTrackId);
+                placesIn = Repository.employee.GetAllInTeam(selectedTrackId);
+                trackNametextBox.Text = (trackComboBox.SelectedItem as ComboboxItem).Text.ToString();
+            }
+
+            noTrackPlacesListBox.Items.Clear();
+            trackPlacesListBox.Items.Clear();
+            foreach (DbEmployee place in placesOut) {
+                ListboxItem item = new ListboxItem();
+                item.Text = place.name;
+                item.Value = place.chipId;
+                noTrackPlacesListBox.Items.Add(item);
+            }
+
+            if (placesIn != null) {
+                foreach (DbEmployee place in placesIn) {
+                    ListboxItem item = new ListboxItem();
+                    item.Text = place.name;
+                    item.Value = place.chipId;
+                    trackPlacesListBox.Items.Add(item);
+                }
+            }
+        }
+    }
 }

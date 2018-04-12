@@ -125,7 +125,6 @@ namespace SteelWorks_Admin.View
 			labels.Add(label30);
 			labels.Add(label31);
 			labels.Add(label32);
-			labels.Add(label33);
 			labels.Add(label34);
 			labels.Add(label35);
 			labels.Add(label36);
@@ -189,7 +188,6 @@ namespace SteelWorks_Admin.View
 			buttons.Add(button30);
 			buttons.Add(button31);
 			buttons.Add(button32);
-			buttons.Add(button33);
 			buttons.Add(button34);
 			buttons.Add(button35);
 			buttons.Add(button36);
@@ -264,5 +262,9 @@ namespace SteelWorks_Admin.View
 				}
 			}
 		}
-	}
+
+        private void _64buttonUserControl_Load(object sender, EventArgs e) {
+
+        }
+    }
 }

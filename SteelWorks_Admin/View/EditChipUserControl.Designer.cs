@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditChipUserControl));
             this.chipIdName = new System.Windows.Forms.Label();
             this.chipIdText = new System.Windows.Forms.TextBox();
             this.ReloadChipFromDBButton = new System.Windows.Forms.Button();
@@ -44,92 +45,105 @@
             // chipIdName
             // 
             this.chipIdName.AutoSize = true;
-            this.chipIdName.Location = new System.Drawing.Point(8, 12);
+            this.chipIdName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chipIdName.Location = new System.Drawing.Point(36, 141);
             this.chipIdName.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.chipIdName.Name = "chipIdName";
-            this.chipIdName.Size = new System.Drawing.Size(42, 13);
+            this.chipIdName.Size = new System.Drawing.Size(92, 29);
             this.chipIdName.TabIndex = 0;
             this.chipIdName.Text = "Chip ID";
             // 
             // chipIdText
             // 
-            this.chipIdText.Location = new System.Drawing.Point(51, 11);
-            this.chipIdText.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.chipIdText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chipIdText.Location = new System.Drawing.Point(41, 171);
+            this.chipIdText.Margin = new System.Windows.Forms.Padding(1);
             this.chipIdText.Name = "chipIdText";
-            this.chipIdText.Size = new System.Drawing.Size(61, 20);
+            this.chipIdText.Size = new System.Drawing.Size(570, 29);
             this.chipIdText.TabIndex = 2;
             // 
             // ReloadChipFromDBButton
             // 
-            this.ReloadChipFromDBButton.Location = new System.Drawing.Point(117, 6);
-            this.ReloadChipFromDBButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.ReloadChipFromDBButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ReloadChipFromDBButton.BackgroundImage")));
+            this.ReloadChipFromDBButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ReloadChipFromDBButton.Location = new System.Drawing.Point(39, 71);
+            this.ReloadChipFromDBButton.Margin = new System.Windows.Forms.Padding(1);
             this.ReloadChipFromDBButton.Name = "ReloadChipFromDBButton";
-            this.ReloadChipFromDBButton.Size = new System.Drawing.Size(188, 25);
+            this.ReloadChipFromDBButton.Size = new System.Drawing.Size(572, 48);
             this.ReloadChipFromDBButton.TabIndex = 3;
-            this.ReloadChipFromDBButton.Text = "Wczytaj Dane z Bazy";
+            this.ReloadChipFromDBButton.Text = "Załaduj Ponownie";
             this.ReloadChipFromDBButton.UseVisualStyleBackColor = true;
             this.ReloadChipFromDBButton.Click += new System.EventHandler(this.ReloadChipFromDBButton_Click);
             // 
             // chipStateComboBox
             // 
             this.chipStateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.chipStateComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.chipStateComboBox.FormattingEnabled = true;
             this.chipStateComboBox.Items.AddRange(new object[] {
             "",
             "Miejsce",
             "Pracownik"});
-            this.chipStateComboBox.Location = new System.Drawing.Point(51, 39);
-            this.chipStateComboBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.chipStateComboBox.Location = new System.Drawing.Point(41, 257);
+            this.chipStateComboBox.Margin = new System.Windows.Forms.Padding(1);
             this.chipStateComboBox.Name = "chipStateComboBox";
-            this.chipStateComboBox.Size = new System.Drawing.Size(102, 21);
+            this.chipStateComboBox.Size = new System.Drawing.Size(570, 33);
             this.chipStateComboBox.TabIndex = 4;
             this.chipStateComboBox.SelectedIndexChanged += new System.EventHandler(this.chipStateComboBox_SelectedIndexChanged);
             // 
             // chipTypeName
             // 
             this.chipTypeName.AutoSize = true;
-            this.chipTypeName.Location = new System.Drawing.Point(8, 39);
+            this.chipTypeName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chipTypeName.Location = new System.Drawing.Point(36, 223);
             this.chipTypeName.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.chipTypeName.Name = "chipTypeName";
-            this.chipTypeName.Size = new System.Drawing.Size(25, 13);
+            this.chipTypeName.Size = new System.Drawing.Size(54, 29);
             this.chipTypeName.TabIndex = 5;
             this.chipTypeName.Text = "Typ";
             // 
             // chipStringName
             // 
             this.chipStringName.AutoSize = true;
-            this.chipStringName.Location = new System.Drawing.Point(10, 63);
+            this.chipStringName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chipStringName.Location = new System.Drawing.Point(36, 321);
             this.chipStringName.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.chipStringName.Name = "chipStringName";
-            this.chipStringName.Size = new System.Drawing.Size(40, 13);
+            this.chipStringName.Size = new System.Drawing.Size(86, 29);
             this.chipStringName.TabIndex = 6;
             this.chipStringName.Text = "Nazwa";
             // 
             // chipStringText
             // 
-            this.chipStringText.Location = new System.Drawing.Point(93, 60);
-            this.chipStringText.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.chipStringText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chipStringText.Location = new System.Drawing.Point(41, 351);
+            this.chipStringText.Margin = new System.Windows.Forms.Padding(1);
             this.chipStringText.Name = "chipStringText";
-            this.chipStringText.Size = new System.Drawing.Size(215, 20);
+            this.chipStringText.Size = new System.Drawing.Size(574, 29);
             this.chipStringText.TabIndex = 7;
             // 
             // addChangeButton
             // 
-            this.addChangeButton.Location = new System.Drawing.Point(11, 109);
-            this.addChangeButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.addChangeButton.BackColor = System.Drawing.SystemColors.Control;
+            this.addChangeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("addChangeButton.BackgroundImage")));
+            this.addChangeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.addChangeButton.Location = new System.Drawing.Point(41, 493);
+            this.addChangeButton.Margin = new System.Windows.Forms.Padding(1);
             this.addChangeButton.Name = "addChangeButton";
-            this.addChangeButton.Size = new System.Drawing.Size(150, 50);
+            this.addChangeButton.Size = new System.Drawing.Size(422, 50);
             this.addChangeButton.TabIndex = 8;
             this.addChangeButton.Text = "Dodaj/Zmień Chip";
-            this.addChangeButton.UseVisualStyleBackColor = true;
+            this.addChangeButton.UseVisualStyleBackColor = false;
             this.addChangeButton.Click += new System.EventHandler(this.addChangeButton_Click);
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Location = new System.Drawing.Point(163, 109);
-            this.RemoveButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.RemoveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RemoveButton.BackgroundImage")));
+            this.RemoveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RemoveButton.Location = new System.Drawing.Point(481, 493);
+            this.RemoveButton.Margin = new System.Windows.Forms.Padding(1);
             this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(150, 50);
+            this.RemoveButton.Size = new System.Drawing.Size(130, 50);
             this.RemoveButton.TabIndex = 9;
             this.RemoveButton.Text = "Usuń Chip";
             this.RemoveButton.UseVisualStyleBackColor = true;
@@ -138,19 +152,21 @@
             // chipAreaName
             // 
             this.chipAreaName.AutoSize = true;
-            this.chipAreaName.Location = new System.Drawing.Point(10, 86);
+            this.chipAreaName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chipAreaName.Location = new System.Drawing.Point(36, 402);
             this.chipAreaName.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.chipAreaName.Name = "chipAreaName";
-            this.chipAreaName.Size = new System.Drawing.Size(32, 13);
+            this.chipAreaName.Size = new System.Drawing.Size(69, 29);
             this.chipAreaName.TabIndex = 10;
             this.chipAreaName.Text = "Dział";
             // 
             // chipAreaString
             // 
-            this.chipAreaString.Location = new System.Drawing.Point(93, 82);
+            this.chipAreaString.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.chipAreaString.Location = new System.Drawing.Point(41, 432);
             this.chipAreaString.Margin = new System.Windows.Forms.Padding(1);
             this.chipAreaString.Name = "chipAreaString";
-            this.chipAreaString.Size = new System.Drawing.Size(215, 20);
+            this.chipAreaString.Size = new System.Drawing.Size(570, 29);
             this.chipAreaString.TabIndex = 11;
             // 
             // EditChipUserControl
@@ -168,9 +184,9 @@
             this.Controls.Add(this.ReloadChipFromDBButton);
             this.Controls.Add(this.chipIdText);
             this.Controls.Add(this.chipIdName);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "EditChipUserControl";
-            this.Size = new System.Drawing.Size(313, 170);
+            this.Size = new System.Drawing.Size(634, 559);
             this.ResumeLayout(false);
             this.PerformLayout();
 

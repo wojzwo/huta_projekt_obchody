@@ -33,6 +33,7 @@ namespace SteelWorks_Admin.View
 			routineUC = new RoutineUserControl();
 			routineUC.saveRoutineButton.Click += handler_hide_panel;
 			routineUC.cancelButton.Click += handler_hide_panel;
+		    panel1.Visible = false;
 			panel1.Controls.Add(routineUC);
 			reloadfromDB();
 		}
@@ -99,7 +100,7 @@ namespace SteelWorks_Admin.View
 		private void editRoutineButton_Click(object sender, EventArgs e)
 		{
 			routineUC.set_routine((routineListBox.SelectedItem as RoutineListboxItem).Routine);
-			panel1.Visible = true;
+		    panel1.Visible = true;
 		}
 
 		private void handler_hide_panel(object sender, EventArgs e)
@@ -109,6 +110,10 @@ namespace SteelWorks_Admin.View
 		}
 
         private void panel1_Paint(object sender, PaintEventArgs e) {
+
+        }
+
+        private void routineListBox_SelectedIndexChanged(object sender, EventArgs e) {
 
         }
     }

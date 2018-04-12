@@ -181,7 +181,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MakarovDev.ExpandCollapsePanel\MakarovDev.ExpandCollapsePanel.csproj">
       <Project>{BE76A6FE-225F-4287-9CA0-231F5AF4CDC1}</Project>
@@ -191,6 +190,9 @@
       <Project>{a2b8c2f0-0b59-490b-be1d-7986a5e3098c}</Project>
       <Name>SteelWorks_Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

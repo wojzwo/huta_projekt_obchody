@@ -194,7 +194,17 @@ namespace SteelWorks_Admin.View
 
 		private void saveRoutineButton_Click(object sender, EventArgs e)
 		{
+			if (trackComboBox.SelectedItem == null)
+			{
+				return;
+			}
+			if (teamComboBox.SelectedItem == null)
+			{
+				return;
+			}
 			update_routine();
+
+
 			if (routine.id == -1)
 			{
 				try

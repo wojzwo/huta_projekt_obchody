@@ -85,7 +85,7 @@ namespace SteelWorks_Admin.View
 			}
 			else
 			{
-				mask[n0correct-1] = 1;
+				mask[n0correct-1] = 0;
 				((System.Windows.Forms.Button)sender).BackColor = System.Drawing.Color.WhiteSmoke;
 			}
 		}

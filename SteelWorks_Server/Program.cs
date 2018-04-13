@@ -45,6 +45,17 @@ namespace SteelWorks_Server
             Debug.Log("Started program", LogType.Info);
             //InsertTestData();
 
+            DirectoryInfo info = new DirectoryInfo(Directory.GetCurrentDirectory());
+            FileInfo[] files = info.GetFiles("*.pdf")
+                .Where(p => p.Extension == ".pdf").ToArray();
+            foreach (FileInfo file in files) {
+                try {
+                    file.Attributes = FileAttributes.Normal;
+                    File.Delete(file.FullName);
+                } catch {
+                }
+            }
+
             GenerateOldReports();
             SendOldReports();
             ArchiveOldReports();
@@ -672,13 +683,13 @@ namespace SteelWorks_Server
             Dictionary<string, List<ReportInfo>> departmentToReports = new Dictionary<string, List<ReportInfo>>();
 
             foreach (KeyValuePair<DbReport, List<DbReportPlace>> pair in reportPlaces) {
-                int shift = pair.Key.shift;
-                if (shift == 0) {
-                    GenerateIndividual(pair.Key, pair.Value);
-                    continue;
-                }
-
                 foreach (DbReportPlace p in pair.Value) {
+                    int shift = pair.Key.shift;
+                    if (shift == 0) {
+                        GenerateIndividual(pair.Key, pair.Value);
+                        break;
+                    }
+
                     if (shift < 1 || shift > 3) {
                         Debug.Log("Incorrect shift = " + shift + " in Report nr" + pair.Key.id + " -> skipping", LogType.Error);
                         continue;

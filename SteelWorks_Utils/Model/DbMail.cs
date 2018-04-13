@@ -123,7 +123,7 @@ namespace SteelWorks_Utils.Model
 			}
 
 			MySqlCommand query = connection_.CreateCommand();
-			query.CommandText = "UPDATE Mail SET address = @adress, isFullReport = @isFullReport, isIndividualReport = @isIndividualReport WHERE id = @id";
+			query.CommandText = "UPDATE Mail SET address = @address, isFullReport = @isFullReport, isIndividualReport = @isIndividualReport WHERE id = @id";
 			query.Parameters.AddWithValue("@address", mail.address);
 			query.Parameters.AddWithValue("@isFullReport", mail.isFullReport);
 		    query.Parameters.AddWithValue("@isIndividualReport", mail.isIndividualReport);

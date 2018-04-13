@@ -29,6 +29,8 @@
             this.dataUserControl = new SteelWorks_Worker.View.ProcessDataUserControl();
             this.sendReportUserControl_ = new SteelWorks_Worker.View.SendReportUserControl();
             this.trackSelectionUserControl_ = new SteelWorks_Worker.View.TrackSelectionUserControl();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataUserControl
@@ -60,12 +62,24 @@
             this.trackSelectionUserControl_.TabIndex = 2;
             this.trackSelectionUserControl_.Visible = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pictureBox1.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.acelor;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(1102, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(150, 56);
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
             // WorkerDataView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.dataUserControl);
             this.Controls.Add(this.sendReportUserControl_);
             this.Controls.Add(this.trackSelectionUserControl_);
@@ -73,6 +87,7 @@
             this.Name = "WorkerDataView";
             this.Text = "Obchody - Pracownik";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WorkerDataView_FormClosed);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -82,5 +97,6 @@
         private ProcessDataUserControl dataUserControl;
         private SendReportUserControl sendReportUserControl_;
         private TrackSelectionUserControl trackSelectionUserControl_;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

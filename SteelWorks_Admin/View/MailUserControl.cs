@@ -98,7 +98,8 @@ namespace SteelWorks_Admin.View
 					Repository.mail.Insert(new DbMail()
 					{
 						address = mailtextBox.Text,
-						isFullReport = fullCheckBox.Checked
+						isFullReport = fullCheckBox.Checked,
+                        isIndividualReport = checkBox1.Checked
 					});
 				}
 				catch (Exception ex)
@@ -111,7 +112,9 @@ namespace SteelWorks_Admin.View
 			{
 				((MailListboxItem)maillListBox.SelectedItem).Mail.address = mailtextBox.Text;
 				((MailListboxItem)maillListBox.SelectedItem).Mail.isFullReport = fullCheckBox.Checked;
-				try
+			    ((MailListboxItem) maillListBox.SelectedItem).Mail.isIndividualReport = checkBox1.Checked;
+
+                try
 				{
 					Repository.mail.Update(((MailListboxItem)maillListBox.SelectedItem).Mail);
 				}
@@ -152,8 +155,14 @@ namespace SteelWorks_Admin.View
 			{
 				mailtextBox.Text = maillListBox.SelectedItem.ToString();
 				fullCheckBox.Checked = ((MailListboxItem)maillListBox.SelectedItem).Mail.isFullReport;
+			    checkBox1.Checked = ((MailListboxItem) maillListBox.SelectedItem).Mail.isIndividualReport;
+
 			}
 
 		}
-	}
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+
+        }
+    }
 }

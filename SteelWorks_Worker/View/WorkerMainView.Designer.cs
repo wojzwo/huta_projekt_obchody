@@ -31,6 +31,8 @@
             this.startUserControl = new SteelWorks_Worker.View.StartUserControl();
             this.dataRemoveUserControl_ = new SteelWorks_Worker.View.DataRemoveUserControl();
             this.dataRemoveSuccessUserControl_ = new SteelWorks_Worker.View.DataRemoveSuccessUserControl();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataRemoveOrLoadSelectionUserControl
@@ -91,11 +93,23 @@
             this.dataRemoveSuccessUserControl_.TabIndex = 3;
             this.dataRemoveSuccessUserControl_.Visible = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.acelor;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(1051, 14);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(199, 77);
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
             // WorkerMainView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.dataRemoveOrLoadSelectionUserControl);
             this.Controls.Add(this.loadReaderUserControl);
             this.Controls.Add(this.startUserControl);
@@ -106,6 +120,7 @@
             this.Text = "Obchody - Pracownik";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WorkerMainView_FormClosed);
             this.Load += new System.EventHandler(this.BeforeLoad);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -116,6 +131,7 @@
         private DataRemoveOrLoadSelectionUserControl dataRemoveOrLoadSelectionUserControl;
         private DataRemoveUserControl dataRemoveUserControl_;
         private DataRemoveSuccessUserControl dataRemoveSuccessUserControl_;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

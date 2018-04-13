@@ -105,6 +105,8 @@ namespace SteelWorks_Worker.View
             Place.BackColor = System.Drawing.Color.Green;
             Place.Enabled = false;
 
+            button1.Visible = false;
+
             Mark.Text = "???";
             Mark.BackColor = System.Drawing.Color.Red;
             Mark.Enabled = true;

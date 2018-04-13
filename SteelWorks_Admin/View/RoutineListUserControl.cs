@@ -64,12 +64,20 @@ namespace SteelWorks_Admin.View
 				item.Routine = routine;
 				routineListBox.Items.Add(item);
 			}
-			routineListBox.SelectedIndex = 0;
+
+		    if (routineListBox.Items.Count != 0) {
+		        routineListBox.SelectedIndex = 0;
+		    } else {
+		        routineListBox.SelectedItem = -1;
+		    }
 		}
 
 		private void deleteRoutineButton_Click(object sender, EventArgs e)
 		{
-			try
+		    if (routineListBox.SelectedIndex < 0)
+		        return;
+
+            try
 			{
 				Repository.routine.Delete((routineListBox.SelectedItem as RoutineListboxItem).Routine.id);
 
@@ -81,8 +89,10 @@ namespace SteelWorks_Admin.View
 			reloadfromDB();
 		}
 
-		private void addRoutineButton_Click(object sender, EventArgs e)
-		{
+		private void addRoutineButton_Click(object sender, EventArgs e) {
+		    if (routineListBox.SelectedIndex < 0)
+		        return;
+
 			routineUC.set_routine(new DbRoutine()
 			{
 				id = -1,
@@ -99,7 +109,10 @@ namespace SteelWorks_Admin.View
 
 		private void editRoutineButton_Click(object sender, EventArgs e)
 		{
-			routineUC.set_routine((routineListBox.SelectedItem as RoutineListboxItem).Routine);
+		    if (routineListBox.SelectedIndex < 0)
+		        return;
+
+            routineUC.set_routine((routineListBox.SelectedItem as RoutineListboxItem).Routine);
 		    panel1.Visible = true;
 		}
 

@@ -109,8 +109,18 @@ namespace SteelWorks_Admin.View
 				item.Value = team.id;
 				teamComboBox.Items.Add(item);
 			}
-			trackComboBox.SelectedIndex = 0;
-			teamComboBox.SelectedIndex = 0;
+
+		    if (trackComboBox.Items.Count != 0) {
+		        trackComboBox.SelectedIndex = 0;
+		    } else {
+		        trackComboBox.SelectedIndex = -1;
+		    }
+
+		    if (teamComboBox.Items.Count != 0) {
+		        teamComboBox.SelectedIndex = 0;
+		    } else {
+                teamComboBox.SelectedIndex = -1;
+            }
 		}
 
 		private void refresh_fields()
@@ -233,5 +243,9 @@ namespace SteelWorks_Admin.View
 		{
 			teamComboBox.Enabled = !team0CheckBox.Checked;
 		}
-	}
+
+        private void RoutineUserControl_Load(object sender, EventArgs e) {
+
+        }
+    }
 }

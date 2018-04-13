@@ -57,7 +57,7 @@
             // 
             this.beginDateTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.beginDateTime.Location = new System.Drawing.Point(210, 156);
-            this.beginDateTime.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.beginDateTime.Margin = new System.Windows.Forms.Padding(1);
             this.beginDateTime.Name = "beginDateTime";
             this.beginDateTime.Size = new System.Drawing.Size(504, 32);
             this.beginDateTime.TabIndex = 0;
@@ -77,7 +77,7 @@
             // 
             this.saveRoutineButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.saveRoutineButton.Location = new System.Drawing.Point(33, 515);
-            this.saveRoutineButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.saveRoutineButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveRoutineButton.Name = "saveRoutineButton";
             this.saveRoutineButton.Size = new System.Drawing.Size(681, 52);
             this.saveRoutineButton.TabIndex = 2;
@@ -90,7 +90,7 @@
             this.trackComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.trackComboBox.FormattingEnabled = true;
             this.trackComboBox.Location = new System.Drawing.Point(96, 111);
-            this.trackComboBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.trackComboBox.Margin = new System.Windows.Forms.Padding(1);
             this.trackComboBox.Name = "trackComboBox";
             this.trackComboBox.Size = new System.Drawing.Size(618, 33);
             this.trackComboBox.TabIndex = 3;
@@ -100,7 +100,7 @@
             this.teamComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.teamComboBox.FormattingEnabled = true;
             this.teamComboBox.Location = new System.Drawing.Point(242, 259);
-            this.teamComboBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.teamComboBox.Margin = new System.Windows.Forms.Padding(1);
             this.teamComboBox.Name = "teamComboBox";
             this.teamComboBox.Size = new System.Drawing.Size(472, 33);
             this.teamComboBox.TabIndex = 4;
@@ -109,7 +109,7 @@
             // 
             this.cycleLengthNumeric.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cycleLengthNumeric.Location = new System.Drawing.Point(599, 358);
-            this.cycleLengthNumeric.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.cycleLengthNumeric.Margin = new System.Windows.Forms.Padding(1);
             this.cycleLengthNumeric.Maximum = new decimal(new int[] {
             64,
             0,
@@ -169,7 +169,7 @@
             this.repeatedCheckBox.AutoSize = true;
             this.repeatedCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.repeatedCheckBox.Location = new System.Drawing.Point(33, 358);
-            this.repeatedCheckBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.repeatedCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.repeatedCheckBox.Name = "repeatedCheckBox";
             this.repeatedCheckBox.Size = new System.Drawing.Size(151, 30);
             this.repeatedCheckBox.TabIndex = 13;
@@ -182,7 +182,7 @@
             this.shiftCheckBox.AutoSize = true;
             this.shiftCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.shiftCheckBox.Location = new System.Drawing.Point(33, 464);
-            this.shiftCheckBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.shiftCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.shiftCheckBox.Name = "shiftCheckBox";
             this.shiftCheckBox.Size = new System.Drawing.Size(245, 30);
             this.shiftCheckBox.TabIndex = 16;
@@ -194,7 +194,7 @@
             // 
             this.shiftNumeric.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.shiftNumeric.Location = new System.Drawing.Point(641, 462);
-            this.shiftNumeric.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.shiftNumeric.Margin = new System.Windows.Forms.Padding(1);
             this.shiftNumeric.Maximum = new decimal(new int[] {
             3,
             0,
@@ -230,7 +230,7 @@
             // 
             this.nameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.nameTextBox.Location = new System.Drawing.Point(109, 68);
-            this.nameTextBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.nameTextBox.Margin = new System.Windows.Forms.Padding(1);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(605, 32);
             this.nameTextBox.TabIndex = 18;
@@ -250,7 +250,7 @@
             // 
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cancelButton.Location = new System.Drawing.Point(746, 515);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(1);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(473, 52);
             this.cancelButton.TabIndex = 20;
@@ -262,7 +262,7 @@
             this.team0CheckBox.AutoSize = true;
             this.team0CheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.team0CheckBox.Location = new System.Drawing.Point(31, 260);
-            this.team0CheckBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.team0CheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.team0CheckBox.Name = "team0CheckBox";
             this.team0CheckBox.Size = new System.Drawing.Size(175, 30);
             this.team0CheckBox.TabIndex = 21;
@@ -336,9 +336,10 @@
             this.Controls.Add(this.saveRoutineButton);
             this.Controls.Add(this.dateLabel);
             this.Controls.Add(this.beginDateTime);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "RoutineUserControl";
             this.Size = new System.Drawing.Size(1263, 599);
+            this.Load += new System.EventHandler(this.RoutineUserControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.cycleLengthNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shiftNumeric)).EndInit();
             this.ResumeLayout(false);

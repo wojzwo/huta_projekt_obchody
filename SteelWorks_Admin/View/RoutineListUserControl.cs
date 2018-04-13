@@ -90,8 +90,6 @@ namespace SteelWorks_Admin.View
 		}
 
 		private void addRoutineButton_Click(object sender, EventArgs e) {
-		    if (routineListBox.SelectedIndex < 0)
-		        return;
 
 			routineUC.set_routine(new DbRoutine()
 			{

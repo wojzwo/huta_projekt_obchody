@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SteelWorks_Utils.Model;
 
 namespace SteelWorks_Admin.View
 {
@@ -16,5 +17,9 @@ namespace SteelWorks_Admin.View
 		{
 			InitializeComponent();
 		}
-	}
+
+        private void WelcomeUserControl_Load(object sender, EventArgs e) {
+
+        }
+    }
 }

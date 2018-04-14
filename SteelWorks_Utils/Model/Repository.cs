@@ -32,7 +32,7 @@ namespace SteelWorks_Utils.Model
         public static RepositoryMail mail { get; }
         public static RepositoryReportEmployee reportEmployee { get; }
 
-        private static MySqlConnection connection_;
+        public static MySqlConnection connection_;
 
 		public static string XorText(string text, int key)
 		{
@@ -123,6 +123,15 @@ namespace SteelWorks_Utils.Model
 
         static Repository() {
             connection_ = new MySqlConnection(ParseDatabaseConfig());
+            //connection_.Open();
+            //var command = new MySqlCommand("SHOW SESSION STATUS LIKE \'Ssl_cipher\'", connection_);
+            //MySqlDataReader reader = command.ExecuteReader();
+            //while (reader.Read()) {
+            //    string s = reader.GetString(0);
+            //    int a = 5;
+            //    //Console.WriteLine(reader.GetString(0));
+            //}
+            //connection_.Close();
 
             chip = new RepositoryChip(connection_);
             employee = new RepositoryEmployee(connection_);
@@ -139,9 +148,6 @@ namespace SteelWorks_Utils.Model
             reportEmployee = new RepositoryReportEmployee(connection_);
         }
 
-
-
-
 		private static string ParseDatabaseConfig() {
             string ret = "";
             try {
@@ -155,8 +161,32 @@ namespace SteelWorks_Utils.Model
                         string user = reader.ReadLine().Split('=')[1];
                         string password = reader.ReadLine().Split('=')[1];
 						password = XorText(password, 1);
+                        string certificateFile = "client.pfx";
+                        string certificatePassword = "Px6jr^M*";
 
-						ret = "Server=" + serverName + ";Port=" + portNr + ";Database=" + database + ";Uid=" + user + ";Pwd=" + password + ";CharSet=utf8";
+                        MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
+                        //builder.CertificateFile = "client.pfx";
+                        //builder.CertificatePassword = "Px6jr^M*";
+                        builder.CharacterSet = "utf8";
+                        builder.Server = serverName;
+                        builder.Port = UInt32.Parse(portNr);
+                        builder.Database = database;
+                        builder.UserID = user;
+                        //builder.SslEnable = true;
+                        //builder.SslMode = MySqlSslMode.Required;
+                        builder.Password = password;
+                        ret = builder.GetConnectionString(true);
+
+                        //                  ret = String.Format("Server={0};Port={1};Database={2};User={3};CharSet=utf8;CertificateFile={4};CertificatePassword={5};SSL Mode=Required",
+                        //    serverName, portNr, database, user, certificateFile, certificatePassword
+                        //); // + + ";Port=" + portNr + ";Database=" + database + ";Uid=" + user + ";Pwd=" + password + ";CharSet=utf8;SSL Mode=Required";
+
+                        //"database=test;user=sslclient;" +
+                        //"CertificateFile=H:\\git\\mysql-trunk\\mysql-test\\std_data\\client.pfx;" +
+                        //    "CertificatePassword=pass;" +
+                        //    "SSL Mode=Required "
+
+                        //;CertificateFile=" + certificateFile + ";CertificatePassword=" + certificatePassword + ";SSL Mode=Required"
                     }
                 }
             } catch (Exception ex) {

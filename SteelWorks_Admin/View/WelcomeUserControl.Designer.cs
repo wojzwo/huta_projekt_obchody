@@ -47,9 +47,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "WelcomeUserControl";
             this.Size = new System.Drawing.Size(1263, 599);
+            this.Load += new System.EventHandler(this.WelcomeUserControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

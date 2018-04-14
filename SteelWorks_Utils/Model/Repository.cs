@@ -161,8 +161,6 @@ namespace SteelWorks_Utils.Model
                         string user = reader.ReadLine().Split('=')[1];
                         string password = reader.ReadLine().Split('=')[1];
 						password = XorText(password, 1);
-                        string certificateFile = "client.pfx";
-                        string certificatePassword = "Px6jr^M*";
 
                         MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
                         //builder.CertificateFile = "client.pfx";
@@ -176,17 +174,6 @@ namespace SteelWorks_Utils.Model
                         //builder.SslMode = MySqlSslMode.Required;
                         builder.Password = password;
                         ret = builder.GetConnectionString(true);
-
-                        //                  ret = String.Format("Server={0};Port={1};Database={2};User={3};CharSet=utf8;CertificateFile={4};CertificatePassword={5};SSL Mode=Required",
-                        //    serverName, portNr, database, user, certificateFile, certificatePassword
-                        //); // + + ";Port=" + portNr + ";Database=" + database + ";Uid=" + user + ";Pwd=" + password + ";CharSet=utf8;SSL Mode=Required";
-
-                        //"database=test;user=sslclient;" +
-                        //"CertificateFile=H:\\git\\mysql-trunk\\mysql-test\\std_data\\client.pfx;" +
-                        //    "CertificatePassword=pass;" +
-                        //    "SSL Mode=Required "
-
-                        //;CertificateFile=" + certificateFile + ";CertificatePassword=" + certificatePassword + ";SSL Mode=Required"
                     }
                 }
             } catch (Exception ex) {

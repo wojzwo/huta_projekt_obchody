@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SteelWorks_Utils;
 using SteelWorks_Utils.Model;
 
 namespace SteelWorks_Admin.View
@@ -125,6 +127,14 @@ namespace SteelWorks_Admin.View
 
         private void routineListBox_SelectedIndexChanged(object sender, EventArgs e) {
 
+        }
+
+        private void generateAgainButton_Click(object sender, EventArgs e) {
+            try {
+                Repository.report.ForceGenerateUnfinishedReports();
+            } catch (Exception ex) {
+                SteelWorks_Utils.Debug.Log("Couldn't generate reports again", LogType.Error);
+            }
         }
     }
 }

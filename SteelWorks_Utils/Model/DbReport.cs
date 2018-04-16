@@ -349,7 +349,7 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "SELECT * FROM Report WHERE assignmentDate = @assignmentDate";
+            query.CommandText = "SELECT * FROM ArchiveReport WHERE assignmentDate = @assignmentDate";
             query.Parameters.AddWithValue("@assignmentDate", day.Date);
 
             try {
@@ -375,6 +375,43 @@ namespace SteelWorks_Utils.Model
             }
 
             return reports;
+        }
+
+        public void DeleteAllNotFinished() {
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query1 = connection_.CreateCommand();
+            query1.CommandText = "DELETE FROM ReportPlace WHERE reportId IN (SELECT id FROM Report WHERE isFinished = 0)";
+            try {
+                query1.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting all not finished ReportsPlaces\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "DELETE FROM Report WHERE isFinished = 0";
+
+            int rowsAffected = 0;
+            try {
+                rowsAffected = query.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting all not finished Reports\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+        }
+
+        public void ForceGenerateUnfinishedReports() {
+            List<DbRoutine> routines = Repository.routine.GetAllLinkedToNotFinishedReports();
+            DeleteAllNotFinished();
+            Repository.generator.AddNewReports(routines);
         }
     }
 }

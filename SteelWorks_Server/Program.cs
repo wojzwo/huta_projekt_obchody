@@ -22,21 +22,13 @@ namespace SteelWorks_Server
             Debug.Log("Started program", LogType.Info);
             //InsertTestData();
 
-            DirectoryInfo info = new DirectoryInfo(Directory.GetCurrentDirectory());
-            FileInfo[] files = info.GetFiles("Reports/*.pdf")
-                .Where(p => p.Extension == ".pdf").ToArray();
-            foreach (FileInfo file in files) {
-                try {
-                    file.Attributes = FileAttributes.Normal;
-                    File.Delete(file.FullName);
-                } catch {
-
-                }
-            }
+            Directory.Delete("Reports", true);
+            Directory.CreateDirectory("Reports");
+            Directory.CreateDirectory("Reports/Individual");
 
             Repository.generator.GenerateOldReports(DateTime.Today);
-            //SendOldReports();
-            //ArchiveOldReports();
+            SendOldReports();
+            ArchiveOldReports();
 
             List<DbRoutine> routines = new List<DbRoutine>();
             try {
@@ -45,8 +37,8 @@ namespace SteelWorks_Server
                 Debug.Log(ex.ToString(), LogType.DatabaseError);
             }
 
-            //AddNewReports(routines);
-            //DeleteOldRoutines(routines);
+            Repository.generator.AddNewReports(routines);
+            DeleteOldRoutines(routines);
         }
 
         private static void InsertTestData() {
@@ -141,64 +133,6 @@ namespace SteelWorks_Server
             }
         }
 
-        private static void AddNewReports(List<DbRoutine> routines) {
-            Debug.Log("Adding new reports...", LogType.Info);
-
-            foreach (DbRoutine routine in routines) {
-                string teamName = "";
-                if (routine.teamId == 0) {
-                    teamName = "--Dowolny pracownik--";
-                } else {
-                    try {
-                        DbTeam team = Repository.team.Get(routine.teamId);
-                        teamName = team.name;
-                    } catch (Exception ex) {
-                        //In case there is no such team (for example team 0 meaning everyone can complete report)
-                    }
-                }
-
-                string trackName = "";
-                try {
-                    DbTrack track = Repository.track.Get(routine.trackId);
-                    trackName = track.name;
-                } catch (Exception ex) {
-                    Debug.Log("Couldn't get requested track by id = " + routine.trackId, LogType.Error);
-                    Debug.Log(ex.ToString(), LogType.DatabaseError);
-                    continue;
-                }
-
-                if (routine.cycleLength == 0) {
-                    if (routine.startDay.Date != DateTime.Today.Date)
-                        continue;
-                } else {
-                    int dayDiff = (DateTime.Now.Date - routine.startDay).Days;
-                    if (dayDiff < 0)
-                        continue;
-
-                    dayDiff = dayDiff % routine.cycleLength;
-                    UInt64 shiftedMask = routine.cycleMask >> dayDiff;
-                    if ((shiftedMask & 1) != 1)
-                        continue;
-                }
-
-                DbReport newReport = new DbReport() {
-                    shift = routine.shift,
-                    id = 0,
-                    routineId = routine.id,
-                    signedEmployeeName = "Grupa: " + teamName,
-                    isFinished = false,
-                    trackName = trackName,
-                    assignmentDate = DateTime.Now
-                };
-
-                try {
-                    Repository.report.Insert(newReport);
-                } catch (Exception ex) {
-                    Debug.Log(ex.ToString(), LogType.DatabaseError);
-                }
-            }
-        }
-
         private static void DeleteOldRoutines(List<DbRoutine> routines) {
             Debug.Log("Deleting old routines...", LogType.Info);
 
@@ -242,13 +176,13 @@ namespace SteelWorks_Server
                     MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
 
                     //report sending part
-                    if ((m.reportMask & (int) ReportMask.FULL) == 1) {
+                    if ((m.reportMask & (int) ReportMask.FULL) == (int)ReportMask.FULL) {
                         mm.Attachments.Add(new Attachment("Reports/Report_Full.pdf"));
-                    } else if ((m.reportMask & (int) ReportMask.GENERAL) == 1) {
+                    } if ((m.reportMask & (int) ReportMask.GENERAL) == (int)ReportMask.GENERAL) {
                         mm.Attachments.Add(new Attachment("Reports/Report_General.pdf"));
-                    } else if ((m.reportMask & (int) ReportMask.MINIMAL) == 1) {
+                    } if ((m.reportMask & (int) ReportMask.MINIMAL) == (int)ReportMask.MINIMAL) {
                         mm.Attachments.Add(new Attachment("Reports/Report_Minimal.pdf"));
-                    } else if ((m.reportMask & (int) ReportMask.INDIVIDUAL) == 1) {
+                    } if ((m.reportMask & (int) ReportMask.INDIVIDUAL) == (int)ReportMask.INDIVIDUAL) {
                         foreach (string indString in Repository.generator.individualReportPaths)
                             mm.Attachments.Add(new Attachment(indString));
                     }

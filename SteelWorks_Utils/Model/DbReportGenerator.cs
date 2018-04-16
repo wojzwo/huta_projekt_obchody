@@ -35,6 +35,64 @@ namespace SteelWorks_Utils.Model
         BaseColor lightGrayColor = new BaseColor(225, 225, 225);
         BaseColor ultraLightGrayColor = new BaseColor(240, 240, 240);
 
+        public void AddNewReports(List<DbRoutine> routines) {
+            Debug.Log("Adding new reports...", LogType.Info);
+
+            foreach (DbRoutine routine in routines) {
+                string teamName = "";
+                if (routine.teamId == 0) {
+                    teamName = "--Dowolny pracownik--";
+                } else {
+                    try {
+                        DbTeam team = Repository.team.Get(routine.teamId);
+                        teamName = team.name;
+                    } catch (Exception ex) {
+                        //In case there is no such team (for example team 0 meaning everyone can complete report)
+                    }
+                }
+
+                string trackName = "";
+                try {
+                    DbTrack track = Repository.track.Get(routine.trackId);
+                    trackName = track.name;
+                } catch (Exception ex) {
+                    Debug.Log("Couldn't get requested track by id = " + routine.trackId, LogType.Error);
+                    Debug.Log(ex.ToString(), LogType.DatabaseError);
+                    continue;
+                }
+
+                if (routine.cycleLength == 0) {
+                    if (routine.startDay.Date != DateTime.Today.Date)
+                        continue;
+                } else {
+                    int dayDiff = (DateTime.Now.Date - routine.startDay).Days;
+                    if (dayDiff < 0)
+                        continue;
+
+                    dayDiff = dayDiff % routine.cycleLength;
+                    UInt64 shiftedMask = routine.cycleMask >> dayDiff;
+                    if ((shiftedMask & 1) != 1)
+                        continue;
+                }
+
+                DbReport newReport = new DbReport() {
+                    shift = routine.shift,
+                    id = 0,
+                    routineId = routine.id,
+                    signedEmployeeName = "Grupa: " + teamName,
+                    isFinished = false,
+                    trackName = trackName,
+                    assignmentDate = DateTime.Now
+                };
+
+                try {
+                    Repository.report.Insert(newReport);
+                } catch (Exception ex) {
+                    Debug.Log(ex.ToString(), LogType.DatabaseError);
+                }
+            }
+        }
+
         public void GenerateOldReports(DateTime day) {
             Debug.Log("Generating reports...", LogType.Info);
             individualReportPaths = new List<string>();
@@ -46,7 +104,7 @@ namespace SteelWorks_Utils.Model
                     Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);
                     doc.Open();
-                    GeneratePDFHeader(doc, (int)ReportMask.FULL);
+                    GeneratePDFHeader(doc, day, (int)ReportMask.FULL);
                     GeneratePDFReport(doc, (int)ReportMask.FULL, dictionary);
                     doc.Close();
                 }
@@ -59,7 +117,7 @@ namespace SteelWorks_Utils.Model
                     Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);
                     doc.Open();
-                    GeneratePDFHeader(doc, (int)ReportMask.GENERAL);
+                    GeneratePDFHeader(doc, day, (int)ReportMask.GENERAL);
                     GeneratePDFReport(doc, (int)ReportMask.GENERAL, dictionary);
                     doc.Close();
                 }
@@ -72,7 +130,7 @@ namespace SteelWorks_Utils.Model
                     Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);
                     doc.Open();
-                    GeneratePDFHeader(doc, (int)ReportMask.MINIMAL);
+                    GeneratePDFHeader(doc, day, (int)ReportMask.MINIMAL);
                     GeneratePDFReport(doc, (int)ReportMask.MINIMAL, dictionary);
                     doc.Close();
                 }
@@ -81,7 +139,7 @@ namespace SteelWorks_Utils.Model
             }
         }
 
-        private void GeneratePDFHeader(Document doc, int reportMask) {
+        private void GeneratePDFHeader(Document doc, DateTime day, int reportMask) {
             PdfPTable headerTable = new PdfPTable(3);
             headerTable.TotalWidth = doc.PageSize.Width - 72.0f;
             headerTable.LockedWidth = true;
@@ -164,7 +222,7 @@ namespace SteelWorks_Utils.Model
                 new Chunk("Data: ", new Font(ARIAL, normalTextSize, Font.BOLD))
             );
             dateTimePhrase.Add(
-                new Chunk(DateTime.Now.ToString("dddd, dd.MM.yyyy, HH:mm", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
+                new Chunk(day.ToString("dddd, dd.MM.yyyy", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
             );
             PdfPCell dateTime = new PdfPCell(dateTimePhrase);
             dateTime.Padding = 8;
@@ -452,6 +510,7 @@ namespace SteelWorks_Utils.Model
                     }
                 } else {
                     List<DbReport> reports = Repository.report.GetAllForDay(day);
+                    Debug.Log(reports.Count.ToString());
                     foreach (DbReport r in reports) {
                         List<DbReportPlace> rp = Repository.reportPlace.GetAllByArchivedReport(r.id);
                         reportPlaces.Add(r, rp);
@@ -523,7 +582,7 @@ namespace SteelWorks_Utils.Model
         private void GenerateIndividual(DbReport report, List<DbReportPlace> places) {
             try {
                 string employeeNameNoSpace = report.signedEmployeeName.Replace(" ", string.Empty).Replace(":", string.Empty).Replace(".", string.Empty);
-                string reportFileName = "Reports/" + report.id + "_" + employeeNameNoSpace + ".pdf";
+                string reportFileName = "Reports/Individual/" + report.id + "_" + employeeNameNoSpace + ".pdf";
                 using (FileStream stream = new FileStream(reportFileName, FileMode.Create, FileAccess.Write, FileShare.None)) {
                     Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);

@@ -168,8 +168,6 @@ namespace SteelWorks_Utils.Model
             return null;
         }
 
-
-
         public bool Delete(int routineId) {
             try {
                 connection_.Open();
@@ -193,6 +191,45 @@ namespace SteelWorks_Utils.Model
             }
 
             return (rowsAffected == 1);
+        }
+
+        public List<DbRoutine> GetAllLinkedToNotFinishedReports() {
+            List<DbRoutine> routines = new List<DbRoutine>();
+
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT * FROM Routine WHERE id IN (SELECT routineId FROM Report WHERE isFinished=0)";
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    DbRoutine routine = new DbRoutine() {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        shift = reader.GetInt32("shift"),
+                        trackId = reader.GetInt32("trackId"),
+                        cycleLength = reader.GetInt32("cycleLength"),
+                        teamId = reader.GetInt32("teamId"),
+                        cycleMask = reader.GetUInt64("cycleMask"),
+                        startDay = reader.GetDateTime("startDay")
+                    };
+
+                    routines.Add(routine);
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting all linked Routines\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return routines;
         }
     }
 }

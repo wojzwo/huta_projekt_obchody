@@ -36,6 +36,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.wrongemailLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.individualCheckbox = new System.Windows.Forms.CheckBox();
+            this.generalCheckbox = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -66,7 +68,7 @@
             // mailtextBox
             // 
             this.mailtextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.mailtextBox.Location = new System.Drawing.Point(742, 157);
+            this.mailtextBox.Location = new System.Drawing.Point(742, 106);
             this.mailtextBox.Margin = new System.Windows.Forms.Padding(1);
             this.mailtextBox.Name = "mailtextBox";
             this.mailtextBox.Size = new System.Drawing.Size(425, 32);
@@ -76,19 +78,19 @@
             // 
             this.fullCheckBox.AutoSize = true;
             this.fullCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.fullCheckBox.Location = new System.Drawing.Point(667, 242);
+            this.fullCheckBox.Location = new System.Drawing.Point(630, 156);
             this.fullCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.fullCheckBox.Name = "fullCheckBox";
-            this.fullCheckBox.Size = new System.Drawing.Size(459, 30);
+            this.fullCheckBox.Size = new System.Drawing.Size(517, 30);
             this.fullCheckBox.TabIndex = 3;
-            this.fullCheckBox.Text = "Otrzymuj raport z dodatkowymi szczegółami";
+            this.fullCheckBox.Text = "Otrzymuj pełny raport z dodatkowymi szczegółami";
             this.fullCheckBox.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(577, 157);
+            this.label1.Location = new System.Drawing.Point(577, 106);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(149, 29);
@@ -131,24 +133,49 @@
             this.label2.TabIndex = 8;
             this.label2.Text = "PANEL EDYCJI >> E-MAIL";
             // 
+            // individualCheckbox
+            // 
+            this.individualCheckbox.AutoSize = true;
+            this.individualCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.individualCheckbox.Location = new System.Drawing.Point(630, 302);
+            this.individualCheckbox.Margin = new System.Windows.Forms.Padding(1);
+            this.individualCheckbox.Name = "individualCheckbox";
+            this.individualCheckbox.Size = new System.Drawing.Size(324, 30);
+            this.individualCheckbox.TabIndex = 9;
+            this.individualCheckbox.Text = "Otrzymuj raporty indywidualne";
+            this.individualCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // generalCheckbox
+            // 
+            this.generalCheckbox.AutoSize = true;
+            this.generalCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.generalCheckbox.Location = new System.Drawing.Point(630, 193);
+            this.generalCheckbox.Margin = new System.Windows.Forms.Padding(1);
+            this.generalCheckbox.Name = "generalCheckbox";
+            this.generalCheckbox.Size = new System.Drawing.Size(549, 30);
+            this.generalCheckbox.TabIndex = 10;
+            this.generalCheckbox.Text = "Otrzymuj ogólny raport z podstawowymi informacjami";
+            this.generalCheckbox.UseVisualStyleBackColor = true;
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkBox1.Location = new System.Drawing.Point(667, 297);
+            this.checkBox1.Location = new System.Drawing.Point(630, 230);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(324, 30);
-            this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "Otrzymuj raporty indywidualne";
+            this.checkBox1.Size = new System.Drawing.Size(287, 30);
+            this.checkBox1.TabIndex = 11;
+            this.checkBox1.Text = "Otrzymuj minimalny raport";
             this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // MailUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.generalCheckbox);
+            this.Controls.Add(this.individualCheckbox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.wrongemailLabel);
             this.Controls.Add(this.button2);
@@ -175,6 +202,8 @@
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Label wrongemailLabel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox individualCheckbox;
+        private System.Windows.Forms.CheckBox generalCheckbox;
         private System.Windows.Forms.CheckBox checkBox1;
     }
 }

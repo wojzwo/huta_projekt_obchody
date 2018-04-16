@@ -50,7 +50,7 @@ namespace SteelWorks_Utils.Model
                     DbMail mail = new DbMail() {
                         id = reader.GetInt32("id"),
                         address = reader.GetString("address"),
-                        reportMask = reader.GetInt32("readerMask")
+                        reportMask = reader.GetInt32("reportMask")
                     };
 
                     mails.Add(mail);

@@ -32,24 +32,24 @@ namespace SteelWorks_Utils.Model
         public static RepositoryMail mail { get; }
         public static RepositoryReportEmployee reportEmployee { get; }
 
+        public static DbReportGenerator generator { get; }
+
         public static MySqlConnection connection_;
 
-		public static string XorText(string text, int key)
-		{
-			string newText = "";
+        public static string XorText(string text, int key) {
+            string newText = "";
 
-			for (int i = 0; i < text.Length; i++)
-			{
-				int charValue = Convert.ToInt32(text[i]); //get the ASCII value of the character
-				charValue ^= key; //xor the value
+            for (int i = 0; i < text.Length; i++) {
+                int charValue = Convert.ToInt32(text[i]); //get the ASCII value of the character
+                charValue ^= key; //xor the value
 
-				newText += char.ConvertFromUtf32(charValue); //convert back to string
-			}
+                newText += char.ConvertFromUtf32(charValue); //convert back to string
+            }
 
-			return newText;
-		}
+            return newText;
+        }
 
-		public static void RepeatQueryWhileNoConnection<T>(ContainerControl currentControl, int repeatDelayMs, Action lambda) where T : Form, new() {
+        public static void RepeatQueryWhileNoConnection<T>(ContainerControl currentControl, int repeatDelayMs, Action lambda) where T : Form, new() {
             bool bSuccess = false;
             T errorView = null;
             while (!bSuccess) {
@@ -146,9 +146,11 @@ namespace SteelWorks_Utils.Model
             teamEmployee = new RepositoryTeamEmployee(connection_);
             mail = new RepositoryMail(connection_);
             reportEmployee = new RepositoryReportEmployee(connection_);
+
+            generator = new DbReportGenerator();
         }
 
-		private static string ParseDatabaseConfig() {
+        private static string ParseDatabaseConfig() {
             string ret = "";
             try {
                 using (FileStream stream = new FileStream("DatabaseCredentials.config", FileMode.Open, FileAccess.Read, FileShare.Read)) {
@@ -160,7 +162,7 @@ namespace SteelWorks_Utils.Model
                         string database = reader.ReadLine().Split('=')[1];
                         string user = reader.ReadLine().Split('=')[1];
                         string password = reader.ReadLine().Split('=')[1];
-						password = XorText(password, 1);
+                        password = XorText(password, 1);
 
                         MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
                         //builder.CertificateFile = "client.pfx";

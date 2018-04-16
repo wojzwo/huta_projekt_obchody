@@ -207,6 +207,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)Config\* $(ProjectDir)bin\$(Configuration)</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)Config\*" "$(ProjectDir)bin\$(Configuration)\" /E /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

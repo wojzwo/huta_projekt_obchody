@@ -11,155 +11,121 @@ using SteelWorks_Utils.Model;
 
 namespace SteelWorks_Admin.View
 {
-	public partial class MailUserControl : UserControl
-	{
-		public class MailListboxItem
-		{
-			public string Text { get; set; }
-			public DbMail Mail { get; set; }
+    public partial class MailUserControl : UserControl
+    {
+        public class MailListboxItem
+        {
+            public string Text { get; set; }
+            public DbMail Mail { get; set; }
 
-			public override string ToString()
-			{
-				return Text;
-			}
-		}
+            public override string ToString() {
+                return Text;
+            }
+        }
 
-		MailListboxItem addnewListBoxItem = new MailListboxItem()
-		{
-			Text = "<Nowy>",
-			Mail = null
-		};
+        MailListboxItem addnewListBoxItem = new MailListboxItem() {
+            Text = "<Nowy>",
+            Mail = null
+        };
 
-		private List<DbMail> mails = null;
+        private List<DbMail> mails = null;
 
-		public MailUserControl()
-		{
-			InitializeComponent();
-			reload_from_DB();
-		}
+        public MailUserControl() {
+            InitializeComponent();
+            reload_from_DB();
+        }
 
-		private void reload_from_DB()
-		{
-			try
-			{
-				mails = Repository.mail.GetAll();
+        private void reload_from_DB() {
+            try {
+                mails = Repository.mail.GetAll();
 
-			}
-			catch (Exception ex)
-			{
-				//TODO: Exception handling code
+            } catch (Exception ex) {
+                //TODO: Exception handling code
 
-			}
+            }
 
-			maillListBox.Items.Clear();
+            maillListBox.Items.Clear();
 
-			maillListBox.Items.Add(addnewListBoxItem);
-			foreach (DbMail mail in mails)
-			{
-				MailListboxItem item = new MailListboxItem();
-				if (mail.address == "")
-				{
-					mail.address = mail.id.ToString();
-				}
-				item.Text = mail.address;
-				item.Mail = mail;
+            maillListBox.Items.Add(addnewListBoxItem);
+            foreach (DbMail mail in mails) {
+                MailListboxItem item = new MailListboxItem();
+                if (mail.address == "") {
+                    mail.address = mail.id.ToString();
+                }
+                item.Text = mail.address;
+                item.Mail = mail;
 
-				maillListBox.Items.Add(item);
+                maillListBox.Items.Add(item);
 
-			}
-			wrongemailLabel.Visible = false;
-			maillListBox.SelectedIndex = 0;
-		}
+            }
+            wrongemailLabel.Visible = false;
+            maillListBox.SelectedIndex = 0;
+        }
 
-		bool IsValidEmail(string email)
-		{
-			try
-			{
-				var addr = new System.Net.Mail.MailAddress(email);
-				return addr.Address == email;
-			}
-			catch
-			{
-				return false;
-			}
-		}
+        bool IsValidEmail(string email) {
+            try {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            } catch {
+                return false;
+            }
+        }
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			if (!IsValidEmail(mailtextBox.Text))
-			{
-				wrongemailLabel.Visible = true;
-				return;
-			}
-			if(maillListBox.SelectedItem == addnewListBoxItem)
-			{
-				try
-				{
-					Repository.mail.Insert(new DbMail()
-					{
-						address = mailtextBox.Text,
-						isFullReport = fullCheckBox.Checked,
-                        isIndividualReport = checkBox1.Checked
-					});
-				}
-				catch (Exception ex)
-				{
-					//TODO: Exception handling code
+        private void button1_Click(object sender, EventArgs e) {
+            if (!IsValidEmail(mailtextBox.Text)) {
+                wrongemailLabel.Visible = true;
+                return;
+            }
 
-				}
-			}
-			else
-			{
-				((MailListboxItem)maillListBox.SelectedItem).Mail.address = mailtextBox.Text;
-				((MailListboxItem)maillListBox.SelectedItem).Mail.isFullReport = fullCheckBox.Checked;
-			    ((MailListboxItem) maillListBox.SelectedItem).Mail.isIndividualReport = checkBox1.Checked;
+            int reportMask = 0;
+            reportMask |= (fullCheckBox.Checked) ? (int)ReportMask.FULL : 0;
+            reportMask |= (checkBox1.Checked) ? (int)ReportMask.INDIVIDUAL : 0;
+            if (maillListBox.SelectedItem == addnewListBoxItem) {
+                try {
+                    Repository.mail.Insert(new DbMail() {
+                        address = mailtextBox.Text,
+                        reportMask = reportMask
+                    });
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+            } else {
+                ((MailListboxItem)maillListBox.SelectedItem).Mail.address = mailtextBox.Text;
+                ((MailListboxItem)maillListBox.SelectedItem).Mail.reportMask = reportMask;
 
-                try
-				{
-					Repository.mail.Update(((MailListboxItem)maillListBox.SelectedItem).Mail);
-				}
-				catch (Exception ex)
-				{
-					//TODO: Exception handling code
+                try {
+                    Repository.mail.Update(((MailListboxItem)maillListBox.SelectedItem).Mail);
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
+                }
+            }
+            reload_from_DB();
+        }
 
-				}
-			}
-			reload_from_DB();
-		}
+        private void button2_Click(object sender, EventArgs e) {
+            if (maillListBox.SelectedItem != null && ((MailListboxItem)maillListBox.SelectedItem).Mail != null) {
+                try {
+                    Repository.mail.Delete(((MailListboxItem)maillListBox.SelectedItem).Mail.id);
+                } catch (Exception ex) {
+                    //TODO: Exception handling code
 
-		private void button2_Click(object sender, EventArgs e)
-		{
-			if(maillListBox.SelectedItem!= null && ((MailListboxItem)maillListBox.SelectedItem).Mail != null)
-			{
-				try
-				{
-					Repository.mail.Delete(((MailListboxItem)maillListBox.SelectedItem).Mail.id);
-				}
-				catch (Exception ex)
-				{
-					//TODO: Exception handling code
+                }
+            }
+            reload_from_DB();
+        }
 
-				}
-			}
-			reload_from_DB();
-		}
+        private void maillListBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if (maillListBox.SelectedItem == addnewListBoxItem) {
+                mailtextBox.Text = maillListBox.SelectedItem.ToString();
+                fullCheckBox.Checked = false;
+            } else {
+                int reportMask = ((MailListboxItem) maillListBox.SelectedItem).Mail.reportMask;
+                mailtextBox.Text = maillListBox.SelectedItem.ToString();
+                fullCheckBox.Checked = (reportMask & (int) ReportMask.FULL) == 1;
+                checkBox1.Checked = (reportMask & (int)ReportMask.INDIVIDUAL) == 1;
+            }
 
-		private void maillListBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (maillListBox.SelectedItem == addnewListBoxItem)
-			{
-				mailtextBox.Text = maillListBox.SelectedItem.ToString();
-				fullCheckBox.Checked = false;
-			}
-			else
-			{
-				mailtextBox.Text = maillListBox.SelectedItem.ToString();
-				fullCheckBox.Checked = ((MailListboxItem)maillListBox.SelectedItem).Mail.isFullReport;
-			    checkBox1.Checked = ((MailListboxItem) maillListBox.SelectedItem).Mail.isIndividualReport;
-
-			}
-
-		}
+        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
 

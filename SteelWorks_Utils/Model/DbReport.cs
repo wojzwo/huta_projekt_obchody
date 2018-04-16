@@ -14,7 +14,7 @@ namespace SteelWorks_Utils.Model
         public DateTime assignmentDate;
         public string signedEmployeeName;
         public string trackName;
-        public int shift; //values from 1 to 3
+        public int shift; //values from 0 to 3
         public bool isFinished;
     }
 
@@ -336,6 +336,45 @@ namespace SteelWorks_Utils.Model
             }
 
             return rowsAffected == 1 && rowsAffected2 == 1;
+        }
+
+        public List<DbReport> GetAllForDay(DateTime day) {
+            List<DbReport> reports = new List<DbReport>();
+
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT * FROM Report WHERE assignmentDate = @assignmentDate";
+            query.Parameters.AddWithValue("@assignmentDate", day.Date);
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    DbReport report = new DbReport() {
+                        id = reader.GetInt64("id"),
+                        trackName = reader.GetString("trackName"),
+                        shift = reader.GetInt32("shift"),
+                        isFinished = reader.GetBoolean("isFinished"),
+                        assignmentDate = reader.GetDateTime("assignmentDate"),
+                        routineId = reader.GetInt32("routineId"),
+                        signedEmployeeName = reader.GetString("signedEmployeeName")
+                    };
+
+                    reports.Add(report);
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting all Reports by day\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return reports;
         }
     }
 }

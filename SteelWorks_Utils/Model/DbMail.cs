@@ -7,12 +7,20 @@ using MySql.Data.MySqlClient;
 
 namespace SteelWorks_Utils.Model
 {
+    [Flags]
+    public enum ReportMask
+    {
+        FULL = 1 << 0,
+        GENERAL = 1 << 1,
+        MINIMAL = 1 << 2,
+        INDIVIDUAL = 1 << 3
+    }
+
     public class DbMail
     {
         public int id;
         public string address;
-        public bool isFullReport;
-        public bool isIndividualReport;
+        public int reportMask;
     }
 
     public class RepositoryMail
@@ -42,8 +50,7 @@ namespace SteelWorks_Utils.Model
                     DbMail mail = new DbMail() {
                         id = reader.GetInt32("id"),
                         address = reader.GetString("address"),
-                        isFullReport = reader.GetBoolean("isFullReport"),
-                        isIndividualReport = reader.GetBoolean("isIndividualReport")
+                        reportMask = reader.GetInt32("readerMask")
                     };
 
                     mails.Add(mail);
@@ -67,10 +74,9 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "INSERT INTO Mail(address, isFullReport, isIndividualReport) VALUES(@address, @isFullReport, @isIndividualReport)";
+            query.CommandText = "INSERT INTO Mail(address, reportMask) VALUES(@address, @reportMask)";
             query.Parameters.AddWithValue("@address", mail.address);
-            query.Parameters.AddWithValue("@isFullReport", mail.isFullReport);
-            query.Parameters.AddWithValue("@isIndividualReport", mail.isIndividualReport);
+            query.Parameters.AddWithValue("@reportMask", mail.reportMask);
 
             int rowsAffected = 0;
             try {
@@ -123,10 +129,9 @@ namespace SteelWorks_Utils.Model
 			}
 
 			MySqlCommand query = connection_.CreateCommand();
-			query.CommandText = "UPDATE Mail SET address = @address, isFullReport = @isFullReport, isIndividualReport = @isIndividualReport WHERE id = @id";
+			query.CommandText = "UPDATE Mail SET address = @address, reportMask = @reportMask WHERE id = @id";
 			query.Parameters.AddWithValue("@address", mail.address);
-			query.Parameters.AddWithValue("@isFullReport", mail.isFullReport);
-		    query.Parameters.AddWithValue("@isIndividualReport", mail.isIndividualReport);
+			query.Parameters.AddWithValue("@reportMask", mail.reportMask);
 			query.Parameters.AddWithValue("@id", mail.id);
 
 			int rowsAffected = 0;

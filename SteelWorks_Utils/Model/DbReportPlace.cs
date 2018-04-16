@@ -199,6 +199,46 @@ namespace SteelWorks_Utils.Model
             return reports;
         }
 
+        public List<DbReportPlace> GetAllByArchivedReport(Int64 reportId) {
+            List<DbReportPlace> reports = new List<DbReportPlace>();
+
+            try {
+                connection_.Open();
+            } catch (Exception ex) {
+                Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+                throw new NoInternetConnectionException();
+            }
+
+            MySqlCommand query = connection_.CreateCommand();
+            query.CommandText = "SELECT * FROM ArchiveReportPlace WHERE reportId = @reportId";
+            query.Parameters.AddWithValue("@reportId", reportId);
+
+            try {
+                MySqlDataReader reader = query.ExecuteReader();
+                while (reader.Read()) {
+                    DbReportPlace reportPlace = new DbReportPlace() {
+                        reportId = reader.GetInt64("reportId"),
+                        placeName = reader.GetString("placeName"),
+                        department = reader.GetString("department"),
+                        status = reader.GetString("status"),
+                        markDescription = reader.GetString("markDescription"),
+                        comment = reader.GetString("comment"),
+                        visitDate = reader.GetDateTime("visitDate"),
+                        markCommentRequired = reader.GetBoolean("markCommentRequired")
+                    };
+
+                    reports.Add(reportPlace);
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while getting certain archived ReportPlaces\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            } finally {
+                connection_.Close();
+            }
+
+            return reports;
+        }
+
         public bool Archive(Int64 reportId, string placeName) {
             try {
                 connection_.Open();

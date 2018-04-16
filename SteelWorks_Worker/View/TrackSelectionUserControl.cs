@@ -35,6 +35,13 @@ namespace SteelWorks_Worker.View
                 } else {
                     listName = "INDYWIDUALNY, Trasa: " + r.trackName;
                 }
+
+                if (trackIdByListName_.ContainsKey(listName)) {
+                    Debug.Log("Duplicate Report key track entry: " + listName, LogType.Warning);
+                    trackIdByListName_[listName] = r.id;
+                    continue;
+                }
+
                 trackIdByListName_.Add(listName, r.id);
                 listBox1.Items.Add(listName);
             }

@@ -200,6 +200,7 @@
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "OtherUserControl";
             this.Size = new System.Drawing.Size(1263, 599);
+            this.Load += new System.EventHandler(this.OtherUserControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

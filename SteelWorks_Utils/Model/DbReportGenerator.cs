@@ -93,7 +93,7 @@ namespace SteelWorks_Utils.Model
             }
         }
 
-        public void GenerateOldReports(DateTime day) {
+        public void GenerateOldReports(DateTime day, DateTime visibleDate) {
             Debug.Log("Generating reports...", LogType.Info);
             individualReportPaths = new List<string>();
 
@@ -104,7 +104,7 @@ namespace SteelWorks_Utils.Model
                     Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);
                     doc.Open();
-                    GeneratePDFHeader(doc, day, (int)ReportMask.FULL);
+                    GeneratePDFHeader(doc, visibleDate, (int)ReportMask.FULL);
                     GeneratePDFReport(doc, (int)ReportMask.FULL, dictionary);
                     doc.Close();
                 }
@@ -117,7 +117,7 @@ namespace SteelWorks_Utils.Model
                     Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);
                     doc.Open();
-                    GeneratePDFHeader(doc, day, (int)ReportMask.GENERAL);
+                    GeneratePDFHeader(doc, visibleDate, (int)ReportMask.GENERAL);
                     GeneratePDFReport(doc, (int)ReportMask.GENERAL, dictionary);
                     doc.Close();
                 }
@@ -130,7 +130,7 @@ namespace SteelWorks_Utils.Model
                     Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);
                     doc.Open();
-                    GeneratePDFHeader(doc, day, (int)ReportMask.MINIMAL);
+                    GeneratePDFHeader(doc, visibleDate, (int)ReportMask.MINIMAL);
                     GeneratePDFReport(doc, (int)ReportMask.MINIMAL, dictionary);
                     doc.Close();
                 }

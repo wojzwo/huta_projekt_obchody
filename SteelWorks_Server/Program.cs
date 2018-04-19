@@ -18,6 +18,8 @@ namespace SteelWorks_Server
         private const string EMAIL_NAME = "huta.raporty@gmail.com";
         private const string EMAIL_PASSWORD = "zX2eKod6";
 
+        private static Dictionary<int, string> reportMaskToPath_ = new Dictionary<int, string>();
+
         static void Main(string[] args) {
             Debug.Log("Started program", LogType.Info);
             //InsertTestData();
@@ -26,7 +28,7 @@ namespace SteelWorks_Server
             Directory.CreateDirectory("Reports");
             Directory.CreateDirectory("Reports/Individual");
 
-            Repository.generator.GenerateOldReports(DateTime.Today);
+            Repository.generator.GenerateOldReports(DateTime.Today, DateTime.Today - TimeSpan.FromDays(1));
             SendOldReports();
             ArchiveOldReports();
 
@@ -176,16 +178,30 @@ namespace SteelWorks_Server
                     MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
 
                     //report sending part
-                    if ((m.reportMask & (int) ReportMask.FULL) == (int)ReportMask.FULL) {
-                        mm.Attachments.Add(new Attachment("Reports/Report_Full.pdf"));
-                    } if ((m.reportMask & (int) ReportMask.GENERAL) == (int)ReportMask.GENERAL) {
-                        mm.Attachments.Add(new Attachment("Reports/Report_General.pdf"));
-                    } if ((m.reportMask & (int) ReportMask.MINIMAL) == (int)ReportMask.MINIMAL) {
-                        mm.Attachments.Add(new Attachment("Reports/Report_Minimal.pdf"));
-                    } if ((m.reportMask & (int) ReportMask.INDIVIDUAL) == (int)ReportMask.INDIVIDUAL) {
-                        foreach (string indString in Repository.generator.individualReportPaths)
-                            mm.Attachments.Add(new Attachment(indString));
+                    if (reportMaskToPath_.ContainsKey(m.reportMask)) {
+                        mm.Attachments.Add(new Attachment(reportMaskToPath_[m.reportMask]));
+                    } else {
+                        List<string> pathsToMerge = new List<string>();
+                        if ((m.reportMask & (int) ReportMask.FULL) == (int) ReportMask.FULL)
+                            pathsToMerge.Add("Reports/Report_Full.pdf");
+                        if ((m.reportMask & (int)ReportMask.GENERAL) == (int)ReportMask.GENERAL)
+                            pathsToMerge.Add("Reports/Report_General.pdf");
+                        if ((m.reportMask & (int)ReportMask.MINIMAL) == (int)ReportMask.MINIMAL)
+                            pathsToMerge.Add("Reports/Report_Minimal.pdf");
+                        if ((m.reportMask & (int)ReportMask.INDIVIDUAL) == (int)ReportMask.INDIVIDUAL)
+                            foreach (string indString in Repository.generator.individualReportPaths)
+                                pathsToMerge.Add(indString);
+                        try {
+                            string mergedPath = "Reports/RaportLaczony_" + m.reportMask.ToString() + "_" + (DateTime.Today - TimeSpan.FromDays(1)).ToString("dd-MM-yyyy") + ".pdf";
+                            Merge(pathsToMerge, mergedPath);
+                            reportMaskToPath_.Add(m.reportMask, mergedPath);
+                            mm.Attachments.Add(new Attachment(mergedPath));
+                        } catch (Exception ex) {
+                            Debug.Log("Couldn't merge reports:\n" + ex.ToString(), LogType.Error);
+                        }
                     }
+
+
 
                     mm.BodyEncoding = UTF8Encoding.UTF8;
                     mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
@@ -207,6 +223,28 @@ namespace SteelWorks_Server
                 }
             } catch (Exception ex) {
                 Debug.Log(ex.ToString(), LogType.DatabaseError);
+            }
+        }
+
+        public static void Merge(List<String> inFiles, String outFile) {
+            using (FileStream stream = new FileStream(outFile, FileMode.Create))
+            using (Document doc = new Document())
+            using (PdfCopy pdf = new PdfCopy(doc, stream)) {
+                doc.Open();
+                PdfReader reader = null;
+                PdfImportedPage page = null;
+
+                inFiles.ForEach(file => {
+                    reader = new PdfReader(file);
+
+                    for (int i = 0; i < reader.NumberOfPages; i++) {
+                        page = pdf.GetImportedPage(reader, i + 1);
+                        pdf.AddPage(page);
+                    }
+
+                    pdf.FreeReader(reader);
+                    reader.Close();
+                });
             }
         }
     }

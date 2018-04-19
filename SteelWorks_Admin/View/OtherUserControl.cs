@@ -37,7 +37,7 @@ namespace SteelWorks_Admin.View
             //    }
             //}
 
-            Repository.generator.GenerateOldReports(day);
+            Repository.generator.GenerateOldReports(day, day);
         }
 
         private void databaseBackupButton_Click(object sender, EventArgs e) {
@@ -156,6 +156,10 @@ namespace SteelWorks_Admin.View
             archiveReportError.Text = "Wygenerowano raport!";
             archiveReportError.ForeColor = Color.Green;
             archiveReportError.Visible = true;
+        }
+
+        private void OtherUserControl_Load(object sender, EventArgs e) {
+
         }
     }
 }

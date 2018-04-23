@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,7 +19,13 @@ namespace SteelWorks_Worker.View
         }
 
         private void StartButton_Click(object sender, EventArgs e) {
-            Application.Restart();
+            try {
+                System.Diagnostics.Process.Start(Application.ExecutablePath);
+            } catch (Exception ex) {
+                Debug.Log("Couldn't start new instance of program:\n" + ex.ToString(), LogType.Error);
+            }
+
+            Application.Exit();
         }
     }
 }

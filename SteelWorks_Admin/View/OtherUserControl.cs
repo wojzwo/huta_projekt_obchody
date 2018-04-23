@@ -22,9 +22,25 @@ namespace SteelWorks_Admin.View
         }
 
         private void GenerateReports(DateTime day) {
-            Directory.Delete("Reports", true);
-            Directory.CreateDirectory("Reports");
-            Directory.CreateDirectory("Reports/Individual");
+            try {
+                Directory.Delete("Reports", true);
+            } catch (Exception ex) {
+                Debug.Log("Couldn't remove directory:\n" + ex.ToString(), LogType.Error);
+            }
+
+            try {
+                Directory.CreateDirectory("Reports");
+            } catch (Exception ex) {
+                Debug.Log("Couldn't create directory:\n" + ex.ToString(), LogType.Error);
+            }
+
+            try {
+                Directory.CreateDirectory("Reports/Individual");
+            } catch (Exception ex) {
+                Debug.Log("Couldn't create directory:\n" + ex.ToString(), LogType.Error);
+            }
+
+
             //DirectoryInfo info = new DirectoryInfo(Directory.GetCurrentDirectory());
             //FileInfo[] files = info.GetFiles("Reports/*.pdf")
             //    .Where(p => p.Extension == ".pdf").ToArray();

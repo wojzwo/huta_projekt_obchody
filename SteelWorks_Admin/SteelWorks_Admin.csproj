@@ -223,6 +223,9 @@
   <ItemGroup>
     <None Include="Resources\acelor.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\logo_hw.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)Config\*" "$(ProjectDir)bin\$(Configuration)\" /E /Y</PostBuildEvent>

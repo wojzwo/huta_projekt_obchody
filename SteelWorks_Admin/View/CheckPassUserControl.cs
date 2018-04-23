@@ -20,18 +20,43 @@ namespace SteelWorks_Admin.View
 			InitializeComponent();
 			Passlabel.Visible = false;
 			PasstextBox.Visible = false;
+			BadPassLabel.Visible = false;
+			button1.Visible = false;
 			try
 			{
 				pass = Repository.GetAdminPanelPassword();
 				NoConnectionLabel.Visible = false;
 				Passlabel.Visible = true;
 				PasstextBox.Visible = true;
+				button1.Visible = true;
 			}
 			catch (Exception ex)
 			{
 				//TODO: Exception handling code
 			}
 			
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			checkPass();
+		}
+
+		private void checkPass()
+		{
+			String chk = PasstextBox.Text;
+			if (chk == pass)
+			{
+
+			}
+			else
+			{
+				BadPassLabel.Visible = true;
+			}
+		}
+		private void PasstextBox_TextChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

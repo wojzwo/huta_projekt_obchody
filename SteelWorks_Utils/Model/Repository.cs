@@ -184,7 +184,44 @@ namespace SteelWorks_Utils.Model
 
             return ret;
         }
-    }
+
+		public static string GetAdminPanelPassword()
+		{
+			try
+			{
+				connection_.Open();
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while opening db connection\n" + ex.ToString(), LogType.DatabaseError);
+				throw new NoInternetConnectionException();
+			}
+
+			MySqlCommand query = connection_.CreateCommand();
+			query.CommandText = "SELECT * FROM AdminPanelPassword";
+
+			try
+			{
+				MySqlDataReader reader = query.ExecuteReader();
+				while (reader.Read())
+				{
+					return reader.GetString("password");
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.Log("Error while getting Password\n" + ex.ToString(), LogType.DatabaseError);
+				throw new QueryExecutionException();
+			}
+			finally
+			{
+				connection_.Close();
+			}
+
+			return null;
+		}
+
+	}
 
     public class QueryExecutionException : Exception
     {
@@ -199,4 +236,7 @@ namespace SteelWorks_Utils.Model
         public NoInternetConnectionException(string message) : base(message) { }
         public NoInternetConnectionException(string message, Exception innerException) : base(message, innerException) { }
     }
+
+
+
 }

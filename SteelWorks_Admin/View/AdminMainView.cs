@@ -22,7 +22,8 @@ namespace SteelWorks_Admin.View
         {
             InitializeComponent();
 			MainPanel.Controls.Clear();
-			MainPanel.Controls.Add(new WelcomeUserControl());
+			//MainPanel.Controls.Add(new WelcomeUserControl());
+			MainPanel.Controls.Add(new CheckPassUserControl());
 		}
 
 

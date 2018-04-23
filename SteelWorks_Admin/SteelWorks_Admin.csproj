@@ -69,6 +69,12 @@
     <Compile Include="View\AdminMainView.Designer.cs">
       <DependentUpon>AdminMainView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\CheckPassUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\CheckPassUserControl.Designer.cs">
+      <DependentUpon>CheckPassUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\EditChipUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -150,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\AdminMainView.resx">
       <DependentUpon>AdminMainView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CheckPassUserControl.resx">
+      <DependentUpon>CheckPassUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\EditChipUserControl.resx">
       <DependentUpon>EditChipUserControl.cs</DependentUpon>

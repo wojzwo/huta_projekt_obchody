@@ -22,10 +22,16 @@ namespace SteelWorks_Admin.View
         {
             InitializeComponent();
 			MainPanel.Controls.Clear();
-			//MainPanel.Controls.Add(new WelcomeUserControl());
 			MainPanel.Controls.Add(new CheckPassUserControl());
+			ButtonPanel.Visible = false;
 		}
 
+		public void passwordChecked()
+		{
+			ButtonPanel.Visible = true;
+			MainPanel.Controls.Clear();
+			MainPanel.Controls.Add(new WelcomeUserControl());
+		}
 
 		private void LoadChipButton_Click(object sender, EventArgs e)
 		{

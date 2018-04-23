@@ -47,7 +47,7 @@ namespace SteelWorks_Admin.View
 			String chk = PasstextBox.Text;
 			if (chk == pass)
 			{
-
+				((AdminMainView)ParentForm).passwordChecked();
 			}
 			else
 			{

@@ -29,8 +29,10 @@
             this.dataUserControl = new SteelWorks_Worker.View.ProcessDataUserControl();
             this.sendReportUserControl_ = new SteelWorks_Worker.View.SendReportUserControl();
             this.trackSelectionUserControl_ = new SteelWorks_Worker.View.TrackSelectionUserControl();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // dataUserControl
@@ -62,16 +64,27 @@
             this.trackSelectionUserControl_.TabIndex = 2;
             this.trackSelectionUserControl_.Visible = false;
             // 
-            // pictureBox1
+            // pictureBox2
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pictureBox1.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.acelor;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(1102, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(150, 56);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            this.pictureBox2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pictureBox2.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.logo_hw;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox2.Location = new System.Drawing.Point(14, 14);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(70, 52);
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pictureBox3.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.acelor;
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox3.Location = new System.Drawing.Point(1117, 14);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(133, 52);
+            this.pictureBox3.TabIndex = 8;
+            this.pictureBox3.TabStop = false;
             // 
             // WorkerDataView
             // 
@@ -79,7 +92,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.dataUserControl);
             this.Controls.Add(this.sendReportUserControl_);
             this.Controls.Add(this.trackSelectionUserControl_);
@@ -87,7 +101,8 @@
             this.Name = "WorkerDataView";
             this.Text = "Obchody - Pracownik";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WorkerDataView_FormClosed);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -97,6 +112,7 @@
         private ProcessDataUserControl dataUserControl;
         private SendReportUserControl sendReportUserControl_;
         private TrackSelectionUserControl trackSelectionUserControl_;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

@@ -253,6 +253,7 @@
     <Content Include="docs\MySqlParameter.xml" />
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
+    <None Include="Resources\logo_hw.png" />
     <None Include="Resources\acelor.png" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\koperta.png" />

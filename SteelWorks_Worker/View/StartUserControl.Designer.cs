@@ -62,10 +62,10 @@
             this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox1.Font = new System.Drawing.Font("Calibri", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(20, 20);
+            this.textBox1.Location = new System.Drawing.Point(145, 20);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(1202, 40);
+            this.textBox1.Size = new System.Drawing.Size(950, 40);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Podłącz adapter do komputera za pomocą dołączonego kabla";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

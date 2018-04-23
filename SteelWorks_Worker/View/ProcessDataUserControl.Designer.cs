@@ -110,10 +110,10 @@ namespace SteelWorks_Worker.View
             this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox1.Font = new System.Drawing.Font("Calibri", 17F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(15, 12);
+            this.textBox1.Location = new System.Drawing.Point(145, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(1202, 35);
+            this.textBox1.Size = new System.Drawing.Size(950, 35);
             this.textBox1.TabIndex = 11;
             this.textBox1.Text = "Sprawdź wczytane dane z czytnika";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

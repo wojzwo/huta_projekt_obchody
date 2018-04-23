@@ -183,6 +183,16 @@ namespace SteelWorks_Worker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logo_hw {
+            get {
+                object obj = ResourceManager.GetObject("logo_hw", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap reader_image {
             get {
                 object obj = ResourceManager.GetObject("reader_image", resourceCulture);

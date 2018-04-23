@@ -28,6 +28,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReaderRemoveView));
             this.dataRemoveSuccessUserControl_ = new SteelWorks_Worker.View.DataRemoveSuccessUserControl();
             this.dataRemoveUserControl_ = new SteelWorks_Worker.View.DataRemoveUserControl();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataRemoveSuccessUserControl_
@@ -48,12 +52,36 @@
             this.dataRemoveUserControl_.Size = new System.Drawing.Size(1240, 657);
             this.dataRemoveUserControl_.TabIndex = 1;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox2.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.logo_hw;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox2.Location = new System.Drawing.Point(14, 14);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(93, 79);
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.BackgroundImage = global::SteelWorks_Worker.Properties.Resources.acelor;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.Location = new System.Drawing.Point(1128, 14);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(120, 79);
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
+            // 
             // ReaderRemoveView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.dataRemoveSuccessUserControl_);
             this.Controls.Add(this.dataRemoveUserControl_);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -61,6 +89,8 @@
             this.Text = "ReaderRemoveView";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ReaderRemoveView_FormClosed);
             this.Load += new System.EventHandler(this.ReaderRemoveView_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -69,5 +99,7 @@
 
         private DataRemoveUserControl dataRemoveUserControl_;
         private DataRemoveSuccessUserControl dataRemoveSuccessUserControl_;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

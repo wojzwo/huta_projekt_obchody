@@ -32,14 +32,14 @@ namespace SteelWorks_Admin.View
 			reloadDataFromDB();
 			routine = routN;
 			nameTextBox.Text = routine.name;
-			trackComboBox.SelectedIndex = trackComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int)cbi.Value == routine.trackId);
+			trackComboBox.SelectedIndex = (trackComboBox.Items.Cast<ComboboxItem>()).ToList().FindIndex(cbi => (int)cbi.Value == routine.trackId);
 			if (routine.teamId == 0)
 			{
 				team0CheckBox.Checked = true;
 			}
 			else
 			{
-				teamComboBox.SelectedIndex = trackComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int)cbi.Value == routine.teamId);
+				teamComboBox.SelectedIndex = teamComboBox.Items.Cast<ComboboxItem>().ToList().FindIndex(cbi => (int)cbi.Value == routine.teamId);
 			}
 			beginDateTime.Value = routine.startDay;
 			if (routine.cycleLength == 0)
@@ -200,6 +200,16 @@ namespace SteelWorks_Admin.View
 			{
 				routine.shift = 0;
 			}
+
+			
+			try
+			{
+				Repository.routine.Update(routine);
+			}
+			catch (Exception ex)
+			{
+				//TODO: Exception handling code
+			}
 		}
 
 		private void saveRoutineButton_Click(object sender, EventArgs e)
@@ -208,7 +218,7 @@ namespace SteelWorks_Admin.View
 			{
 				return;
 			}
-			if (teamComboBox.SelectedItem == null)
+			if (!team0CheckBox.Checked && teamComboBox.SelectedItem == null)
 			{
 				return;
 			}

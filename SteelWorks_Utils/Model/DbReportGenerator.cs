@@ -97,6 +97,13 @@ namespace SteelWorks_Utils.Model
             Debug.Log("Generating reports...", LogType.Info);
             individualReportPaths = new List<string>();
 
+            //try {
+            //    System.IO.Directory.CreateDirectory("Reports");
+            //    System.IO.Directory.CreateDirectory("Reports/Individual");
+            //} catch (Exception ex) {
+            //    Debug.Log("Couldn't create directory\n" + ex.ToString(), LogType.Error);
+            //}
+
             Dictionary<string, List<ReportInfo>> dictionary = GetReportInfo(day);
 
             try {
@@ -526,7 +533,7 @@ namespace SteelWorks_Utils.Model
                 foreach (DbReportPlace p in pair.Value) {
                     int shift = pair.Key.shift;
                     if (shift == 0) {
-                        GenerateIndividual(pair.Key, pair.Value);
+                        GenerateIndividual(pair.Key, pair.Value, day);
                         break;
                     }
 
@@ -579,7 +586,7 @@ namespace SteelWorks_Utils.Model
             return departmentToReports;
         }
 
-        private void GenerateIndividual(DbReport report, List<DbReportPlace> places) {
+        private void GenerateIndividual(DbReport report, List<DbReportPlace> places, DateTime visibleDate) {
             try {
                 string employeeNameNoSpace = report.signedEmployeeName.Replace(" ", string.Empty).Replace(":", string.Empty).Replace(".", string.Empty);
                 string reportFileName = "Reports/Individual/" + report.id + "_" + employeeNameNoSpace + ".pdf";
@@ -656,7 +663,7 @@ namespace SteelWorks_Utils.Model
                         new Chunk("Data: ", new Font(ARIAL, normalTextSize, Font.BOLD))
                     );
                     dateTimePhrase.Add(
-                        new Chunk(DateTime.Now.ToString("dddd, dd.MM.yyyy, HH:mm", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
+                        new Chunk(visibleDate.ToString("dddd, dd.MM.yyyy", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
                     );
                     PdfPCell dateTime = new PdfPCell(dateTimePhrase);
                     dateTime.Padding = 8;

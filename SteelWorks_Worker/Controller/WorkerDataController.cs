@@ -29,7 +29,7 @@ namespace SteelWorks_Worker.Controller
 
         public void InitData(ChipData employee, List<ChipData> chips, List<KeypadData> keypads) {
             if (Tester.bIsInTestMode) {
-                employee = new ChipData(DateTime.Now, "EFA62D");
+                employee = new ChipData(DateTime.Now, "F0C859");
                 chips = new List<ChipData>();
                 chips.Add(new ChipData(DateTime.Now, "F06516"));
                 chips.Add(new ChipData());

@@ -216,6 +216,12 @@ namespace SteelWorks_Utils.Model
         }
 
         public List<DbReport> GetAllTodaysForEmployee(string employeeName) {
+            DateTime today = DateTime.Now;
+            if (today.Hour < 6) {
+                //set to yesterday
+                today = DateTime.Now - TimeSpan.FromDays(1);
+            }
+
             List<DbReport> reports = new List<DbReport>();
 
             try {
@@ -226,9 +232,10 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "SELECT * FROM Report WHERE assignmentDate = CURDATE() AND isFinished = 0 AND id IN" +
+            query.CommandText = "SELECT * FROM Report WHERE assignmentDate = @currentDate AND isFinished = 0 AND id IN" +
                                 "(SELECT reportId FROM ReportEmployee WHERE employeeName = @employeeName OR employeeId = '0');";
             query.Parameters.AddWithValue("@employeeName", employeeName);
+            query.Parameters.AddWithValue("@currentDate", today.Date);
 
             try {
                 MySqlDataReader reader = query.ExecuteReader();

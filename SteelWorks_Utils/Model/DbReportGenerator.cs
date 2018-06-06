@@ -35,6 +35,26 @@ namespace SteelWorks_Utils.Model
         BaseColor lightGrayColor = new BaseColor(225, 225, 225);
         BaseColor ultraLightGrayColor = new BaseColor(240, 240, 240);
 
+        public void GenerateShiftBasedReport(int shift) {
+            Debug.Log("Generating reports for shift: " + shift, LogType.Info);
+            Dictionary<string, List<ReportInfo>> dictionary = GetReportInfo(DateTime.Today, shift);
+            DateTime visibleDate = (DateTime.Now.Hour <= 6) ? DateTime.Today - TimeSpan.FromDays(1) : DateTime.Today;
+            ReportMask mask = (shift == 1) ? ReportMask.SHIFT_1 : (shift == 2) ? ReportMask.SHIFT_2 : ReportMask.SHIFT_3;
+
+            try {
+                using (FileStream stream = new FileStream("Reports/ReportShift_" + shift + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None)) {
+                    Document doc = new Document(PageSize.A4, 36.0f, 36.0f, 36.0f, 36.0f);
+                    PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+                    doc.Open();
+                    GeneratePDFHeader(doc, visibleDate, (int)mask);
+                    GeneratePDFReportShift(doc, (int)mask, dictionary);
+                    doc.Close();
+                }
+            } catch (Exception ex) {
+                Debug.Log("Error while generating full report:\n" + ex.ToString(), LogType.Error);
+            }
+        }
+
         public void AddNewReports(List<DbRoutine> routines) {
             Debug.Log("Adding new reports...", LogType.Info);
 
@@ -169,12 +189,18 @@ namespace SteelWorks_Utils.Model
             headerTable.AddCell(secondRowFirstColumn);
 
             string reportType = "";
-            if ((reportMask & (int) ReportMask.FULL) == (int)ReportMask.FULL) {
+            if ((reportMask & (int)ReportMask.FULL) == (int)ReportMask.FULL) {
                 reportType = "Raport pełny";
-            } else if ((reportMask & (int) ReportMask.GENERAL) == (int)ReportMask.GENERAL) {
+            } else if ((reportMask & (int)ReportMask.GENERAL) == (int)ReportMask.GENERAL) {
                 reportType = "Raport ogólny";
-            } else if ((reportMask & (int) ReportMask.MINIMAL) == (int)ReportMask.MINIMAL) {
+            } else if ((reportMask & (int)ReportMask.MINIMAL) == (int)ReportMask.MINIMAL) {
                 reportType = "Raport minimalny";
+            } else if ((reportMask & (int)ReportMask.SHIFT_1) == (int)ReportMask.SHIFT_1) {
+                reportType = "Raport zmiany 1";
+            } else if ((reportMask & (int)ReportMask.SHIFT_2) == (int)ReportMask.SHIFT_2) {
+                reportType = "Raport zmiany 2";
+            } else if ((reportMask & (int)ReportMask.SHIFT_3) == (int)ReportMask.SHIFT_3) {
+                reportType = "Raport zmiany 3";
             }
 
             Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z inspekcji P-20 - " + reportType, new Font(ARIAL, normalTextSize, Font.BOLD));
@@ -355,7 +381,7 @@ namespace SteelWorks_Utils.Model
                 mainTable.AddCell(departmentCell);
 
                 foreach (ReportInfo i in pair.Value) {
-                    if (((reportMask & (int)ReportMask.MINIMAL) == (int)ReportMask.MINIMAL) 
+                    if (((reportMask & (int)ReportMask.MINIMAL) == (int)ReportMask.MINIMAL)
                         && (i.shiftInfo[0] == "T" || i.shiftInfo[0] == "-" || i.shiftInfo[0] == "T")
                         && (i.shiftInfo[1] == "T" || i.shiftInfo[1] == "-" || i.shiftInfo[1] == "T*")
                         && (i.shiftInfo[2] == "T" || i.shiftInfo[2] == "-" || i.shiftInfo[2] == "T*"))
@@ -505,7 +531,7 @@ namespace SteelWorks_Utils.Model
             return employeeByShift;
         }
 
-        private Dictionary<string, List<ReportInfo>> GetReportInfo(DateTime day) {
+        private Dictionary<string, List<ReportInfo>> GetReportInfo(DateTime day, int supposedShift = 0) {
             Dictionary<DbReport, List<DbReportPlace>> reportPlaces = new Dictionary<DbReport, List<DbReportPlace>>();
 
             try {
@@ -532,6 +558,12 @@ namespace SteelWorks_Utils.Model
             foreach (KeyValuePair<DbReport, List<DbReportPlace>> pair in reportPlaces) {
                 foreach (DbReportPlace p in pair.Value) {
                     int shift = pair.Key.shift;
+                    if (supposedShift != 0) {
+                        if (shift != supposedShift) {
+                            break;
+                        }
+                    }
+
                     if (shift == 0) {
                         GenerateIndividual(pair.Key, pair.Value, day);
                         break;
@@ -793,6 +825,217 @@ namespace SteelWorks_Utils.Model
             } catch (Exception ex) {
                 Debug.Log("Error while generating full report:\n" + ex.ToString(), LogType.Error);
             }
+        }
+
+        private void GeneratePDFReportShift(Document doc, int reportMask, Dictionary<string, List<ReportInfo>> dictionary) {
+            int actualShift = (reportMask == (int)ReportMask.SHIFT_1) ? 1 : (reportMask == (int)ReportMask.SHIFT_2) ? 2 : 3;
+
+            PdfPTable mainTable = new PdfPTable(4);
+            mainTable.TotalWidth = doc.PageSize.Width - 72.0f;
+            mainTable.LockedWidth = true;
+            mainTable.SetWidths(new float[] { 0.05f, 0.45f, 0.05f, 0.45f });
+
+            GenerateReportHeaderShift(mainTable);
+            List<string> employeeInShift = GenerateReportContentShift(doc, mainTable, reportMask, dictionary);
+
+            PdfPTable borderTable = new PdfPTable(1);
+            borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
+            borderTable.LockedWidth = true;
+            borderTable.SpacingBefore = 0.0f;
+            PdfPCell headerCell = new PdfPCell(mainTable);
+            headerCell.BorderWidth = 1.0f;
+            borderTable.AddCell(headerCell);
+
+            doc.Add(borderTable);
+
+            PdfPTable employeeTable = new PdfPTable(2);
+            employeeTable.TotalWidth = mainTable.TotalWidth;
+            employeeTable.LockedWidth = true;
+            employeeTable.SetWidths(new float[] { 0.2f, 0.8f });
+            employeeTable.SpacingBefore = 20;
+
+            PdfPCell headerEmployee = new PdfPCell(new Phrase("Pracownicy przeprowadzający inspekcje", bFont));
+            headerEmployee.Padding = 8;
+            headerEmployee.UseAscender = true;
+            headerEmployee.VerticalAlignment = Element.ALIGN_MIDDLE;
+            headerEmployee.HorizontalAlignment = 1;
+            headerEmployee.Colspan = 2;
+            headerEmployee.BackgroundColor = grayColor;
+            employeeTable.AddCell(headerEmployee);
+
+            PdfPCell shiftNumberCell = new PdfPCell(new Phrase("Zmiana " + (actualShift).ToString(), bFont));
+            shiftNumberCell.Padding = 5;
+            shiftNumberCell.UseAscender = true;
+            shiftNumberCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            shiftNumberCell.HorizontalAlignment = 1;
+            employeeTable.AddCell(shiftNumberCell);
+
+            Phrase employeeNamesPhrase = new Phrase();
+            for (int l = 0; l < employeeInShift.Count - 1; l++) {
+                if (employeeInShift[l] == "")
+                    continue;
+
+                employeeNamesPhrase.Add(
+                    new Chunk(employeeInShift[l] + "\n", tFont)
+                );
+            }
+
+            if (employeeInShift.Count > 0 && employeeInShift[employeeInShift.Count - 1] != "") {
+                employeeNamesPhrase.Add(
+                    new Chunk(employeeInShift[employeeInShift.Count - 1], tFont)
+                );
+            }
+
+            PdfPCell emploeeNameCell = new PdfPCell(employeeNamesPhrase);
+            emploeeNameCell.Padding = 5;
+            emploeeNameCell.UseAscender = true;
+            emploeeNameCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            emploeeNameCell.HorizontalAlignment = 0;
+            employeeTable.AddCell(emploeeNameCell);
+
+            doc.Add(employeeTable);
+        }
+
+        private void GenerateReportHeaderShift(PdfPTable mainTable) {
+            PdfPCell[] headerCells = new PdfPCell[4];
+            headerCells[0] = new PdfPCell(new Phrase("Lp", bFont));
+            headerCells[1] = new PdfPCell(new Phrase("Nazwa", bFont));
+            headerCells[2] = new PdfPCell(new Phrase("Z", bFont));
+            headerCells[3] = new PdfPCell(new Phrase("Komentarze", bFont));
+            for (int i = 0; i < 4; i++) {
+                headerCells[i].UseAscender = true;
+                headerCells[i].VerticalAlignment = Element.ALIGN_MIDDLE;
+                headerCells[i].Padding = 5;
+                mainTable.AddCell(headerCells[i]);
+            }
+        }
+
+        private List<string> GenerateReportContentShift(Document doc, PdfPTable mainTable, int reportMask, Dictionary<string, List<ReportInfo>> dictionary) {
+            List<string> employeeInShift = new List<string>();
+            int actualShiftMinus1 = (reportMask == (int)ReportMask.SHIFT_1) ? 0 : (reportMask == (int)ReportMask.SHIFT_2) ? 1 : 2;
+
+            foreach (KeyValuePair<string, List<ReportInfo>> pair in dictionary) {
+                uint globalCounter = 1;
+
+                Phrase departmentPhrase = new Phrase(pair.Key, bFont);
+                PdfPCell departmentCell = new PdfPCell(departmentPhrase);
+                departmentCell.HorizontalAlignment = 1;
+                departmentCell.UseAscender = true;
+                departmentCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                departmentCell.Padding = 8;
+                departmentCell.Colspan = 4;
+                departmentCell.BackgroundColor = grayColor;
+                mainTable.AddCell(departmentCell);
+
+                foreach (ReportInfo i in pair.Value) {
+                    if (i.employeeName[actualShiftMinus1] != null && !i.employeeName[actualShiftMinus1].StartsWith("Grupa:"))
+                        if (!employeeInShift.Contains(i.employeeName[actualShiftMinus1]))
+                            employeeInShift.Add(i.employeeName[actualShiftMinus1]);
+
+                    PdfPCell numberCell = new PdfPCell(new Phrase(globalCounter.ToString(), tFont));
+                    numberCell.Padding = 5;
+                    numberCell.UseAscender = true;
+                    numberCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    numberCell.HorizontalAlignment = 2;
+                    mainTable.AddCell(numberCell);
+
+                    PdfPCell nameCell = new PdfPCell(new Phrase(i.placeName, tFont));
+                    nameCell.Padding = 5;
+                    nameCell.UseAscender = true;
+                    nameCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    nameCell.HorizontalAlignment = 0;
+                    mainTable.AddCell(nameCell);
+
+                    PdfPCell shiftCell = new PdfPCell(new Phrase(i.shiftInfo[actualShiftMinus1], tFont));
+                    shiftCell.Padding = 5;
+                    shiftCell.UseAscender = true;
+                    shiftCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    shiftCell.HorizontalAlignment = 1;
+                    if (i.shiftInfo[actualShiftMinus1] == "T" || i.shiftInfo[actualShiftMinus1] == "-") {
+
+                    } else if (i.shiftInfo[actualShiftMinus1] == "T*") {
+                        shiftCell.BackgroundColor = ultraLightGrayColor;
+                    } else {
+                        shiftCell.BackgroundColor = lightGrayColor;
+                    }
+                    mainTable.AddCell(shiftCell);
+
+                    Phrase commentPhrase = new Phrase();
+                    for (int j = 0; j < i.comment.Length; j++) {
+                        if (i.comment[j] != String.Empty && i.comment[j] != null) {
+                            commentPhrase.Add(
+                                new Chunk("Z" + (j + 1) + ": ", boldSmallFont)
+                            );
+                            commentPhrase.Add(
+                                new Chunk(i.comment[j] + "\n", smallFont)
+                            );
+                        }
+                    }
+                    PdfPCell commentCell = new PdfPCell(commentPhrase);
+                    commentCell.Padding = 5;
+                    commentCell.UseAscender = true;
+                    commentCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    commentCell.HorizontalAlignment = 0;
+                    mainTable.AddCell(commentCell);
+
+                    PdfPCell emptyCell = new PdfPCell(new Phrase(""));
+                    mainTable.AddCell("");
+
+                    PdfPTable additionalTable = new PdfPTable(5);
+                    additionalTable.TotalWidth = mainTable.TotalWidth - 25.0f;
+                    additionalTable.LockedWidth = true;
+                    additionalTable.SetWidths(new float[] { 0.05f, 0.25f, 0.25f, 0.25f, 0.2f });
+
+                    if (i.shiftInfo[actualShiftMinus1] != "-") {
+                        PdfPCell additionalShiftCell = new PdfPCell(new Phrase("Z" + (actualShiftMinus1 + 1).ToString(), boldSmallFont));
+                        additionalShiftCell.Padding = 5;
+                        additionalShiftCell.UseAscender = true;
+                        additionalShiftCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        additionalShiftCell.HorizontalAlignment = 1;
+                        additionalTable.AddCell(additionalShiftCell);
+
+                        PdfPCell additionalNameCell = new PdfPCell(new Phrase(i.employeeName[actualShiftMinus1], smallFont));
+                        additionalNameCell.Padding = 5;
+                        additionalNameCell.Padding = 5;
+                        additionalNameCell.UseAscender = true;
+                        additionalNameCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        additionalNameCell.HorizontalAlignment = 1;
+                        additionalTable.AddCell(additionalNameCell);
+
+                        PdfPCell additionalStatusCell = new PdfPCell(new Phrase(i.status[actualShiftMinus1], smallFont));
+                        additionalStatusCell.Padding = 5;
+                        additionalStatusCell.Padding = 5;
+                        additionalStatusCell.UseAscender = true;
+                        additionalStatusCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        additionalStatusCell.HorizontalAlignment = 1;
+                        additionalTable.AddCell(additionalStatusCell);
+
+                        PdfPCell additionalMarkCell = new PdfPCell(new Phrase(i.mark[actualShiftMinus1], smallFont));
+                        additionalMarkCell.Padding = 5;
+                        additionalMarkCell.Padding = 5;
+                        additionalMarkCell.UseAscender = true;
+                        additionalMarkCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        additionalMarkCell.HorizontalAlignment = 1;
+                        additionalTable.AddCell(additionalMarkCell);
+
+                        PdfPCell additionalDateCell = new PdfPCell(new Phrase(i.visitDate[actualShiftMinus1], smallFont));
+                        additionalDateCell.Padding = 5;
+                        additionalDateCell.Padding = 5;
+                        additionalDateCell.UseAscender = true;
+                        additionalDateCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        additionalDateCell.HorizontalAlignment = 1;
+                        additionalTable.AddCell(additionalDateCell);
+                    }
+
+                    PdfPCell additionalCell = new PdfPCell(additionalTable);
+                    additionalCell.Colspan = 5;
+                    mainTable.AddCell(additionalCell);
+
+                    globalCounter++;
+                }
+            }
+
+            return employeeInShift;
         }
     }
 }

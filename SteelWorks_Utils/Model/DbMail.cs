@@ -13,7 +13,10 @@ namespace SteelWorks_Utils.Model
         FULL = 1 << 0,
         GENERAL = 1 << 1,
         MINIMAL = 1 << 2,
-        INDIVIDUAL = 1 << 3
+        INDIVIDUAL = 1 << 3,
+        SHIFT_1 = 1 << 4,
+        SHIFT_2 = 1 << 5,
+        SHIFT_3 = 1 << 6
     }
 
     public class DbMail

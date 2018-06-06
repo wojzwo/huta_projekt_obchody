@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
@@ -27,6 +28,13 @@ namespace SteelWorks_Server
             Directory.Delete("Reports", true);
             Directory.CreateDirectory("Reports");
             Directory.CreateDirectory("Reports/Individual");
+
+            if (args.Length == 1) {
+                int shift = Int32.Parse(args[0]);
+                Repository.generator.GenerateShiftBasedReport(shift);
+                //SendShiftReport(shift);
+                return;
+            }
 
             Repository.generator.GenerateOldReports(DateTime.Today, DateTime.Today - TimeSpan.FromDays(1));
             SendOldReports();
@@ -150,6 +158,63 @@ namespace SteelWorks_Server
                 } catch (Exception ex) {
                     Debug.Log(ex.ToString(), LogType.DatabaseError);
                 }
+            }
+        }
+
+        private static void SendShiftReport(int shift) {
+            Debug.Log("Sending shift reports...", LogType.Info);
+
+            List<DbMail> mails = new List<DbMail>();
+            try {
+                mails = Repository.mail.GetAll();
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
+            }
+
+            try {
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                client.Timeout = 10000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential(EMAIL_NAME, EMAIL_PASSWORD);
+
+                DateTime yesterday = DateTime.Now;
+                if (DateTime.Now.Hour <= 6) {
+                    yesterday = yesterday - new TimeSpan(1, 0, 0, 0);
+                }
+
+                foreach (DbMail m in mails) {
+                    MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport zmiany " + shift + " z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
+
+                    //report sending part
+                    ReportMask mask = (shift == 1) ? ReportMask.SHIFT_1 : (shift == 2) ? ReportMask.SHIFT_2 : ReportMask.SHIFT_3;
+                    if ((m.reportMask & (int)mask) == (int)mask) {
+                        mm.Attachments.Add(new Attachment("Reports/ReportShift_" + shift + ".pdf"));
+                    }
+
+                    mm.BodyEncoding = UTF8Encoding.UTF8;
+                    mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                    int counter = 0;
+                    while (counter < 10) {
+                        try {
+                            client.Send(mm);
+                            break;
+                        } catch (Exception ex) {
+                            Debug.Log(ex.ToString(), LogType.Error);
+                        }
+
+                        counter++;
+                        if (counter == 10) {
+                            Debug.Log("Couldn't send email to " + m.address, LogType.Error);
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
             }
         }
 

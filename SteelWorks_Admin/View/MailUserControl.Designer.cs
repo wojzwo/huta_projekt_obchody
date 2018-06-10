@@ -39,12 +39,15 @@
             this.individualCheckbox = new System.Windows.Forms.CheckBox();
             this.generalCheckbox = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button1.Location = new System.Drawing.Point(582, 364);
+            this.button1.Location = new System.Drawing.Point(582, 449);
             this.button1.Margin = new System.Windows.Forms.Padding(1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(397, 51);
@@ -100,7 +103,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button2.Location = new System.Drawing.Point(1010, 364);
+            this.button2.Location = new System.Drawing.Point(1010, 449);
             this.button2.Margin = new System.Windows.Forms.Padding(1);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(157, 51);
@@ -114,7 +117,7 @@
             this.wrongemailLabel.AutoSize = true;
             this.wrongemailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.wrongemailLabel.ForeColor = System.Drawing.Color.Red;
-            this.wrongemailLabel.Location = new System.Drawing.Point(736, 455);
+            this.wrongemailLabel.Location = new System.Drawing.Point(736, 512);
             this.wrongemailLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.wrongemailLabel.Name = "wrongemailLabel";
             this.wrongemailLabel.Size = new System.Drawing.Size(289, 31);
@@ -137,7 +140,7 @@
             // 
             this.individualCheckbox.AutoSize = true;
             this.individualCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.individualCheckbox.Location = new System.Drawing.Point(630, 302);
+            this.individualCheckbox.Location = new System.Drawing.Point(630, 398);
             this.individualCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.individualCheckbox.Name = "individualCheckbox";
             this.individualCheckbox.Size = new System.Drawing.Size(324, 30);
@@ -149,7 +152,7 @@
             // 
             this.generalCheckbox.AutoSize = true;
             this.generalCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.generalCheckbox.Location = new System.Drawing.Point(630, 193);
+            this.generalCheckbox.Location = new System.Drawing.Point(630, 188);
             this.generalCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.generalCheckbox.Name = "generalCheckbox";
             this.generalCheckbox.Size = new System.Drawing.Size(549, 30);
@@ -161,7 +164,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkBox1.Location = new System.Drawing.Point(630, 230);
+            this.checkBox1.Location = new System.Drawing.Point(630, 220);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(287, 30);
@@ -169,10 +172,51 @@
             this.checkBox1.Text = "Otrzymuj minimalny raport";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.checkBox2.Location = new System.Drawing.Point(630, 272);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(1);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(286, 30);
+            this.checkBox2.TabIndex = 12;
+            this.checkBox2.Text = "Otrzymuj raporty zmiany 1";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.checkBox3.Location = new System.Drawing.Point(630, 304);
+            this.checkBox3.Margin = new System.Windows.Forms.Padding(1);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(286, 30);
+            this.checkBox3.TabIndex = 13;
+            this.checkBox3.Text = "Otrzymuj raporty zmiany 2";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.checkBox4.Location = new System.Drawing.Point(630, 336);
+            this.checkBox4.Margin = new System.Windows.Forms.Padding(1);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(286, 30);
+            this.checkBox4.TabIndex = 14;
+            this.checkBox4.Text = "Otrzymuj raporty zmiany 3";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
             // MailUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.checkBox4);
+            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.generalCheckbox);
             this.Controls.Add(this.individualCheckbox);
@@ -205,5 +249,8 @@
         private System.Windows.Forms.CheckBox individualCheckbox;
         private System.Windows.Forms.CheckBox generalCheckbox;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox4;
     }
 }

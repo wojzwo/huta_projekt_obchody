@@ -82,6 +82,9 @@ namespace SteelWorks_Admin.View
             reportMask |= (generalCheckbox.Checked) ? (int) ReportMask.GENERAL : 0;
             reportMask |= (checkBox1.Checked) ? (int)ReportMask.MINIMAL : 0;
             reportMask |= (individualCheckbox.Checked) ? (int)ReportMask.INDIVIDUAL : 0;
+            reportMask |= (checkBox2.Checked) ? (int)ReportMask.SHIFT_1 : 0;
+            reportMask |= (checkBox3.Checked) ? (int)ReportMask.SHIFT_2 : 0;
+            reportMask |= (checkBox4.Checked) ? (int)ReportMask.SHIFT_3 : 0;
             if (maillListBox.SelectedItem == addnewListBoxItem) {
                 try {
                     Repository.mail.Insert(new DbMail() {
@@ -127,7 +130,18 @@ namespace SteelWorks_Admin.View
                 individualCheckbox.Checked = (reportMask & (int)ReportMask.INDIVIDUAL) == (int)ReportMask.INDIVIDUAL;
                 checkBox1.Checked = (reportMask & (int)ReportMask.MINIMAL) == (int)ReportMask.MINIMAL;
                 generalCheckbox.Checked = (reportMask & (int)ReportMask.GENERAL) == (int)ReportMask.GENERAL;
+                checkBox2.Checked = (reportMask & (int)ReportMask.SHIFT_1) == (int)ReportMask.SHIFT_1;
+                checkBox3.Checked = (reportMask & (int)ReportMask.SHIFT_2) == (int)ReportMask.SHIFT_2;
+                checkBox4.Checked = (reportMask & (int)ReportMask.SHIFT_3) == (int)ReportMask.SHIFT_3;
             }
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e) {
 
         }
     }

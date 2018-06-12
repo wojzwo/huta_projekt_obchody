@@ -24,6 +24,8 @@ namespace SteelWorks_Admin.View
 			MainPanel.Controls.Clear();
 			MainPanel.Controls.Add(new CheckPassUserControl());
 			ButtonPanel.Visible = false;
+			if (0 == 1) { passwordChecked(); }
+			
 		}
 
 		public void passwordChecked()

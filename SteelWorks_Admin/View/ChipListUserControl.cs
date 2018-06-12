@@ -11,6 +11,7 @@ using SteelWorks_Utils.Model;
 
 namespace SteelWorks_Admin.View
 {
+
 	public partial class ChipListUserControl : UserControl
 	{
 
@@ -19,6 +20,8 @@ namespace SteelWorks_Admin.View
 		public ChipListUserControl()
 		{
 			InitializeComponent();
+
+
 			chipStateComboBox.SelectedIndex = 0;
 			this.editChipUserControl1.RemoveButton.Click += new System.EventHandler(ReloadChipFromDBButton_Click);
 			this.editChipUserControl1.addChangeButton.Click += new System.EventHandler(ReloadChipFromDBButton_Click);
@@ -40,11 +43,11 @@ namespace SteelWorks_Admin.View
 		private void ReloadChipFromDBButton_Click(object sender, EventArgs e)
 		{
 			reloadListFromDB();
-
 		}
 
 		private void reloadListFromDB()
 		{
+			ListViewItem listviewitem;
 			listView1.Items.Clear();
 			string[] row = { "", "" };
 			if (chipStateComboBox.SelectedIndex == 0)
@@ -55,11 +58,22 @@ namespace SteelWorks_Admin.View
 			        //TODO: Exception handling code
                 }
 
-                foreach (DbPlace place in places)
+				places.Sort(delegate (DbPlace x, DbPlace y)
 				{
-					row[0] = place.chipId;
-					row[1] = place.name;
-					listView1.Items.Add(new ListViewItem(row));
+					if (x.department == null && y.department == null) return 0;
+					else if (x.department == null) return -1;
+					else if (y.department == null) return 1;
+					else return x.department.CompareTo(y.department);
+				});
+				foreach (DbPlace place in places)
+				{
+					
+
+
+					listviewitem = new ListViewItem(place.chipId);
+					listviewitem.SubItems.Add(place.name);
+					listviewitem.SubItems.Add(place.department);
+					listView1.Items.Add(listviewitem);
 				}
 			}
 

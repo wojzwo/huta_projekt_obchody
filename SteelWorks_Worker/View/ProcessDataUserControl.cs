@@ -63,7 +63,7 @@ namespace SteelWorks_Worker.View
             bIsEmployeeValid_ = true;
 
             textBox1.Text = "Nieodwiedzone miejsca";
-            SendButton.Text = "Przejdź do czyszczenia czytnika";
+            SendButton.Text = "Wyślij raport...";
         }
 
         public void AddEmployee(ChipData data) {
@@ -158,7 +158,7 @@ namespace SteelWorks_Worker.View
             if (!bCorrectionMode)
                 view.ChangeUserControlToTrackSelection();
             else 
-                view.ChangeUserControlToDeleteReader();
+                view.ChangeUserControlToSendReport();
         }
 
         private void WorkerName_Click(object sender, EventArgs e) {

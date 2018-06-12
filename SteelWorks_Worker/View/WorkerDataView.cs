@@ -60,6 +60,14 @@ namespace SteelWorks_Worker.View
         }
 
         public void ChangeUserControlToDeleteReader() {
+            reportSendView_.Visible = false;
+
+            ReaderRemoveView newView = new ReaderRemoveView(mainController_);
+            newView.Show();
+            Hide();
+        }
+
+        public void ChangeUserControlToSendReport() {
             dataUserControl.Visible = false;
 
             ReportProcessData newData = dataUserControl.GetReportInfo();
@@ -67,9 +75,7 @@ namespace SteelWorks_Worker.View
 
             SaveReportToDatabase();
 
-            ReaderRemoveView newView = new ReaderRemoveView(mainController_);
-            newView.Show();
-            Hide();
+            reportSendView_.Visible = true;
         }
 
         public void AddEmployee(ChipData data) {

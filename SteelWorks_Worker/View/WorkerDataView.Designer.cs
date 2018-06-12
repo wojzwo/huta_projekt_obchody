@@ -29,6 +29,7 @@
             this.dataUserControl = new SteelWorks_Worker.View.ProcessDataUserControl();
             this.sendReportUserControl_ = new SteelWorks_Worker.View.SendReportUserControl();
             this.trackSelectionUserControl_ = new SteelWorks_Worker.View.TrackSelectionUserControl();
+            this.reportSendView_ = new ReportSendView();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -64,6 +65,14 @@
             this.trackSelectionUserControl_.TabIndex = 2;
             this.trackSelectionUserControl_.Visible = false;
             // 
+            // reportSendView_
+            // 
+            this.reportSendView_.Location = new System.Drawing.Point(12, 12);
+            this.reportSendView_.Name = "reportSendView_";
+            this.reportSendView_.Size = new System.Drawing.Size(1240, 657);
+            this.reportSendView_.TabIndex = 2;
+            this.reportSendView_.Visible = false;
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -97,6 +106,7 @@
             this.Controls.Add(this.dataUserControl);
             this.Controls.Add(this.sendReportUserControl_);
             this.Controls.Add(this.trackSelectionUserControl_);
+            this.Controls.Add(this.reportSendView_);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WorkerDataView";
             this.Text = "Obchody - Pracownik";
@@ -112,6 +122,7 @@
         private ProcessDataUserControl dataUserControl;
         private SendReportUserControl sendReportUserControl_;
         private TrackSelectionUserControl trackSelectionUserControl_;
+        private ReportSendView reportSendView_;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
     }

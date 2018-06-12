@@ -143,6 +143,16 @@ namespace SteelWorks_Worker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap drawn_pidgeons_carrier_pigeon_20 {
+            get {
+                object obj = ResourceManager.GetObject("drawn-pidgeons-carrier-pigeon-20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap koperta {
             get {
                 object obj = ResourceManager.GetObject("koperta", resourceCulture);

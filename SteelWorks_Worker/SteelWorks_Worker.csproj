@@ -134,6 +134,12 @@
     <Compile Include="View\ReaderRemoveView.Designer.cs">
       <DependentUpon>ReaderRemoveView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ReportSendView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\ReportSendView.Designer.cs">
+      <DependentUpon>ReportSendView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\SelectableButtonUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -202,6 +208,9 @@
     <EmbeddedResource Include="View\ReaderRemoveView.resx">
       <DependentUpon>ReaderRemoveView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\ReportSendView.resx">
+      <DependentUpon>ReportSendView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\SelectableButtonUserControl.resx">
       <DependentUpon>SelectableButtonUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -257,7 +266,8 @@
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
     <Content Include="Icon.ico" />
-	<None Include="Resources\logo_hw.png" />
+    <None Include="Resources\drawn-pidgeons-carrier-pigeon-20.jpg" />
+    <None Include="Resources\logo_hw.png" />
     <None Include="Resources\acelor.png" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\koperta.png" />

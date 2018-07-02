@@ -176,7 +176,7 @@ namespace SteelWorks_Utils.Model
             firstRowFirstColumn.Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
             headerTable.AddCell(firstRowFirstColumn);
 
-            Phrase companyNamePhrase = Phrase.GetInstance(0, "ARCELOR MITTAL HUTA WARSZAWA Wydz. P-20", new Font(ARIAL, 18.0f, Font.BOLD));
+            Phrase companyNamePhrase = Phrase.GetInstance(0, "ARCELOR MITTAL HUTA WARSZAWA", new Font(ARIAL, 18.0f, Font.BOLD));
             PdfPCell companyName = new PdfPCell(companyNamePhrase);
             companyName.Colspan = 2;
             companyName.UseAscender = true;
@@ -203,7 +203,7 @@ namespace SteelWorks_Utils.Model
                 reportType = "Raport zmiany 3";
             }
 
-            Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z inspekcji P-20 - " + reportType, new Font(ARIAL, normalTextSize, Font.BOLD));
+            Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z inspekcji - " + reportType, new Font(ARIAL, normalTextSize, Font.BOLD));
             PdfPCell inspectionCard = new PdfPCell(inspectionCardPhrase);
             inspectionCard.UseAscender = true;
             inspectionCard.HorizontalAlignment = 1;
@@ -588,8 +588,28 @@ namespace SteelWorks_Utils.Model
 
                     shift -= 1; //indexes are [0..2] not [1..3]
                     info.employeeName[shift] = pair.Key.signedEmployeeName;
-                    info.status[shift] = p.status;
-                    info.comment[shift] = p.comment;
+
+                    bool bReplaceStatusLetter = true;
+                    if (info.status[shift] == default(string)) {
+                        info.status[shift] = p.status;
+                    } else {
+                        if (p.markCommentRequired) {
+                            info.status[shift] = p.status;
+                        } else {
+                            bReplaceStatusLetter = false;
+                            if (info.status[shift] == "Nieodwiedzono") {
+                                bReplaceStatusLetter = true;
+                                info.status[shift] = p.status;
+                            }
+                        }
+                    }
+
+                    if (info.comment[shift] != default(string)) {
+                        info.comment[shift] += "\n---" + p.comment;
+                    } else {
+                        info.comment[shift] = p.comment;
+                    }
+
                     info.visitDate[shift] = p.visitDate.ToString("HH:mm");
                     info.mark[shift] = p.markDescription;
 
@@ -597,19 +617,21 @@ namespace SteelWorks_Utils.Model
                         Debug.Log("Duplicate entry: Place = " + p.placeName + "; Shift = " + (shift + 1), LogType.Warning);
                     }
 
-                    if (!pair.Key.isFinished) {
-                        info.shiftInfo[shift] = "*";
-                    } else {
-                        if (p.status == "Nieodwiedzono") {
-                            if (p.markCommentRequired)
-                                info.shiftInfo[shift] = "N*";
-                            else
-                                info.shiftInfo[shift] = "T*";
+                    if (bReplaceStatusLetter) {
+                        if (!pair.Key.isFinished) {
+                            info.shiftInfo[shift] = "*";
                         } else {
-                            if (p.markCommentRequired)
-                                info.shiftInfo[shift] = "N";
-                            else
-                                info.shiftInfo[shift] = "T";
+                            if (info.status[shift] == "Nieodwiedzono") {
+                                if (p.markCommentRequired)
+                                    info.shiftInfo[shift] = "N*";
+                                else
+                                    info.shiftInfo[shift] = "T*";
+                            } else {
+                                if (p.markCommentRequired)
+                                    info.shiftInfo[shift] = "N";
+                                else
+                                    info.shiftInfo[shift] = "T";
+                            }
                         }
                     }
                 }
@@ -636,7 +658,7 @@ namespace SteelWorks_Utils.Model
                     firstRowFirstColumn.Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
                     headerTable.AddCell(firstRowFirstColumn);
 
-                    Phrase companyNamePhrase = Phrase.GetInstance(0, "ARCELOR MITTAL HUTA WARSZAWA Wydz. P-20", new Font(ARIAL, 18.0f, Font.BOLD));
+                    Phrase companyNamePhrase = Phrase.GetInstance(0, "ARCELOR MITTAL HUTA WARSZAWA", new Font(ARIAL, 18.0f, Font.BOLD));
                     PdfPCell companyName = new PdfPCell(companyNamePhrase);
                     companyName.Colspan = 2;
                     companyName.UseAscender = true;
@@ -648,7 +670,7 @@ namespace SteelWorks_Utils.Model
                     secondRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
                     headerTable.AddCell(secondRowFirstColumn);
 
-                    Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z indywidualnej inspekcji P-20", new Font(ARIAL, normalTextSize, Font.BOLD));
+                    Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z indywidualnej inspekcji", new Font(ARIAL, normalTextSize, Font.BOLD));
                     PdfPCell inspectionCard = new PdfPCell(inspectionCardPhrase);
                     inspectionCard.UseAscender = true;
                     inspectionCard.HorizontalAlignment = 1;

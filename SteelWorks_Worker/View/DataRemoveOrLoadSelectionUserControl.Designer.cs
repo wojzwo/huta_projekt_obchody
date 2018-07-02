@@ -164,9 +164,9 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label4.Location = new System.Drawing.Point(339, 588);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 24);
+            this.label4.Size = new System.Drawing.Size(25, 24);
             this.label4.TabIndex = 21;
-            this.label4.Text = "Error message";
+            this.label4.Text = "   ";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // DataRemoveOrLoadSelectionUserControl

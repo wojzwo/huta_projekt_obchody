@@ -19,6 +19,7 @@ namespace SteelWorks_Admin.View
     {
         public OtherUserControl() {
             InitializeComponent();
+			dateTimePicker1.Value = DateTime.Now.Date;
         }
 
         private void GenerateReports(DateTime day) {

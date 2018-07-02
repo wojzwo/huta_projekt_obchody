@@ -32,7 +32,7 @@ namespace SteelWorks_Server
             if (args.Length == 1) {
                 int shift = Int32.Parse(args[0]);
                 Repository.generator.GenerateShiftBasedReport(shift);
-                //SendShiftReport(shift);
+                SendShiftReport(shift);
                 return;
             }
 
@@ -187,14 +187,14 @@ namespace SteelWorks_Server
                 }
 
                 foreach (DbMail m in mails) {
-                    MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport zmiany " + shift + " z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
-
                     //report sending part
                     ReportMask mask = (shift == 1) ? ReportMask.SHIFT_1 : (shift == 2) ? ReportMask.SHIFT_2 : ReportMask.SHIFT_3;
-                    if ((m.reportMask & (int)mask) == (int)mask) {
-                        mm.Attachments.Add(new Attachment("Reports/ReportShift_" + shift + ".pdf"));
+                    if ((m.reportMask & (int)mask) != (int)mask) {
+                        continue;
                     }
 
+                    MailMessage mm = new MailMessage(EMAIL_NAME, m.address, "Huta - Raport zmiany " + shift + " z dnia " + yesterday.ToString("d"), "Automatyczny raport zawarty w załączniku.");
+                    mm.Attachments.Add(new Attachment("Reports/ReportShift_" + shift + ".pdf"));
                     mm.BodyEncoding = UTF8Encoding.UTF8;
                     mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 

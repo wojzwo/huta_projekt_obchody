@@ -281,16 +281,18 @@ namespace SteelWorks_Utils.Model
             dateTime.UseAscender = true;
             dateTime.VerticalAlignment = Element.ALIGN_MIDDLE;
             headerTable.AddCell(dateTime);
+            headerTable.SplitLate = false;
 
-            PdfPTable borderTable = new PdfPTable(1);
-            borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
-            borderTable.LockedWidth = true;
-            borderTable.SpacingAfter = 0.0f;
-            PdfPCell headerCell = new PdfPCell(headerTable);
-            headerCell.BorderWidth = 1.0f;
-            borderTable.AddCell(headerCell);
+            //PdfPTable borderTable = new PdfPTable(1);
+            //borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
+            //borderTable.LockedWidth = true;
+            //borderTable.SpacingAfter = 0.0f;
+            //PdfPCell headerCell = new PdfPCell(headerTable);
+            //headerCell.BorderWidth = 1.0f;
+            //borderTable.AddCell(headerCell);
+            //borderTable.SplitLate = false;
 
-            doc.Add(borderTable);
+            doc.Add(headerTable);
         }
 
         private void GeneratePDFReport(Document doc, int reportMask, Dictionary<string, List<ReportInfo>> dictionary) {
@@ -302,15 +304,15 @@ namespace SteelWorks_Utils.Model
             GenerateReportHeader(mainTable);
             Dictionary<int, EmployeeReportInfo> employeeByShift = GenerateReportContent(doc, mainTable, reportMask, dictionary);
 
-            PdfPTable borderTable = new PdfPTable(1);
-            borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
-            borderTable.LockedWidth = true;
-            borderTable.SpacingBefore = 0.0f;
-            PdfPCell headerCell = new PdfPCell(mainTable);
-            headerCell.BorderWidth = 1.0f;
-            borderTable.AddCell(headerCell);
+            //PdfPTable borderTable = new PdfPTable(1);
+            //borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
+            //borderTable.LockedWidth = true;
+            //borderTable.SpacingBefore = 0.0f;
+            //PdfPCell headerCell = new PdfPCell(mainTable);
+            //headerCell.BorderWidth = 1.0f;
+            //borderTable.AddCell(headerCell);
 
-            doc.Add(borderTable);
+            doc.Add(mainTable);
 
             PdfPTable employeeTable = new PdfPTable(2);
             employeeTable.TotalWidth = mainTable.TotalWidth;
@@ -363,6 +365,10 @@ namespace SteelWorks_Utils.Model
         }
 
         private void GenerateReportHeader(PdfPTable mainTable) {
+            PdfPCell spacingCell = new PdfPCell(new Phrase("  "));
+            spacingCell.Colspan = 6;
+            mainTable.AddCell(spacingCell);
+
             PdfPCell[] headerCells = new PdfPCell[6];
             headerCells[0] = new PdfPCell(new Phrase("Lp", bFont));
             headerCells[1] = new PdfPCell(new Phrase("Nazwa", bFont));
@@ -553,7 +559,7 @@ namespace SteelWorks_Utils.Model
 
                 foreach (ReportInfo i in pair.Value) {
                     for (int z = 0; z < 3; z++) {
-                        EmployeeReportInfo info = employeeByShift[z+1];
+                        EmployeeReportInfo info = employeeByShift[z + 1];
                         int index = info.names.FindIndex((x) => x == i.employeeName[z]);
                         if (index == -1)
                             continue;
@@ -634,28 +640,18 @@ namespace SteelWorks_Utils.Model
                     }
 
                     shift -= 1; //indexes are [0..2] not [1..3]
-                    info.employeeName[shift] = pair.Key.signedEmployeeName;
 
-                    bool bReplaceStatusLetter = true;
-                    if (info.status[shift] == default(string)) {
-                        info.status[shift] = p.status;
-                    } else {
-                        if (p.markCommentRequired) {
-                            info.status[shift] = p.status;
-                        } else {
-                            bReplaceStatusLetter = false;
-                            if (info.status[shift] == "Nieodwiedzono") {
-                                bReplaceStatusLetter = true;
-                                info.status[shift] = p.status;
-                            }
+                    if (info.shiftInfo[shift] != "-" && info.shiftInfo[shift] != "*") {
+                        if (!p.markCommentRequired) {
+                            if (p.comment != default(string))
+                                info.comment[shift] += "\n-> " + p.comment;
+                            continue;
                         }
                     }
 
-                    if (info.comment[shift] != default(string)) {
-                        info.comment[shift] += "\n---" + p.comment;
-                    } else {
-                        info.comment[shift] = p.comment;
-                    }
+                    info.employeeName[shift] = pair.Key.signedEmployeeName;
+                    info.status[shift] = p.status;
+                    info.comment[shift] = p.comment;
 
                     info.visitDate[shift] = p.visitDate.ToString("HH:mm");
                     info.actualDatesDateTimes[shift] = p.visitDate;
@@ -665,21 +661,19 @@ namespace SteelWorks_Utils.Model
                         Debug.Log("Duplicate entry: Place = " + p.placeName + "; Shift = " + (shift + 1), LogType.Warning);
                     }
 
-                    if (bReplaceStatusLetter) {
-                        if (!pair.Key.isFinished) {
-                            info.shiftInfo[shift] = "*";
+                    if (!pair.Key.isFinished) {
+                        info.shiftInfo[shift] = "*";
+                    } else {
+                        if (info.status[shift] == "Nieodwiedzono") {
+                            if (p.markCommentRequired)
+                                info.shiftInfo[shift] = "N*";
+                            else
+                                info.shiftInfo[shift] = "T*";
                         } else {
-                            if (info.status[shift] == "Nieodwiedzono") {
-                                if (p.markCommentRequired)
-                                    info.shiftInfo[shift] = "N*";
-                                else
-                                    info.shiftInfo[shift] = "T*";
-                            } else {
-                                if (p.markCommentRequired)
-                                    info.shiftInfo[shift] = "N";
-                                else
-                                    info.shiftInfo[shift] = "T";
-                            }
+                            if (p.markCommentRequired)
+                                info.shiftInfo[shift] = "N";
+                            else
+                                info.shiftInfo[shift] = "T";
                         }
                     }
                 }
@@ -785,15 +779,16 @@ namespace SteelWorks_Utils.Model
                     employeeNameCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                     headerTable.AddCell(employeeNameCell);
 
-                    PdfPTable borderTable = new PdfPTable(1);
-                    borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
-                    borderTable.LockedWidth = true;
-                    borderTable.SpacingAfter = 0.0f;
-                    PdfPCell headerCell = new PdfPCell(headerTable);
-                    headerCell.BorderWidth = 1.0f;
-                    borderTable.AddCell(headerCell);
+                    //PdfPTable borderTable = new PdfPTable(1);
+                    //borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
+                    //borderTable.LockedWidth = true;
+                    //borderTable.SpacingAfter = 0.0f;
+                    //PdfPCell headerCell = new PdfPCell(headerTable);
+                    //headerCell.BorderWidth = 1.0f;
+                    //borderTable.AddCell(headerCell);
 
-                    doc.Add(borderTable);
+                    headerTable.SplitLate = false;
+                    doc.Add(headerTable);
 
                     //-------------------------------------
 
@@ -815,14 +810,14 @@ namespace SteelWorks_Utils.Model
                         contentTableHeader.AddCell(headerCells[i]);
                     }
 
-                    PdfPTable borderTable2 = new PdfPTable(1);
-                    borderTable2.TotalWidth = doc.PageSize.Width - 72.0f;
-                    borderTable2.LockedWidth = true;
-                    borderTable2.SpacingAfter = 0.0f;
-                    PdfPCell headerCell2 = new PdfPCell(contentTableHeader);
-                    headerCell2.BorderWidth = 1.0f;
-                    borderTable2.AddCell(headerCell2);
-                    doc.Add(borderTable2);
+                    //PdfPTable borderTable2 = new PdfPTable(1);
+                    //borderTable2.TotalWidth = doc.PageSize.Width - 72.0f;
+                    //borderTable2.LockedWidth = true;
+                    //borderTable2.SpacingAfter = 0.0f;
+                    //PdfPCell headerCell2 = new PdfPCell(contentTableHeader);
+                    //headerCell2.BorderWidth = 1.0f;
+                    //borderTable2.AddCell(headerCell2);
+                    doc.Add(contentTableHeader);
 
                     //-----------------------------------
 
@@ -879,14 +874,14 @@ namespace SteelWorks_Utils.Model
                         contentTable.AddCell(hourCell);
                     }
 
-                    PdfPTable borderTable3 = new PdfPTable(1);
-                    borderTable3.TotalWidth = doc.PageSize.Width - 72.0f;
-                    borderTable3.LockedWidth = true;
-                    borderTable3.SpacingAfter = 0.0f;
-                    PdfPCell headerCell3 = new PdfPCell(contentTable);
-                    headerCell3.BorderWidth = 1.0f;
-                    borderTable3.AddCell(headerCell3);
-                    doc.Add(borderTable3);
+                    //PdfPTable borderTable3 = new PdfPTable(1);
+                    //borderTable3.TotalWidth = doc.PageSize.Width - 72.0f;
+                    //borderTable3.LockedWidth = true;
+                    //borderTable3.SpacingAfter = 0.0f;
+                    //PdfPCell headerCell3 = new PdfPCell(contentTable);
+                    //headerCell3.BorderWidth = 1.0f;
+                    //borderTable3.AddCell(headerCell3);
+                    doc.Add(contentTable);
 
                     doc.Close();
                 }

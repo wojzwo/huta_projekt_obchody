@@ -40,19 +40,6 @@ namespace SteelWorks_Admin.View
                 Debug.Log("Couldn't create directory:\n" + ex.ToString(), LogType.Error);
             }
 
-
-            //DirectoryInfo info = new DirectoryInfo(Directory.GetCurrentDirectory());
-            //FileInfo[] files = info.GetFiles("Reports/*.pdf")
-            //    .Where(p => p.Extension == ".pdf").ToArray();
-            //foreach (FileInfo file in files) {
-            //    try {
-            //        file.Attributes = FileAttributes.Normal;
-            //        File.Delete(file.FullName);
-            //    } catch {
-
-            //    }
-            //}
-
             Repository.generator.GenerateOldReports(day, day);
         }
 

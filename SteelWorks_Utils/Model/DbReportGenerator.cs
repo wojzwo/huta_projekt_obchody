@@ -19,6 +19,24 @@ namespace SteelWorks_Utils.Model
         public string[] status = new string[3];
         public string[] visitDate = new string[3];
         public string[] mark = new string[3];
+
+        public DateTime[] actualDatesDateTimes = new DateTime[3];
+    }
+
+    public class EmployeeReportInfo
+    {
+        public EmployeeReportInfo() {
+            names = new List<string>();
+            durations = new List<string>();
+            startTimes = new List<DateTime>();
+            endTimes = new List<DateTime>();
+        }
+
+        public List<string> names;
+        public List<string> durations;
+
+        public List<DateTime> startTimes;
+        public List<DateTime> endTimes;
     }
 
     public class DbReportGenerator
@@ -282,7 +300,7 @@ namespace SteelWorks_Utils.Model
             mainTable.SetWidths(new float[] { 0.05f, 0.4f, 0.05f, 0.05f, 0.05f, 0.4f });
 
             GenerateReportHeader(mainTable);
-            Dictionary<int, List<string>> employeeByShift = GenerateReportContent(doc, mainTable, reportMask, dictionary);
+            Dictionary<int, EmployeeReportInfo> employeeByShift = GenerateReportContent(doc, mainTable, reportMask, dictionary);
 
             PdfPTable borderTable = new PdfPTable(1);
             borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
@@ -318,18 +336,18 @@ namespace SteelWorks_Utils.Model
                 employeeTable.AddCell(shiftNumberCell);
 
                 Phrase employeeNamesPhrase = new Phrase();
-                for (int l = 0; l < employeeByShift[u + 1].Count - 1; l++) {
-                    if (employeeByShift[u + 1][l] == "")
+                for (int l = 0; l < employeeByShift[u + 1].names.Count - 1; l++) {
+                    if (employeeByShift[u + 1].names[l] == "")
                         continue;
 
                     employeeNamesPhrase.Add(
-                        new Chunk(employeeByShift[u + 1][l] + "\n", tFont)
+                        new Chunk(employeeByShift[u + 1].names[l] + " " + employeeByShift[u + 1].durations[l] + "\n", tFont)
                     );
                 }
 
-                if (employeeByShift[u + 1].Count > 0 && employeeByShift[u + 1][employeeByShift[u + 1].Count - 1] != "") {
+                if (employeeByShift[u + 1].names.Count > 0 && employeeByShift[u + 1].names[employeeByShift[u + 1].names.Count - 1] != "") {
                     employeeNamesPhrase.Add(
-                        new Chunk(employeeByShift[u + 1][employeeByShift[u + 1].Count - 1], tFont)
+                        new Chunk(employeeByShift[u + 1].names[employeeByShift[u + 1].names.Count - 1] + " " + employeeByShift[u + 1].durations[employeeByShift[u + 1].names.Count - 1], tFont)
                     );
                 }
 
@@ -360,12 +378,12 @@ namespace SteelWorks_Utils.Model
             }
         }
 
-        private Dictionary<int, List<string>> GenerateReportContent(Document doc, PdfPTable mainTable, int reportMask, Dictionary<string, List<ReportInfo>> dictionary) {
+        private Dictionary<int, EmployeeReportInfo> GenerateReportContent(Document doc, PdfPTable mainTable, int reportMask, Dictionary<string, List<ReportInfo>> dictionary) {
             //actual table fill
-            Dictionary<int, List<string>> employeeByShift = new Dictionary<int, List<string>>();
-            employeeByShift.Add(1, new List<string>());
-            employeeByShift.Add(2, new List<string>());
-            employeeByShift.Add(3, new List<string>());
+            Dictionary<int, EmployeeReportInfo> employeeByShift = new Dictionary<int, EmployeeReportInfo>();
+            employeeByShift.Add(1, new EmployeeReportInfo());
+            employeeByShift.Add(2, new EmployeeReportInfo());
+            employeeByShift.Add(3, new EmployeeReportInfo());
 
             foreach (KeyValuePair<string, List<ReportInfo>> pair in dictionary) {
                 uint globalCounter = 1;
@@ -387,10 +405,16 @@ namespace SteelWorks_Utils.Model
                         && (i.shiftInfo[2] == "T" || i.shiftInfo[2] == "-" || i.shiftInfo[2] == "T*"))
                         continue;
 
-                    for (int z = 0; z < 3; z++)
-                        if (i.employeeName[z] != null && !i.employeeName[z].StartsWith("Grupa:"))
-                            if (!employeeByShift[z + 1].Contains(i.employeeName[z]))
-                                employeeByShift[z + 1].Add(i.employeeName[z]);
+                    for (int z = 0; z < 3; z++) {
+                        if (i.employeeName[z] != null && !i.employeeName[z].StartsWith("Grupa:")) {
+                            if (!employeeByShift[z + 1].names.Contains(i.employeeName[z])) {
+                                employeeByShift[z + 1].names.Add(i.employeeName[z]);
+                                employeeByShift[z + 1].startTimes.Add(DateTime.MaxValue);
+                                employeeByShift[z + 1].endTimes.Add(DateTime.MinValue);
+                                employeeByShift[z + 1].durations.Add("");
+                            }
+                        }
+                    }
 
                     PdfPCell numberCell = new PdfPCell(new Phrase(globalCounter.ToString(), tFont));
                     numberCell.Padding = 5;
@@ -526,6 +550,29 @@ namespace SteelWorks_Utils.Model
 
                     globalCounter++;
                 }
+
+                foreach (ReportInfo i in pair.Value) {
+                    for (int z = 0; z < 3; z++) {
+                        EmployeeReportInfo info = employeeByShift[z+1];
+                        int index = info.names.FindIndex((x) => x == i.employeeName[z]);
+                        if (index == -1)
+                            continue;
+
+                        if (i.actualDatesDateTimes[z] < info.startTimes[index])
+                            info.startTimes[index] = i.actualDatesDateTimes[z];
+
+                        if (i.actualDatesDateTimes[z] > info.endTimes[index])
+                            info.endTimes[index] = i.actualDatesDateTimes[z];
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<int, EmployeeReportInfo> pair in employeeByShift) {
+                EmployeeReportInfo info = pair.Value;
+                for (int i = 0; i < info.names.Count; i++) {
+                    TimeSpan delta = info.endTimes[i] - info.startTimes[i];
+                    info.durations[i] = "(" + delta.Hours + "h " + delta.Minutes + "m)";
+                }
             }
 
             return employeeByShift;
@@ -611,6 +658,7 @@ namespace SteelWorks_Utils.Model
                     }
 
                     info.visitDate[shift] = p.visitDate.ToString("HH:mm");
+                    info.actualDatesDateTimes[shift] = p.visitDate;
                     info.mark[shift] = p.markDescription;
 
                     if (info.shiftInfo[shift] != "-") {

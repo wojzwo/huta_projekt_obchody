@@ -31,14 +31,14 @@ namespace SteelWorks_Worker.Controller
             if (Tester.bIsInTestMode) {
                 employee = new ChipData(DateTime.Now, "F0C859");
                 chips = new List<ChipData>();
-                chips.Add(new ChipData(DateTime.Now, "F06516"));
-                chips.Add(new ChipData());
-                chips.Add(new ChipData(DateTime.Now, "F0DFC9"));
+                //chips.Add(new ChipData(DateTime.Now, "F06516"));
+                //chips.Add(new ChipData());
+                //chips.Add(new ChipData(DateTime.Now, "F0DFC9"));
 
                 keypads = new List<KeypadData>();
-                keypads.Add(new KeypadData(DateTime.Now, 1));
-                keypads.Add(new KeypadData(DateTime.Now, 2));
-                keypads.Add(new KeypadData());
+                //keypads.Add(new KeypadData(DateTime.Now, 1));
+                //keypads.Add(new KeypadData(DateTime.Now, 2));
+                //keypads.Add(new KeypadData());
             }
 
             if (employee == null) {

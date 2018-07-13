@@ -56,20 +56,23 @@
             // 
             this.noTrackPlacesListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.noTrackPlacesListBox.FormattingEnabled = true;
+            this.noTrackPlacesListBox.HorizontalScrollbar = true;
             this.noTrackPlacesListBox.ItemHeight = 18;
             this.noTrackPlacesListBox.Location = new System.Drawing.Point(536, 125);
-            this.noTrackPlacesListBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.noTrackPlacesListBox.Margin = new System.Windows.Forms.Padding(1);
             this.noTrackPlacesListBox.Name = "noTrackPlacesListBox";
             this.noTrackPlacesListBox.Size = new System.Drawing.Size(300, 382);
             this.noTrackPlacesListBox.TabIndex = 1;
+            this.noTrackPlacesListBox.SelectedIndexChanged += new System.EventHandler(this.noTrackPlacesListBox_SelectedIndexChanged);
             // 
             // trackPlacesListBox
             // 
             this.trackPlacesListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.trackPlacesListBox.FormattingEnabled = true;
+            this.trackPlacesListBox.HorizontalScrollbar = true;
             this.trackPlacesListBox.ItemHeight = 18;
             this.trackPlacesListBox.Location = new System.Drawing.Point(919, 125);
-            this.trackPlacesListBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.trackPlacesListBox.Margin = new System.Windows.Forms.Padding(1);
             this.trackPlacesListBox.Name = "trackPlacesListBox";
             this.trackPlacesListBox.Size = new System.Drawing.Size(300, 382);
             this.trackPlacesListBox.TabIndex = 2;
@@ -78,7 +81,7 @@
             // 
             this.deletTrackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.deletTrackButton.Location = new System.Drawing.Point(1034, 521);
-            this.deletTrackButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.deletTrackButton.Margin = new System.Windows.Forms.Padding(1);
             this.deletTrackButton.Name = "deletTrackButton";
             this.deletTrackButton.Size = new System.Drawing.Size(185, 40);
             this.deletTrackButton.TabIndex = 5;
@@ -90,7 +93,7 @@
             // 
             this.toTrackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.toTrackButton.Location = new System.Drawing.Point(847, 245);
-            this.toTrackButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.toTrackButton.Margin = new System.Windows.Forms.Padding(1);
             this.toTrackButton.Name = "toTrackButton";
             this.toTrackButton.Size = new System.Drawing.Size(61, 61);
             this.toTrackButton.TabIndex = 7;
@@ -102,7 +105,7 @@
             // 
             this.fromTrackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.fromTrackButton.Location = new System.Drawing.Point(847, 334);
-            this.fromTrackButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.fromTrackButton.Margin = new System.Windows.Forms.Padding(1);
             this.fromTrackButton.Name = "fromTrackButton";
             this.fromTrackButton.Size = new System.Drawing.Size(61, 61);
             this.fromTrackButton.TabIndex = 8;
@@ -114,7 +117,7 @@
             // 
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.saveButton.Location = new System.Drawing.Point(536, 521);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(483, 40);
             this.saveButton.TabIndex = 9;
@@ -137,7 +140,7 @@
             // 
             this.trackNametextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.trackNametextBox.Location = new System.Drawing.Point(681, 77);
-            this.trackNametextBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.trackNametextBox.Margin = new System.Windows.Forms.Padding(1);
             this.trackNametextBox.Name = "trackNametextBox";
             this.trackNametextBox.Size = new System.Drawing.Size(538, 32);
             this.trackNametextBox.TabIndex = 11;
@@ -180,7 +183,7 @@
             this.Controls.Add(this.trackPlacesListBox);
             this.Controls.Add(this.noTrackPlacesListBox);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "TrackUserControl";
             this.Size = new System.Drawing.Size(1263, 599);
             this.ResumeLayout(false);

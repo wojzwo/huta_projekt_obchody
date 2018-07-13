@@ -204,7 +204,7 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "SELECT * FROM Routine WHERE id IN (SELECT routineId FROM Report WHERE isFinished=0)";
+            query.CommandText = "SELECT * FROM Routine WHERE id NOT IN (SELECT routineId FROM Report WHERE isFinished=1)";
 
             try {
                 MySqlDataReader reader = query.ExecuteReader();

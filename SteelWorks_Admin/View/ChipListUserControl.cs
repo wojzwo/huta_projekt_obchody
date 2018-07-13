@@ -63,7 +63,11 @@ namespace SteelWorks_Admin.View
 					if (x.department == null && y.department == null) return 0;
 					else if (x.department == null) return -1;
 					else if (y.department == null) return 1;
-					else return x.department.CompareTo(y.department);
+
+				    if (x.department == y.department)
+				        return x.name.CompareTo(y.name);
+
+				    return x.department.CompareTo(y.department);
 				});
 				foreach (DbPlace place in places)
 				{

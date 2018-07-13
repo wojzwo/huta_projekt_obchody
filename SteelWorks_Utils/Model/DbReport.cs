@@ -143,7 +143,7 @@ namespace SteelWorks_Utils.Model
                 try {
                     Repository.reportPlace.Insert(reportPlace);
                 } catch (Exception ex) {
-                    throw;
+                    
                 }
             }
 
@@ -174,6 +174,8 @@ namespace SteelWorks_Utils.Model
                         Repository.reportEmployee.Insert(re);
                     }
                 }
+            } else {
+                Debug.Log("Error while inserting ReportEmployee - Routine is null. ReportID = " + reportId, LogType.DatabaseError);
             }
 
             return (rowsAffected == 1);
@@ -404,6 +406,15 @@ namespace SteelWorks_Utils.Model
                 query1.ExecuteNonQuery();
             } catch (Exception ex) {
                 Debug.Log("Error while deleting all not finished ReportsPlaces\n" + ex.ToString(), LogType.DatabaseError);
+                throw new QueryExecutionException();
+            }
+
+            MySqlCommand query2 = connection_.CreateCommand();
+            query2.CommandText = "DELETE FROM ReportEmployee WHERE reportId IN (SELECT id FROM Report WHERE isFinished = 0)";
+            try {
+                query2.ExecuteNonQuery();
+            } catch (Exception ex) {
+                Debug.Log("Error while deleting all not finished ReportEmployees\n" + ex.ToString(), LogType.DatabaseError);
                 throw new QueryExecutionException();
             }
 

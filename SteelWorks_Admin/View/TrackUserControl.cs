@@ -213,6 +213,9 @@ namespace SteelWorks_Admin.View
                 trackNametextBox.Text = (trackComboBox.SelectedItem as ComboboxItem).Text.ToString();
             }
 
+            placesOut.Sort((x, y) => x.name.CompareTo(y.name));
+            placesIn?.Sort((x,y) => x.name.CompareTo(y.name));
+
             noTrackPlacesListBox.Items.Clear();
             trackPlacesListBox.Items.Clear();
             foreach (DbPlace place in placesOut) {
@@ -230,6 +233,10 @@ namespace SteelWorks_Admin.View
                     trackPlacesListBox.Items.Add(item);
                 }
             }
+        }
+
+        private void noTrackPlacesListBox_SelectedIndexChanged(object sender, EventArgs e) {
+
         }
     }
 }

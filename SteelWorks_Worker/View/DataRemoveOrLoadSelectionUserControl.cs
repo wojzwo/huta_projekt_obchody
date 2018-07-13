@@ -45,7 +45,7 @@ namespace SteelWorks_Worker.View
             try {
                 label4.Text = "Proszę czekać...";
                 label4.ForeColor = Color.Black;
-                GenerateReports(DateTime.Today.AddHours(-8));
+                GenerateReports(DateTime.Now.AddHours(-6).Date);
                 Process.Start(@"Reports\Report_Full.pdf");
             } catch (Exception ex) {
                 Debug.Log("Couldn't generate full report\n" + ex.ToString(), LogType.Error);
@@ -64,7 +64,7 @@ namespace SteelWorks_Worker.View
             try {
                 label4.Text = "Proszę czekać...";
                 label4.ForeColor = Color.Black;
-                GenerateReports(DateTime.Today.AddHours(-8));
+                GenerateReports(DateTime.Now.AddHours(-6).Date);
                 Process.Start(@"Reports\Report_General.pdf");
             } catch (Exception ex) {
                 Debug.Log("Couldn't generate general report\n" + ex.ToString(), LogType.Error);
@@ -83,7 +83,7 @@ namespace SteelWorks_Worker.View
             try {
                 label4.Text = "Proszę czekać...";
                 label4.ForeColor = Color.Black;
-                GenerateReports(DateTime.Today.AddHours(-8));
+                GenerateReports(DateTime.Now.AddHours(-6).Date);
                 Process.Start(@"Reports\Report_Minimal.pdf");
             } catch (Exception ex) {
                 Debug.Log("Couldn't generate minimal report\n" + ex.ToString(), LogType.Error);
@@ -102,7 +102,7 @@ namespace SteelWorks_Worker.View
             try {
                 label4.Text = "Proszę czekać...";
                 label4.ForeColor = Color.Black;
-                GenerateReports(DateTime.Today.AddHours(-8));
+                GenerateReports(DateTime.Now.AddHours(-6).Date);
                 Process.Start("explorer.exe", @"Reports\Individual");
             } catch (Exception ex) {
                 Debug.Log("Couldn't generate individual report\n" + ex.ToString(), LogType.Error);

@@ -120,7 +120,8 @@ namespace SteelWorks_Utils.Model
                     signedEmployeeName = "Grupa: " + teamName,
                     isFinished = false,
                     trackName = trackName,
-                    assignmentDate = DateTime.Now
+                    assignmentDate = DateTime.Now,
+                    routineName = routine.name
                 };
 
                 try {
@@ -188,23 +189,16 @@ namespace SteelWorks_Utils.Model
             PdfPTable headerTable = new PdfPTable(3);
             headerTable.TotalWidth = doc.PageSize.Width - 72.0f;
             headerTable.LockedWidth = true;
-            headerTable.SetWidths(new float[] { 0.05f, 0.45f, 0.5f });
+            headerTable.SetWidths(new float[] { 0.2f, 0.6f, 0.2f });
 
-            PdfPCell firstRowFirstColumn = new PdfPCell(new Phrase(""));
-            firstRowFirstColumn.Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+            Image leftLogo = Image.GetInstance("logo_hw.png");
+            leftLogo.ScaleAbsolute(leftLogo.ScaledWidth * 0.15f, leftLogo.ScaledHeight * 0.15f);
+            PdfPCell firstRowFirstColumn = new PdfPCell(leftLogo);         
+            firstRowFirstColumn.UseAscender = true;
+            firstRowFirstColumn.HorizontalAlignment = Element.ALIGN_CENTER;
+            firstRowFirstColumn.VerticalAlignment = Element.ALIGN_MIDDLE;
+            firstRowFirstColumn.Border = 0;
             headerTable.AddCell(firstRowFirstColumn);
-
-            Phrase companyNamePhrase = Phrase.GetInstance(0, "ARCELOR MITTAL HUTA WARSZAWA", new Font(ARIAL, 18.0f, Font.BOLD));
-            PdfPCell companyName = new PdfPCell(companyNamePhrase);
-            companyName.Colspan = 2;
-            companyName.UseAscender = true;
-            companyName.VerticalAlignment = Element.ALIGN_MIDDLE;
-            companyName.Padding = 8;
-            headerTable.AddCell(companyName);
-
-            PdfPCell secondRowFirstColumn = new PdfPCell(new Phrase(""));
-            secondRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-            headerTable.AddCell(secondRowFirstColumn);
 
             string reportType = "";
             if ((reportMask & (int)ReportMask.FULL) == (int)ReportMask.FULL) {
@@ -221,18 +215,66 @@ namespace SteelWorks_Utils.Model
                 reportType = "Raport zmiany 3";
             }
 
-            Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z inspekcji - " + reportType, new Font(ARIAL, normalTextSize, Font.BOLD));
-            PdfPCell inspectionCard = new PdfPCell(inspectionCardPhrase);
-            inspectionCard.UseAscender = true;
-            inspectionCard.HorizontalAlignment = 1;
-            inspectionCard.VerticalAlignment = Element.ALIGN_MIDDLE;
-            inspectionCard.Padding = 3;
-            headerTable.AddCell(inspectionCard);
+            Phrase companyNamePhrase = Phrase.GetInstance(0, 
+                "ARCELORMITTAL HUTA WARSZAWA\n\nUTRZYMANIE RUCHU\n\n" + reportType, 
+                new Font(ARIAL, 18.0f, Font.BOLD));
+            PdfPCell companyName = new PdfPCell(companyNamePhrase);
+            companyName.UseAscender = true;
+            companyName.HorizontalAlignment = Element.ALIGN_CENTER;
+            companyName.VerticalAlignment = Element.ALIGN_MIDDLE;
+            companyName.Padding = 8;
+            companyName.Border = 0;
+            headerTable.AddCell(companyName);
+
+            Image rightLogo = Image.GetInstance("arcelor_logo.png");
+            rightLogo.ScaleAbsolute(rightLogo.ScaledWidth * 0.06f, rightLogo.ScaledHeight * 0.06f);
+            PdfPCell firstRowThirdColumn = new PdfPCell(rightLogo);
+            firstRowThirdColumn.UseAscender = true;
+            firstRowThirdColumn.HorizontalAlignment = Element.ALIGN_CENTER;
+            firstRowThirdColumn.VerticalAlignment = Element.ALIGN_MIDDLE;
+            firstRowThirdColumn.Border = 0;
+            headerTable.AddCell(firstRowThirdColumn);
+
+            PdfPCell spacingCell = new PdfPCell(new Phrase("   "));
+            spacingCell.Colspan = 3;
+            spacingCell.Padding = 8;
+            spacingCell.Border = 0;
+            headerTable.AddCell(spacingCell);
+
+            /* ---- */
+            PdfPTable headerTable2 = new PdfPTable(3);
+            headerTable2.TotalWidth = doc.PageSize.Width - 72.0f;
+            headerTable2.LockedWidth = true;
+            headerTable2.SetWidths(new float[] { 0.45f, 0.15f, 0.5f });
+
+            CultureInfo cultureInfo = CultureInfo.GetCultureInfo("pl-PL");
+            Phrase dateTimePhrase = new Phrase();
+            dateTimePhrase.Add(
+                new Chunk("Data: ", new Font(ARIAL, normalTextSize, Font.BOLD))
+            );
+            dateTimePhrase.Add(
+                new Chunk(day.ToString("dd.MM.yyyy", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
+            );
+            PdfPCell dateTime = new PdfPCell(dateTimePhrase);
+            dateTime.Colspan = 1;
+            dateTime.UseAscender = true;
+            dateTime.VerticalAlignment = Element.ALIGN_MIDDLE;
+            dateTime.Border = 0;
+            headerTable2.AddCell(dateTime);
+
+
+            Phrase legendHeaderPhrase = Phrase.GetInstance(0,
+                "Legenda:",
+                new Font(ARIAL, normalTextSize, Font.BOLD));
+            PdfPCell legendHeader = new PdfPCell(legendHeaderPhrase);
+            legendHeader.UseAscender = true;
+            legendHeader.HorizontalAlignment = Element.ALIGN_RIGHT;
+            legendHeader.VerticalAlignment = Element.ALIGN_MIDDLE;
+            legendHeader.Border = 0;
+            headerTable2.AddCell(legendHeader);
+
 
             Phrase legendPhrase = new Phrase();
-            legendPhrase.Add(
-                new Chunk("Kontrola stanu urządzeń:\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
-            );
             legendPhrase.Add(
                 new Chunk("T", new Font(ARIAL, normalTextSize, Font.BOLD))
             );
@@ -249,50 +291,24 @@ namespace SteelWorks_Utils.Model
                 new Chunk("*", new Font(ARIAL, normalTextSize, Font.BOLD))
             );
             legendPhrase.Add(
-                new Chunk(" = nieodwiedzone\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                new Chunk("  = brak kontroli\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
             );
             legendPhrase.Add(
                 new Chunk("-", new Font(ARIAL, normalTextSize, Font.BOLD))
             );
             legendPhrase.Add(
-                new Chunk("  = kontrola niezlecona", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                new Chunk("  = kontrola niezlecona\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
             );
             PdfPCell legend = new PdfPCell(legendPhrase);
             legend.UseAscender = true;
+            legend.PaddingLeft = 25;
+            legend.HorizontalAlignment = Element.ALIGN_LEFT;
             legend.VerticalAlignment = Element.ALIGN_MIDDLE;
-            legend.Padding = 3;
-            headerTable.AddCell(legend);
-
-            PdfPCell thirdRowFirstColumn = new PdfPCell(new Phrase(""));
-            thirdRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER | Rectangle.BOTTOM_BORDER;
-            headerTable.AddCell(thirdRowFirstColumn);
-
-            CultureInfo cultureInfo = CultureInfo.GetCultureInfo("pl-PL");
-            Phrase dateTimePhrase = new Phrase();
-            dateTimePhrase.Add(
-                new Chunk("Data: ", new Font(ARIAL, normalTextSize, Font.BOLD))
-            );
-            dateTimePhrase.Add(
-                new Chunk(day.ToString("dddd, dd.MM.yyyy", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
-            );
-            PdfPCell dateTime = new PdfPCell(dateTimePhrase);
-            dateTime.Padding = 8;
-            dateTime.Colspan = 2;
-            dateTime.UseAscender = true;
-            dateTime.VerticalAlignment = Element.ALIGN_MIDDLE;
-            headerTable.AddCell(dateTime);
-            headerTable.SplitLate = false;
-
-            //PdfPTable borderTable = new PdfPTable(1);
-            //borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
-            //borderTable.LockedWidth = true;
-            //borderTable.SpacingAfter = 0.0f;
-            //PdfPCell headerCell = new PdfPCell(headerTable);
-            //headerCell.BorderWidth = 1.0f;
-            //borderTable.AddCell(headerCell);
-            //borderTable.SplitLate = false;
+            legend.Border = 0;
+            headerTable2.AddCell(legend);
 
             doc.Add(headerTable);
+            doc.Add(headerTable2);
         }
 
         private void GeneratePDFReport(Document doc, int reportMask, Dictionary<string, List<ReportInfo>> dictionary) {
@@ -367,6 +383,7 @@ namespace SteelWorks_Utils.Model
         private void GenerateReportHeader(PdfPTable mainTable) {
             PdfPCell spacingCell = new PdfPCell(new Phrase("  "));
             spacingCell.Colspan = 6;
+            spacingCell.Border = 0;
             mainTable.AddCell(spacingCell);
 
             PdfPCell[] headerCells = new PdfPCell[6];
@@ -694,36 +711,77 @@ namespace SteelWorks_Utils.Model
                     PdfPTable headerTable = new PdfPTable(3);
                     headerTable.TotalWidth = doc.PageSize.Width - 72.0f;
                     headerTable.LockedWidth = true;
-                    headerTable.SetWidths(new float[] { 0.05f, 0.45f, 0.5f });
+                    headerTable.SetWidths(new float[] { 0.2f, 0.6f, 0.2f });
 
-                    PdfPCell firstRowFirstColumn = new PdfPCell(new Phrase(""));
-                    firstRowFirstColumn.Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                    Image leftLogo = Image.GetInstance("logo_hw.png");
+                    leftLogo.ScaleAbsolute(leftLogo.ScaledWidth * 0.15f, leftLogo.ScaledHeight * 0.15f);
+                    PdfPCell firstRowFirstColumn = new PdfPCell(leftLogo);
+                    firstRowFirstColumn.UseAscender = true;
+                    firstRowFirstColumn.HorizontalAlignment = Element.ALIGN_CENTER;
+                    firstRowFirstColumn.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    firstRowFirstColumn.Border = 0;
                     headerTable.AddCell(firstRowFirstColumn);
 
-                    Phrase companyNamePhrase = Phrase.GetInstance(0, "ARCELOR MITTAL HUTA WARSZAWA", new Font(ARIAL, 18.0f, Font.BOLD));
+                    Phrase companyNamePhrase = Phrase.GetInstance(0,
+                        "ARCELORMITTAL HUTA WARSZAWA\n\nUTRZYMANIE RUCHU\n\n" + report.routineName,
+                        new Font(ARIAL, 18.0f, Font.BOLD));
                     PdfPCell companyName = new PdfPCell(companyNamePhrase);
-                    companyName.Colspan = 2;
                     companyName.UseAscender = true;
+                    companyName.HorizontalAlignment = Element.ALIGN_CENTER;
                     companyName.VerticalAlignment = Element.ALIGN_MIDDLE;
                     companyName.Padding = 8;
+                    companyName.Border = 0;
                     headerTable.AddCell(companyName);
 
-                    PdfPCell secondRowFirstColumn = new PdfPCell(new Phrase(""));
-                    secondRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-                    headerTable.AddCell(secondRowFirstColumn);
+                    Image rightLogo = Image.GetInstance("arcelor_logo.png");
+                    rightLogo.ScaleAbsolute(rightLogo.ScaledWidth * 0.06f, rightLogo.ScaledHeight * 0.06f);
+                    PdfPCell firstRowThirdColumn = new PdfPCell(rightLogo);
+                    firstRowThirdColumn.UseAscender = true;
+                    firstRowThirdColumn.HorizontalAlignment = Element.ALIGN_CENTER;
+                    firstRowThirdColumn.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    firstRowThirdColumn.Border = 0;
+                    headerTable.AddCell(firstRowThirdColumn);
 
-                    Phrase inspectionCardPhrase = Phrase.GetInstance(0, "Automatyczny raport z indywidualnej inspekcji", new Font(ARIAL, normalTextSize, Font.BOLD));
-                    PdfPCell inspectionCard = new PdfPCell(inspectionCardPhrase);
-                    inspectionCard.UseAscender = true;
-                    inspectionCard.HorizontalAlignment = 1;
-                    inspectionCard.VerticalAlignment = Element.ALIGN_MIDDLE;
-                    inspectionCard.Padding = 3;
-                    headerTable.AddCell(inspectionCard);
+                    PdfPCell spacingCell = new PdfPCell(new Phrase("   "));
+                    spacingCell.Colspan = 3;
+                    spacingCell.Padding = 8;
+                    spacingCell.Border = 0;
+                    headerTable.AddCell(spacingCell);
+
+                    /* ---- */
+                    PdfPTable headerTable2 = new PdfPTable(3);
+                    headerTable2.TotalWidth = doc.PageSize.Width - 72.0f;
+                    headerTable2.LockedWidth = true;
+                    headerTable2.SetWidths(new float[] { 0.45f, 0.15f, 0.5f });
+
+                    CultureInfo cultureInfo = CultureInfo.GetCultureInfo("pl-PL");
+                    Phrase dateTimePhrase = new Phrase();
+                    dateTimePhrase.Add(
+                        new Chunk("Data: ", new Font(ARIAL, normalTextSize, Font.BOLD))
+                    );
+                    dateTimePhrase.Add(
+                        new Chunk(visibleDate.ToString("dd.MM.yyyy", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
+                    );
+                    PdfPCell dateTime = new PdfPCell(dateTimePhrase);
+                    dateTime.Colspan = 1;
+                    dateTime.UseAscender = true;
+                    dateTime.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    dateTime.Border = 0;
+                    headerTable2.AddCell(dateTime);
+
+
+                    Phrase legendHeaderPhrase = Phrase.GetInstance(0,
+                        "Legenda:",
+                        new Font(ARIAL, normalTextSize, Font.BOLD));
+                    PdfPCell legendHeader = new PdfPCell(legendHeaderPhrase);
+                    legendHeader.UseAscender = true;
+                    legendHeader.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    legendHeader.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    legendHeader.Border = 0;
+                    headerTable2.AddCell(legendHeader);
+
 
                     Phrase legendPhrase = new Phrase();
-                    legendPhrase.Add(
-                        new Chunk("Kontrola stanu urządzeń:\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
-                    );
                     legendPhrase.Add(
                         new Chunk("T", new Font(ARIAL, normalTextSize, Font.BOLD))
                     );
@@ -740,55 +798,30 @@ namespace SteelWorks_Utils.Model
                         new Chunk("*", new Font(ARIAL, normalTextSize, Font.BOLD))
                     );
                     legendPhrase.Add(
-                        new Chunk(" = nieodwiedzone\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                        new Chunk("  = brak kontroli\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
                     );
-
+                    legendPhrase.Add(
+                        new Chunk("-", new Font(ARIAL, normalTextSize, Font.BOLD))
+                    );
+                    legendPhrase.Add(
+                        new Chunk("  = kontrola niezlecona\n", new Font(ARIAL, normalTextSize, Font.NORMAL))
+                    );
                     PdfPCell legend = new PdfPCell(legendPhrase);
                     legend.UseAscender = true;
+                    legend.PaddingLeft = 25;
+                    legend.HorizontalAlignment = Element.ALIGN_LEFT;
                     legend.VerticalAlignment = Element.ALIGN_MIDDLE;
-                    legend.Padding = 3;
-                    headerTable.AddCell(legend);
+                    legend.Border = 0;
+                    headerTable2.AddCell(legend);
 
-                    PdfPCell thirdRowFirstColumn = new PdfPCell(new Phrase(""));
-                    thirdRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-                    headerTable.AddCell(thirdRowFirstColumn);
+                    PdfPCell newLineCell = new PdfPCell(new Phrase("   "));
+                    newLineCell.Border = 0;
+                    newLineCell.Colspan = 3;
+                    newLineCell.Padding = 6;
+                    headerTable2.AddCell(newLineCell);
 
-                    CultureInfo cultureInfo = CultureInfo.GetCultureInfo("pl-PL");
-                    Phrase dateTimePhrase = new Phrase();
-                    dateTimePhrase.Add(
-                        new Chunk("Data: ", new Font(ARIAL, normalTextSize, Font.BOLD))
-                    );
-                    dateTimePhrase.Add(
-                        new Chunk(visibleDate.ToString("dddd, dd.MM.yyyy", cultureInfo), new Font(ARIAL, normalTextSize, Font.NORMAL))
-                    );
-                    PdfPCell dateTime = new PdfPCell(dateTimePhrase);
-                    dateTime.Padding = 8;
-                    dateTime.Colspan = 2;
-                    dateTime.UseAscender = true;
-                    dateTime.VerticalAlignment = Element.ALIGN_MIDDLE;
-                    headerTable.AddCell(dateTime);
-
-                    PdfPCell fourthRowFirstColumn = new PdfPCell(new Phrase(""));
-                    fourthRowFirstColumn.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER | Rectangle.BOTTOM_BORDER;
-                    headerTable.AddCell(fourthRowFirstColumn);
-
-                    PdfPCell employeeNameCell = new PdfPCell(new Phrase("Pracownik: " + report.signedEmployeeName, bFont));
-                    employeeNameCell.Padding = 8;
-                    employeeNameCell.Colspan = 2;
-                    employeeNameCell.UseAscender = true;
-                    employeeNameCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                    headerTable.AddCell(employeeNameCell);
-
-                    //PdfPTable borderTable = new PdfPTable(1);
-                    //borderTable.TotalWidth = doc.PageSize.Width - 72.0f;
-                    //borderTable.LockedWidth = true;
-                    //borderTable.SpacingAfter = 0.0f;
-                    //PdfPCell headerCell = new PdfPCell(headerTable);
-                    //headerCell.BorderWidth = 1.0f;
-                    //borderTable.AddCell(headerCell);
-
-                    headerTable.SplitLate = false;
                     doc.Add(headerTable);
+                    doc.Add(headerTable2);
 
                     //-------------------------------------
 

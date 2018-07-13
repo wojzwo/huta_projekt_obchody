@@ -16,6 +16,7 @@ namespace SteelWorks_Utils.Model
         public string trackName;
         public int shift; //values from 0 to 3
         public bool isFinished;
+        public string routineName;
     }
 
     public class RepositoryReport
@@ -89,13 +90,14 @@ namespace SteelWorks_Utils.Model
             }
 
             MySqlCommand query = connection_.CreateCommand();
-            query.CommandText = "INSERT INTO Report(routineId, assignmentDate, signedEmployeeName, trackName, shift, isFinished) VALUES(@routineId, @assignmentDate, @signedEmployeeName, @trackName, @shift, @isFinished)";
+            query.CommandText = "INSERT INTO Report(routineId, assignmentDate, signedEmployeeName, trackName, shift, isFinished, routineName) VALUES(@routineId, @assignmentDate, @signedEmployeeName, @trackName, @shift, @isFinished, @routineName)";
             query.Parameters.AddWithValue("@routineId", report.routineId);
             query.Parameters.AddWithValue("@assignmentDate", report.assignmentDate);
             query.Parameters.AddWithValue("@signedEmployeeName", report.signedEmployeeName);
             query.Parameters.AddWithValue("@trackName", report.trackName);
             query.Parameters.AddWithValue("@shift", report.shift);
             query.Parameters.AddWithValue("@isFinished", report.isFinished);
+            query.Parameters.AddWithValue("@routineName", report.routineName);
 
             int rowsAffected = 0;
             try {
@@ -200,7 +202,8 @@ namespace SteelWorks_Utils.Model
                         isFinished = reader.GetBoolean("isFinished"),
                         assignmentDate = reader.GetDateTime("assignmentDate"),
                         routineId = reader.GetInt32("routineId"),
-                        signedEmployeeName = reader.GetString("signedEmployeeName")
+                        signedEmployeeName = reader.GetString("signedEmployeeName"),
+                        routineName = reader.IsDBNull(reader.GetOrdinal("routineName")) ? "" : reader.GetString("routineName")
                     };
 
                     reports.Add(report);
@@ -247,7 +250,8 @@ namespace SteelWorks_Utils.Model
                         isFinished = reader.GetBoolean("isFinished"),
                         assignmentDate = reader.GetDateTime("assignmentDate"),
                         routineId = reader.GetInt32("routineId"),
-                        signedEmployeeName = reader.GetString("signedEmployeeName")
+                        signedEmployeeName = reader.GetString("signedEmployeeName"),
+                        routineName = reader.IsDBNull(reader.GetOrdinal("routineName")) ? "" : reader.GetString("routineName")
                     };
 
                     reports.Add(report);
@@ -284,7 +288,8 @@ namespace SteelWorks_Utils.Model
                         isFinished = reader.GetBoolean("isFinished"),
                         assignmentDate = reader.GetDateTime("assignmentDate"),
                         routineId = reader.GetInt32("routineId"),
-                        signedEmployeeName = reader.GetString("signedEmployeeName")
+                        signedEmployeeName = reader.GetString("signedEmployeeName"),
+                        routineName = reader.IsDBNull(reader.GetOrdinal("routineName")) ? "" : reader.GetString("routineName")
                     };
 
                     return report;
@@ -369,7 +374,8 @@ namespace SteelWorks_Utils.Model
                         isFinished = reader.GetBoolean("isFinished"),
                         assignmentDate = reader.GetDateTime("assignmentDate"),
                         routineId = reader.GetInt32("routineId"),
-                        signedEmployeeName = reader.GetString("signedEmployeeName")
+                        signedEmployeeName = reader.GetString("signedEmployeeName"),
+                        routineName = reader.IsDBNull(reader.GetOrdinal("routineName")) ? "" : reader.GetString("routineName")
                     };
 
                     reports.Add(report);

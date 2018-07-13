@@ -998,23 +998,49 @@ namespace SteelWorks_Utils.Model
             shiftNumberCell.HorizontalAlignment = 1;
             employeeTable.AddCell(shiftNumberCell);
 
-            Phrase employeeNamesPhrase = new Phrase();
-            for (int l = 0; l < employeeInShift.names.Count - 1; l++) {
-                if (employeeInShift.names[l] == "")
+            Dictionary<string, List<int>> departmentToEmployeeIndices = new Dictionary<string, List<int>>();
+            for (int i = 0; i < employeeInShift.visitedDepartments.Count; i++) {
+                if (employeeInShift.names[i] == "")
                     continue;
 
-                employeeNamesPhrase.Add(
-                    new Chunk(employeeInShift.names[l] + " " + employeeInShift.durations[l] + "\n", tFont)
-                );
+                List<string> visited = employeeInShift.visitedDepartments[i];
+                foreach (string s in visited) {
+                    if (!departmentToEmployeeIndices.ContainsKey(s))
+                        departmentToEmployeeIndices.Add(s, new List<int>());
+
+                    if (!departmentToEmployeeIndices[s].Contains(i))
+                        departmentToEmployeeIndices[s].Add(i);
+                }
             }
 
-            if (employeeInShift.names.Count > 0 && employeeInShift.names[employeeInShift.names.Count - 1] != "") {
-                employeeNamesPhrase.Add(
-                    new Chunk(employeeInShift.names[employeeInShift.names.Count - 1] + " " + employeeInShift.durations[employeeInShift.names.Count - 1], tFont)
-                );
+            bool bFirst = true;
+            Phrase shiftCompletePhrase = new Phrase(0, "");
+            foreach (KeyValuePair<string, List<int>> pair in departmentToEmployeeIndices) {
+                shiftCompletePhrase.Add(new Chunk(((bFirst) ? "" : "\n\n") + pair.Key + ":", bFont));
+                bFirst = false;
+                foreach (int index in pair.Value) {
+                    shiftCompletePhrase.Add(new Chunk("\n" + employeeInShift.names[index] + " " + employeeInShift.durations[index], tFont));
+                }
             }
 
-            PdfPCell emploeeNameCell = new PdfPCell(employeeNamesPhrase);
+
+            //Phrase employeeNamesPhrase = new Phrase();
+            //for (int l = 0; l < employeeInShift.names.Count - 1; l++) {
+            //    if (employeeInShift.names[l] == "")
+            //        continue;
+
+            //    employeeNamesPhrase.Add(
+            //        new Chunk(employeeInShift.names[l] + " " + employeeInShift.durations[l] + "\n", tFont)
+            //    );
+            //}
+
+            //if (employeeInShift.names.Count > 0 && employeeInShift.names[employeeInShift.names.Count - 1] != "") {
+            //    employeeNamesPhrase.Add(
+            //        new Chunk(employeeInShift.names[employeeInShift.names.Count - 1] + " " + employeeInShift.durations[employeeInShift.names.Count - 1], tFont)
+            //    );
+            //}
+
+            PdfPCell emploeeNameCell = new PdfPCell(shiftCompletePhrase);
             emploeeNameCell.Padding = 5;
             emploeeNameCell.UseAscender = true;
             emploeeNameCell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -1064,6 +1090,7 @@ namespace SteelWorks_Utils.Model
                             employeeInShift.durations.Add("");
                             employeeInShift.startTimes.Add(DateTime.MaxValue);
                             employeeInShift.endTimes.Add(DateTime.MinValue);
+                            employeeInShift.visitedDepartments.Add(new List<string>());
                         }
 
                     PdfPCell numberCell = new PdfPCell(new Phrase(globalCounter.ToString(), tFont));

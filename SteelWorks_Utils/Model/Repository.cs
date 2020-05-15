@@ -162,7 +162,7 @@ namespace SteelWorks_Utils.Model
                         string database = reader.ReadLine().Split('=')[1];
                         string user = reader.ReadLine().Split('=')[1];
                         string password = reader.ReadLine().Split('=')[1];
-                        password = XorText(password, 1);
+                        //password = XorText(password, 1);
 
                         MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
                         //builder.CertificateFile = "client.pfx";

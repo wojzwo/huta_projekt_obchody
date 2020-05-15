@@ -37,7 +37,7 @@ namespace SteelWorks_Server
             Directory.CreateDirectory("Reports");
             Directory.CreateDirectory("Reports/Individual");
 
-            //Repository repository = new Repository();
+            Repository repository = new Repository();
 
             if (args.Length == 1) {
                 int shift = Int32.Parse(args[0]);

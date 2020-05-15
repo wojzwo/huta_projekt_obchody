@@ -25,41 +25,69 @@ namespace SteelWorks_Server
             Debug.Log("Started program", LogType.Info);
             //InsertTestData();
 
+            if (args.Length == 1) {
+                FinishShift(Int32.Parse(args[0]));
+                return;
+            }
+
+            FinishDay();
+        }
+
+        private static void FinishShift(int shift)
+        {
             try
             {
                 Directory.Delete("Reports", true);
+                Directory.CreateDirectory("Reports");
+                Directory.CreateDirectory("Reports/Individual");
             }
             catch (Exception ex)
             {
                 Debug.Log(ex.ToString(), LogType.DatabaseError);
             }
-            
-            Directory.CreateDirectory("Reports");
-            Directory.CreateDirectory("Reports/Individual");
 
+            
             Repository repository = new Repository();
 
-            if (args.Length == 1) {
-                int shift = Int32.Parse(args[0]);
-                Repository.generator.GenerateShiftBasedReport(shift);
-                SendShiftReport(shift);
-                return;
+            Repository.generator.GenerateShiftBasedReport(shift);
+            SendShiftReport(shift);
+
+        }
+
+        private static void FinishDay()
+        {
+            try
+            {
+                Directory.Delete("Reports", true);
+                Directory.CreateDirectory("Reports");
+                Directory.CreateDirectory("Reports/Individual");
             }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
+            }
+
+
+            Repository repository = new Repository();
 
             Repository.generator.GenerateOldReports(DateTime.Today, DateTime.Today - TimeSpan.FromDays(1));
             SendOldReports();
             ArchiveOldReports();
 
             List<DbRoutine> routines = new List<DbRoutine>();
-            try {
+            try
+            {
                 routines = Repository.routine.GetAll();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.Log(ex.ToString(), LogType.DatabaseError);
             }
 
             Repository.generator.AddNewReports(routines);
             DeleteOldRoutines(routines);
         }
+
 
         private static void InsertTestData() {
             DbReport report3 = new DbReport() {

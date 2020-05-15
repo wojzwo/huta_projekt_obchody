@@ -25,9 +25,19 @@ namespace SteelWorks_Server
             Debug.Log("Started program", LogType.Info);
             //InsertTestData();
 
-            Directory.Delete("Reports", true);
+            try
+            {
+                Directory.Delete("Reports", true);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.ToString(), LogType.DatabaseError);
+            }
+            
             Directory.CreateDirectory("Reports");
             Directory.CreateDirectory("Reports/Individual");
+
+            //Repository repository = new Repository();
 
             if (args.Length == 1) {
                 int shift = Int32.Parse(args[0]);

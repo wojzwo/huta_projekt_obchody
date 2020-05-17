@@ -16,15 +16,15 @@ namespace SteelWorks_Scheduler
 			DateTime finishDayTime = new DateTime(2020, 5, 1, 6, 00, 0);
 
 			String Shift1Name = "SteelWorks_Inspection Finish Shift 1";
-			ExecAction Shift1EA = new ExecAction(serverPath, null, AppDomain.CurrentDomain.BaseDirectory + "\\Server\\");
+			ExecAction Shift1EA = new ExecAction(serverPath, "1", AppDomain.CurrentDomain.BaseDirectory + "\\Server\\");
 			DateTime Shift1Time = new DateTime(2020, 5, 1, 14, 00, 0);
 
 			String Shift2Name = "SteelWorks_Inspection Finish Shift 2";
-			ExecAction Shift2EA = new ExecAction(serverPath, null, AppDomain.CurrentDomain.BaseDirectory + "\\Server\\");
+			ExecAction Shift2EA = new ExecAction(serverPath, "2", AppDomain.CurrentDomain.BaseDirectory + "\\Server\\");
 			DateTime Shift2Time = new DateTime(2020, 5, 1, 22, 00, 0);
 
 			String Shift3Name = "SteelWorks_Inspection Finish Shift 3";
-			ExecAction Shift3EA = new ExecAction(serverPath, null, AppDomain.CurrentDomain.BaseDirectory + "\\Server\\");
+			ExecAction Shift3EA = new ExecAction(serverPath, "3", AppDomain.CurrentDomain.BaseDirectory + "\\Server\\");
 			DateTime Shift3Time = new DateTime(2020, 5, 1, 5, 58, 0);
 
 

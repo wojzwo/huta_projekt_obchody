@@ -26,12 +26,12 @@ namespace SteelWorks_Server
             //InsertTestData();
 
             if (args.Length == 1) {
-                Debug.Log("SHif"+args[0], LogType.Info);
-                //FinishShift(Int32.Parse(args[0]));
+                Debug.Log("Shift "+args[0], LogType.Info);
+                FinishShift(Int32.Parse(args[0]));
                 return;
             }
-            Debug.Log("noshift", LogType.Info);
-            //FinishDay();
+            Debug.Log("FinishDay", LogType.Info);
+            FinishDay();
         }
 
         private static void FinishShift(int shift)

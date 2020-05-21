@@ -302,3 +302,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+SteelWorks_Scheduler/bin/Debug/Huta_server_part/
+SteelWorks_Scheduler/bin/Debug/netcoreapp3.1/Server/
+SteelWorks_Scheduler/bin/Debug/Huta_server_part.rar

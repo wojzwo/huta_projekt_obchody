@@ -1,0 +1,4 @@
+To install:
+SteelWorks_Scheduler.exe 
+To uninstal
+SteelWorks_Scheduler.exe -U
